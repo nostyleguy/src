@@ -216,6 +216,20 @@ namespace Archive
 		internal_unpack(source, buffer, "%i %u:");
 	}
 
+        template<>
+        inline void AutoDeltaPackedMap<int, unsigned int>::pack(ByteStream & target, const std::string & buffer)
+        {
+	        internal_pack(target, buffer, "%i %u");
+	}
+
+	template<>
+	inline void AutoDeltaPackedMap<int, unsigned int>::unpack(ReadIterator & source, std::string & buffer)
+	{
+		internal_unpack(source, buffer, "%i %u:");
+	}
+
+
+
 #ifdef WIN32
 	template<>
 	inline void AutoDeltaPackedMap<unsigned long, unsigned __int64>::pack(ByteStream & target, const std::string & buffer)

@@ -971,7 +971,7 @@ bool SwgSnapshot::encodeSharedMissionObject(NetworkId const & objectId, Archive:
 	}
 		encodeLocation(data,row->start_x,row->start_y,row->start_z,row->start_cell,row->start_scene);
 	{
-		uint32 temp;
+		unsigned int temp;
 		row->target_appearance.getValue(temp);
 		Archive::put(data,temp);
 	}
@@ -983,7 +983,7 @@ bool SwgSnapshot::encodeSharedMissionObject(NetworkId const & objectId, Archive:
 		Archive::put(data,temp);
 	}
 	{
-		uint32 temp;
+		unsigned int temp;
 		row->mission_type.getValue(temp);
 		Archive::put(data,temp);
 	}
@@ -1707,7 +1707,7 @@ bool SwgSnapshot::encodeSharedShipObject(NetworkId const & objectId, Archive::By
 		Archive::put(data,temp);
 	}
 	{
-		uint32 temp;
+		unsigned int temp;
 		row->chassis_type.getValue(temp);
 		Archive::put(data,temp);
 	}
@@ -1768,7 +1768,7 @@ bool SwgSnapshot::encodeServerShipObject(NetworkId const & objectId, Archive::By
 	{
 		std::string packedValue;
 		row->cmp_crc.getValue(packedValue);
-		Archive::AutoDeltaPackedMap<int,uint32>::pack(data, packedValue);
+		Archive::AutoDeltaPackedMap::pack(data, packedValue);
 	}
 	return true;
 }
@@ -1862,7 +1862,7 @@ bool SwgSnapshot::encodeClientShipObject(NetworkId const & objectId, Archive::By
 	{
 		std::string packedValue;
 		row->weapon_ammo_type.getValue(packedValue);
-		Archive::AutoDeltaPackedMap<int,uint32>::pack(data, packedValue);
+		Archive::AutoDeltaPackedMap::pack(data, packedValue);
 	}
 	{
 		float temp;
@@ -2061,7 +2061,7 @@ bool SwgSnapshot::encodeSharedTangibleObject(NetworkId const & objectId, Archive
 		return false;
 
 	{
-		uint32 temp;
+		unsigned int temp;
 		row->pvp_faction.getValue(temp);
 		Archive::put(data,temp);
 	}
@@ -2137,7 +2137,7 @@ bool SwgSnapshot::encodeServerTangibleObject(NetworkId const & objectId, Archive
 		Archive::put(data,temp);
 	}
 	{
-		uint32 temp;
+		unsigned int temp;
 		row->source_draft_schematic.getValue(temp);
 		Archive::put(data,temp);
 	}
@@ -2436,7 +2436,7 @@ bool SwgSnapshot::encodeParentClientPlayerObject(NetworkId const & objectId, Arc
 		Archive::put(data,temp);
 	}
 	{
-		uint32 temp;
+		unsigned int temp;
 		row->current_quest.getValue(temp);
 		Archive::put(data,temp);
 	}

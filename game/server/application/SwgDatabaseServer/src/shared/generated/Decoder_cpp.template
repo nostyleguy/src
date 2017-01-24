@@ -1240,7 +1240,7 @@ void SwgSnapshot::decodeSharedMissionObject(NetworkId const & objectId, uint16 i
 		}
 		case 10:
 		{
-			uint32 temp;
+			unsigned int temp;
 			Archive::get(data,temp);
 			row->target_appearance=temp;
 			break;
@@ -1264,7 +1264,7 @@ void SwgSnapshot::decodeSharedMissionObject(NetworkId const & objectId, uint16 i
 		}
 		case 14:
 		{
-			uint32 temp;
+			unsigned int temp;
 			Archive::get(data,temp);
 			row->mission_type=temp;
 			break;
@@ -2211,7 +2211,7 @@ void SwgSnapshot::decodeSharedShipObject(NetworkId const & objectId, uint16 inde
 		}
 		case 16:
 		{
-			uint32 temp;
+			unsigned int temp;
 			Archive::get(data,temp);
 			row->chassis_type=temp;
 			break;
@@ -2290,7 +2290,7 @@ void SwgSnapshot::decodeServerShipObject(NetworkId const & objectId, uint16 inde
 		case 16:
 		{
 			std::string packedValue;
-			Archive::AutoDeltaPackedMap<int,uint32>::unpack(data,packedValue);
+			Archive::AutoDeltaPackedMap::unpack(data,packedValue);
 			row->cmp_crc=packedValue;
 			break;
 		}
@@ -2417,7 +2417,7 @@ void SwgSnapshot::decodeClientShipObject(NetworkId const & objectId, uint16 inde
 		case 16:
 		{
 			std::string packedValue;
-			Archive::AutoDeltaPackedMap<int,uint32>::unpack(data,packedValue);
+			Archive::AutoDeltaPackedMap::unpack(data,packedValue);
 			row->weapon_ammo_type=packedValue;
 			break;
 		}
@@ -2679,7 +2679,7 @@ void SwgSnapshot::decodeSharedTangibleObject(NetworkId const & objectId, uint16 
 		{
 		case 4:
 		{
-			uint32 temp;
+			unsigned int temp;
 			Archive::get(data,temp);
 			row->pvp_faction=temp;
 			break;
@@ -2788,7 +2788,7 @@ void SwgSnapshot::decodeServerTangibleObject(NetworkId const & objectId, uint16 
 		}
 		case 15:
 		{
-			uint32 temp;
+			unsigned int temp;
 			Archive::get(data,temp);
 			row->source_draft_schematic=temp;
 			break;
@@ -3160,7 +3160,7 @@ void SwgSnapshot::decodeParentClientPlayerObject(NetworkId const & objectId, uin
 		}
 		case 6:
 		{
-			uint32 temp;
+			unsigned int temp;
 			Archive::get(data,temp);
 			row->current_quest=temp;
 			break;
