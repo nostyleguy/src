@@ -14,7 +14,7 @@ class CustomerServiceServerConnection : public ServerConnection
 {
 public:
 
-	CustomerServiceServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	CustomerServiceServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	virtual ~CustomerServiceServerConnection();
 
 	void onConnectionClosed();

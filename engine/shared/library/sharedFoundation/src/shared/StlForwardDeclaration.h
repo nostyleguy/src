@@ -18,7 +18,7 @@
 
 namespace Unicode
 {
-	typedef unsigned short unicode_char_t;
+	typedef uint16_t unicode_char_t;
 	typedef std::basic_string<unicode_char_t, std::char_traits<unicode_char_t>, std::allocator<unicode_char_t> > String;
 }
 

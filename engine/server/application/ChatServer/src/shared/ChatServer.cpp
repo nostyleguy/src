@@ -83,7 +83,7 @@ namespace ChatServerNamespace
 	bool s_loggingEnabled = false;
 	
 	std::set<std::pair<std::string, ChatAvatarId> > s_pendingEntersByName;
-	std::set<std::pair<NetworkId, std::pair<unsigned int, unsigned int> > > s_pendingEntersById;
+	std::set<std::pair<NetworkId, std::pair<uint32_t, uint32_t> > > s_pendingEntersById;
 	
 	Unicode::String getRoomAddress(const std::string & roomName)
 	{
@@ -202,10 +202,10 @@ void ChatServer::update()
 {
 	PROFILER_BLOCK_DEFINE(profileBlockMainLoop, "main loop");
 	PROFILER_BLOCK_ENTER(profileBlockMainLoop);
-	static unsigned int lastTime = 0;
-unsigned int t1 = Clock::timeMs();
+	static uint32_t lastTime = 0;
+uint32_t t1 = Clock::timeMs();
 	NetworkHandler::update();
-unsigned int t2 = Clock::timeMs();
+uint32_t t2 = Clock::timeMs();
 
 	chatInterface->checkQueuedLogins();
 	chatInterface->sendQueuedHeadersToClient();
@@ -216,14 +216,14 @@ if ((t2 - t1) > (1000 * 5))
 }
 
 	NetworkHandler::dispatch();
-unsigned int t3 = Clock::timeMs();
+uint32_t t3 = Clock::timeMs();
 if ((t3 - t2) > (1000 * 5))
 {
 	DEBUG_WARNING(true, ("\n\n\n\n\nNetworkHandler::dispatch() took %i ms\n\n\n\n\n", (t3 - t2)));
 }
 	if (lastTime != 0)
 	{
-		unsigned int time = Clock::timeMs();
+		uint32_t time = Clock::timeMs();
 		if ((time - lastTime) > (1000))
 		{
 			//DEBUG_WARNING(true, ("\n\n\n\n\n\nLong Chat Frame (%i ms)\n\n\n\n", (time - lastTime)));
@@ -304,7 +304,7 @@ m_voiceChatIdMap()
 
 	const std::string	getGameCode = ConfigChatServer::getGameCode();
 	const std::string	getGatewayServerIP = ConfigChatServer::getGatewayServerIP();
-	chatInterface = new ChatInterface(getGameCode, getGatewayServerIP, ConfigChatServer::getGatewayServerPort(), ConfigChatServer::getRegistrarHost(), static_cast<unsigned short>(ConfigChatServer::getRegistrarPort()));
+	chatInterface = new ChatInterface(getGameCode, getGatewayServerIP, ConfigChatServer::getGatewayServerPort(), ConfigChatServer::getRegistrarHost(), static_cast<uint16_t>(ConfigChatServer::getRegistrarPort()));
 
 
 	std::string vChatHost;
@@ -593,10 +593,10 @@ void ChatServer::removeServices()
 
 //-----------------------------------------------------------------------
 
-ChatAvatarId ChatServer::getAvatarIdForTrackId(unsigned trackId)
+ChatAvatarId ChatServer::getAvatarIdForTrackId(uint32_t trackId)
 {
 	ChatServer & server = instance();
-	std::unordered_map<unsigned, NetworkId>::iterator f = server.pendingRequests.find(trackId);
+	std::unordered_map<uint32_t, NetworkId>::iterator f = server.pendingRequests.find(trackId);
 	if(f != server.pendingRequests.end())
 	{
 		const ChatAvatar *avatar = getAvatarByNetworkId((*f).second);
@@ -669,11 +669,11 @@ const NetworkId &  ChatServer::getNetworkIdByAvatarId(const ChatAvatarId & id)
 
 //-----------------------------------------------------------------------
 
-NetworkId ChatServer::sendResponseForTrackId(unsigned trackId, const GameNetworkMessage & response)
+NetworkId ChatServer::sendResponseForTrackId(uint32_t trackId, const GameNetworkMessage & response)
 {
 	NetworkId id;
 	ChatServer & server = instance();
-	std::unordered_map<unsigned, NetworkId>::iterator f = server.pendingRequests.find(trackId);
+	std::unordered_map<uint32_t, NetworkId>::iterator f = server.pendingRequests.find(trackId);
 	if(f != server.pendingRequests.end())
 	{
 		id = (*f).second;
@@ -690,10 +690,10 @@ NetworkId ChatServer::sendResponseForTrackId(unsigned trackId, const GameNetwork
 
 //-----------------------------------------------------------------------
 
-GameServerConnection *ChatServer::getGameServerConnection(unsigned int sequence)
+GameServerConnection *ChatServer::getGameServerConnection(uint32_t sequence)
 {
 	GameServerConnection * result = 0;
-	std::unordered_map<unsigned int, GameServerConnection *>::iterator f = instance().gameServerConnectionMap.find(sequence);
+	std::unordered_map<uint32_t, GameServerConnection *>::iterator f = instance().gameServerConnectionMap.find(sequence);
 	if(f != instance().gameServerConnectionMap.end())
 	{
 		result = (*f).second;
@@ -705,7 +705,7 @@ GameServerConnection *ChatServer::getGameServerConnection(unsigned int sequence)
 
 //-----------------------------------------------------------------------
 
-void ChatServer::addGameServerConnection(unsigned int sequence, GameServerConnection *connection)
+void ChatServer::addGameServerConnection(uint32_t sequence, GameServerConnection *connection)
 {
 	IGNORE_RETURN(instance().gameServerConnectionMap.insert(std::make_pair(sequence, connection)));
 	s_chatServerMetricsData->setGameServerConnectionCount(instance().gameServerConnectionMap.size());
@@ -715,8 +715,8 @@ void ChatServer::addGameServerConnection(unsigned int sequence, GameServerConnec
 
 void ChatServer::clearGameServerConnection(const GameServerConnection *connection)
 {
-	std::vector<unsigned int> removeKeyList;
-	std::unordered_map<unsigned int, GameServerConnection *>::const_iterator i;
+	std::vector<uint32_t> removeKeyList;
+	std::unordered_map<uint32_t, GameServerConnection *>::const_iterator i;
 	for(i = instance().gameServerConnectionMap.begin(); i != instance().gameServerConnectionMap.end(); ++i)
 	{
 		if ((*i).second == connection)
@@ -725,7 +725,7 @@ void ChatServer::clearGameServerConnection(const GameServerConnection *connectio
 		}
 	}
 
-	std::vector<unsigned int>::const_iterator j;
+	std::vector<uint32_t>::const_iterator j;
 	for (j = removeKeyList.begin(); j != removeKeyList.end(); ++j)
 	{
 		IGNORE_RETURN(instance().gameServerConnectionMap.erase((*j)));
@@ -766,7 +766,7 @@ void canonicalizeAvatarId(const ChatAvatarId &id)
 
 //-----------------------------------------------------------------------
 
-void ChatServer::addFriend(const NetworkId & id, const unsigned int sequence, const ChatAvatarId & friendId)
+void ChatServer::addFriend(const NetworkId & id, const uint32_t sequence, const ChatAvatarId & friendId)
 {
 	UNREF(sequence);
 	ChatServer::fileLog(false, "ChatServer", "addFriend() id(%s) sequence(%u) friendId(%s)", id.getValueString().c_str(), sequence, friendId.getFullName().c_str());
@@ -781,7 +781,7 @@ void ChatServer::addFriend(const NetworkId & id, const unsigned int sequence, co
 		canonicalizeAvatarId(friendId);
 		splitChatAvatarId(friendId, friendName, friendAddress);
 
-		unsigned track = instance().chatInterface->RequestAddFriend(from, ChatUnicodeString(friendName.data(), friendName.length()),
+		uint32_t track = instance().chatInterface->RequestAddFriend(from, ChatUnicodeString(friendName.data(), friendName.length()),
 			ChatUnicodeString(friendAddress.data(), friendAddress.length()),
 			false, nullptr);
 		instance().pendingRequests[track] = id;
@@ -794,7 +794,7 @@ void ChatServer::addFriend(const NetworkId & id, const unsigned int sequence, co
 
 //-----------------------------------------------------------------------
 
-void ChatServer::removeFriend(const NetworkId & id, const unsigned int sequence, const ChatAvatarId & friendId)
+void ChatServer::removeFriend(const NetworkId & id, const uint32_t sequence, const ChatAvatarId & friendId)
 {
 	UNREF(sequence);
 	ChatServer::fileLog(false, "ChatServer", "removeFriend() id(%s) sequence(%u) friendId(%s)", id.getValueString().c_str(), sequence, friendId.getFullName().c_str());
@@ -809,7 +809,7 @@ void ChatServer::removeFriend(const NetworkId & id, const unsigned int sequence,
 		canonicalizeAvatarId(friendId);
 		splitChatAvatarId(friendId, friendName, friendAddress);
 
-		unsigned track = instance().chatInterface->RequestRemoveFriend(from, ChatUnicodeString(friendName.data(), friendName.length()),
+		uint32_t track = instance().chatInterface->RequestRemoveFriend(from, ChatUnicodeString(friendName.data(), friendName.length()),
 			ChatUnicodeString(friendAddress.data(), friendAddress.length()), nullptr);
 		instance().pendingRequests[track] = id;
 	}
@@ -829,7 +829,7 @@ void ChatServer::getFriendsList(const ChatAvatarId &characterName)
 	const ChatAvatar *avatar = getAvatarByNetworkId(id);
 	if (avatar)
 	{
-		unsigned track = instance().chatInterface->RequestFriendStatus(avatar, nullptr);
+		uint32_t track = instance().chatInterface->RequestFriendStatus(avatar, nullptr);
 		instance().pendingRequests[track] = id;
 	}
 	else
@@ -840,7 +840,7 @@ void ChatServer::getFriendsList(const ChatAvatarId &characterName)
 
 //-----------------------------------------------------------------------
 
-void ChatServer::addIgnore(const NetworkId & id, const unsigned int sequence, const ChatAvatarId & ignoreId)
+void ChatServer::addIgnore(const NetworkId & id, const uint32_t sequence, const ChatAvatarId & ignoreId)
 {
 	UNREF(sequence);
 	ChatServer::fileLog(false, "ChatServer", "addIgnore() id(%s) sequence(%u) ignoreId(%s)", id.getValueString().c_str(), sequence, ignoreId.getFullName().c_str());
@@ -855,7 +855,7 @@ void ChatServer::addIgnore(const NetworkId & id, const unsigned int sequence, co
 		canonicalizeAvatarId(ignoreId);
 		splitChatAvatarId(ignoreId, ignoreName, ignoreAddress);
 
-		unsigned track = instance().chatInterface->RequestAddIgnore(from, ChatUnicodeString(ignoreName.data(), ignoreName.length()),
+		uint32_t track = instance().chatInterface->RequestAddIgnore(from, ChatUnicodeString(ignoreName.data(), ignoreName.length()),
 			ChatUnicodeString(ignoreAddress.data(), ignoreAddress.length()),
 			nullptr);
 		instance().pendingRequests[track] = id;
@@ -868,7 +868,7 @@ void ChatServer::addIgnore(const NetworkId & id, const unsigned int sequence, co
 
 //-----------------------------------------------------------------------
 
-void ChatServer::removeIgnore(const NetworkId & id, const unsigned int sequence, const ChatAvatarId & ignoreId)
+void ChatServer::removeIgnore(const NetworkId & id, const uint32_t sequence, const ChatAvatarId & ignoreId)
 {
 	UNREF(sequence);
 	ChatServer::fileLog(false, "ChatServer", "removeIgnore() id(%s) sequence(%u) ignoreId(%s)", id.getValueString().c_str(), sequence, ignoreId.getFullName().c_str());
@@ -883,7 +883,7 @@ void ChatServer::removeIgnore(const NetworkId & id, const unsigned int sequence,
 		canonicalizeAvatarId(ignoreId);
 		splitChatAvatarId(ignoreId, ignoreName, ignoreAddress);
 
-		unsigned track = instance().chatInterface->RequestRemoveIgnore(from, ChatUnicodeString(ignoreName.data(), ignoreName.length()),
+		uint32_t track = instance().chatInterface->RequestRemoveIgnore(from, ChatUnicodeString(ignoreName.data(), ignoreName.length()),
 			ChatUnicodeString(ignoreAddress.data(), ignoreAddress.length()), nullptr);
 		instance().pendingRequests[track] = id;
 	}
@@ -905,7 +905,7 @@ void ChatServer::getIgnoreList(const ChatAvatarId &characterName)
 
 	if (avatar)
 	{
-		unsigned track = instance().chatInterface->RequestIgnoreStatus(avatar, nullptr);
+		uint32_t track = instance().chatInterface->RequestIgnoreStatus(avatar, nullptr);
 		instance().pendingRequests[track] = id;
 	}
 	else
@@ -917,7 +917,7 @@ void ChatServer::getIgnoreList(const ChatAvatarId &characterName)
 
 //-----------------------------------------------------------------------
 
-void ChatServer::addModeratorToRoom(const unsigned int sequenceId, const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName)
+void ChatServer::addModeratorToRoom(const uint32_t sequenceId, const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName)
 {
 	canonicalizeAvatarId(avatarId);
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "addModeratorToRoom() sequenceId(%u) id(%s) avatarId(%s) roomName(%s)", sequenceId, id.getValueString().c_str(), avatarId.getFullName().c_str(), roomName.c_str());
@@ -925,7 +925,7 @@ void ChatServer::addModeratorToRoom(const unsigned int sequenceId, const Network
 	const ChatAvatar * from = getAvatarByNetworkId(id);
 	if(from)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
 
 		const ChatServerRoomOwner *roomOwner = instance().chatInterface->getRoomOwner(roomName);
 		if (roomOwner)
@@ -938,14 +938,14 @@ void ChatServer::addModeratorToRoom(const unsigned int sequenceId, const Network
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(sequenceId, avatarId);
 
-				instance().chatInterface->RequestRemoveBan(from, moderatorName, moderatorAddress, roomOwner->getAddress(), (void *)pair);
+				instance().chatInterface->RequestRemoveBan(from, moderatorName, moderatorAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			}
 
 			// Try to make the avatar a moderator
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(sequenceId, avatarId);
 
-				unsigned track = instance().chatInterface->RequestAddModerator(from, moderatorName, moderatorAddress, roomOwner->getAddress(), (void *)pair);
+				uint32_t track = instance().chatInterface->RequestAddModerator(from, moderatorName, moderatorAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 				instance().pendingRequests[track] = id;
 			}
 		}
@@ -967,7 +967,7 @@ void ChatServer::addModeratorToRoom(const unsigned int sequenceId, const Network
 
 //-----------------------------------------------------------------------
 
-void ChatServer::removeModeratorFromRoom(const unsigned int sequenceId, const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName)
+void ChatServer::removeModeratorFromRoom(const uint32_t sequenceId, const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName)
 {
 	canonicalizeAvatarId(avatarId);
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "removeModeratorFromRoom() sequenceId(%u) id(%s) avatarId(%s) roomName(%s)", sequenceId, id.getValueString().c_str(), avatarId.getFullName().c_str(), roomName.c_str());
@@ -975,7 +975,7 @@ void ChatServer::removeModeratorFromRoom(const unsigned int sequenceId, const Ne
 	const ChatAvatar * from = getAvatarByNetworkId(id);
 	if(from)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
 
 		const ChatServerRoomOwner *roomOwner = instance().chatInterface->getRoomOwner(roomName);
 		if (roomOwner)
@@ -987,7 +987,7 @@ void ChatServer::removeModeratorFromRoom(const unsigned int sequenceId, const Ne
 			// User data so that we remember who is being removed as a moderator
 			AvatarIdSequencePair *pair = new AvatarIdSequencePair(sequenceId, avatarId);
 
-			unsigned track = instance().chatInterface->RequestRemoveModerator(from, moderatorName, moderatorAddress, roomOwner->getAddress(), (void *)pair);
+			uint32_t track = instance().chatInterface->RequestRemoveModerator(from, moderatorName, moderatorAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			instance().pendingRequests[track] = id;
 		}
 		else
@@ -1027,7 +1027,7 @@ void ChatServer::chatConnectedAvatar(const NetworkId & id, const ChatAvatar & ne
 
 //-----------------------------------------------------------------------
 
-void ChatServer::connectPlayer(ConnectionServerConnection * connection, const unsigned int suid, const std::string & characterName, const NetworkId & networkId, bool isSecure, bool isSubscribed)
+void ChatServer::connectPlayer(ConnectionServerConnection * connection, const uint32_t suid, const std::string & characterName, const NetworkId & networkId, bool isSecure, bool isSubscribed)
 {
 	ChatServer::fileLog(false, "ChatServer", "connectPlayer() address(%s) suid(%u) characterName(%s) networkId(%s)", getConnectionAddress(connection).c_str(), suid, characterName.c_str(), networkId.getValueString().c_str());
 
@@ -1071,7 +1071,7 @@ void ChatServer::connectPlayer(ConnectionServerConnection * connection, const un
 int countDots(const std::string &str)
 {
 	int num = 0;
-	for (unsigned i = 0; i < str.length(); ++i)
+	for (uint32_t i = 0; i < str.length(); ++i)
 	{
 		if (str[i] == '.')
 		{
@@ -1083,7 +1083,7 @@ int countDots(const std::string &str)
 
 //-----------------------------------------------------------------------
 
-void ChatServer::createRoom(const NetworkId & id, const unsigned int sequence, const std::string & roomName, const bool isModerated, const bool isPublic, const std::string & title)
+void ChatServer::createRoom(const NetworkId & id, const uint32_t sequence, const std::string & roomName, const bool isModerated, const bool isPublic, const std::string & title)
 {
 	if(roomName.empty())
 		return;
@@ -1128,7 +1128,7 @@ void ChatServer::createRoom(const NetworkId & id, const unsigned int sequence, c
 
 	//printf("Creating room %s\n", roomName.c_str());
 
-	unsigned roomAttr = 0;
+	uint32_t roomAttr = 0;
 
 	static Archive::ByteStream a;
 	const ChatAvatar * owner = 0;
@@ -1181,7 +1181,7 @@ void ChatServer::createRoom(const NetworkId & id, const unsigned int sequence, c
 	//instance().voiceChatInterface->GetChannel(narrowRoomAddress,narrowRoomName,"text","",0,false,0);
 		
 
-	unsigned track = instance().chatInterface->RequestCreateRoom(owner, roomParams, ChatUnicodeString(wideRoomAddress.data(), wideRoomAddress.size()), (void *)sequence); //lint !e641 Converting enum 'ChatRoomType' to int
+	uint32_t track = instance().chatInterface->RequestCreateRoom(owner, roomParams, ChatUnicodeString(wideRoomAddress.data(), wideRoomAddress.size()), (void *)(uintptr_t)sequence); //lint !e641 Converting enum 'ChatRoomType' to int
 	if(id != NetworkId::cms_invalid)
 		instance().pendingRequests[track] = id;
 }
@@ -1218,7 +1218,7 @@ void ChatServer::deleteAllPersistentMessages(const NetworkId &sourceNetworkId, c
 
 //-----------------------------------------------------------------------
 
-void ChatServer::deletePersistentMessage(const NetworkId &id, const unsigned int messageId)
+void ChatServer::deletePersistentMessage(const NetworkId &id, const uint32_t messageId)
 {
 	ChatServer::fileLog(false, "ChatServer", "deletePersistentMessage() id(%s) messageId(%u)", id.getValueString().c_str(), messageId);
 
@@ -1239,7 +1239,7 @@ ChatInterface *ChatServer::getChatInterface()
 
 //-----------------------------------------------------------------------
 
-void ChatServer::destroyRoom(const NetworkId & id, const unsigned int sequence, const unsigned int roomId)
+void ChatServer::destroyRoom(const NetworkId & id, const uint32_t sequence, const uint32_t roomId)
 {
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "destroyRoom() id(%s) sequence(%u) roomId(%u)", id.getValueString().c_str(), sequence, roomId);
 
@@ -1279,7 +1279,7 @@ void ChatServer::destroyRoom(const NetworkId & id, const unsigned int sequence, 
 	if (avatar && owner)
 	{
 		RoomOwnerSequencePair *pair = new RoomOwnerSequencePair(sequence, owner);
-		unsigned track = instance().chatInterface->RequestDestroyRoom(avatar, owner->getAddress(), (void *)pair);
+		uint32_t track = instance().chatInterface->RequestDestroyRoom(avatar, owner->getAddress(), (void *)(uintptr_t)pair);
 		instance().pendingRequests[track] = id;
 	}
 }
@@ -1319,7 +1319,7 @@ void ChatServer::destroyRoom(const std::string & roomName)
 		RoomOwnerSequencePair *pair = new RoomOwnerSequencePair(0, owner);
 		static Unicode::String wideAddr = Unicode::narrowToWide(std::string("SWG") + "+" + ConfigChatServer::getClusterName());
 		static ChatUnicodeString chatAddr(wideAddr.data(), wideAddr.size());
-		instance().chatInterface->RequestDestroyRoom(instance().ownerSystem, owner->getAddress(), (void *)pair);
+		instance().chatInterface->RequestDestroyRoom(instance().ownerSystem, owner->getAddress(), (void *)(uintptr_t)pair);
 	}
 }
 
@@ -1358,7 +1358,7 @@ void ChatServer::disconnectPlayer(const NetworkId & id)
 		ChatAvatarId avatarId;
 		makeAvatarId((*f).second.chatAvatar, avatarId);
 		instance().chatInterface->disconnectPlayer(avatarId);
-		instance().chatInterface->RequestLogoutAvatar(&((*f).second.chatAvatar), (void *)owner);
+		instance().chatInterface->RequestLogoutAvatar(&((*f).second.chatAvatar), (void *)(uintptr_t)owner);
 		instance().chatAvatars.erase(f);
 	}
 
@@ -1393,7 +1393,7 @@ void ChatServer::disconnectPlayer(const NetworkId & id)
 
 //-----------------------------------------------------------------------
 
-void ChatServer::enterRoom(const NetworkId & id, const unsigned int sequence, const unsigned int roomId)
+void ChatServer::enterRoom(const NetworkId & id, const uint32_t sequence, const uint32_t roomId)
 {
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "enterRoom() id(%s) sequence(%u) roomId(%u)", id.getValueString().c_str(), sequence, roomId);
 
@@ -1403,7 +1403,7 @@ void ChatServer::enterRoom(const NetworkId & id, const unsigned int sequence, co
 
 	if(avatar && room)
 	{
-		unsigned track = instance().chatInterface->RequestEnterRoom(avatar, room->getAddress(), (void *)sequence);
+		uint32_t track = instance().chatInterface->RequestEnterRoom(avatar, room->getAddress(), (void *)(uintptr_t)sequence);
 		instance().pendingRequests[track] = id;
 	}
 	else
@@ -1456,7 +1456,7 @@ void ChatServer::putSystemAvatarInRoom(const std::string & roomName)
 
 //-----------------------------------------------------------------------
 
-void ChatServer::enterRoom(const NetworkId & id, const unsigned int sequence, const std::string & roomName)
+void ChatServer::enterRoom(const NetworkId & id, const uint32_t sequence, const std::string & roomName)
 {
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "enterRoom() id(%s) sequence(%u) roomName(%s)", id.getValueString().c_str(), sequence, roomName.c_str());
 
@@ -1464,8 +1464,8 @@ void ChatServer::enterRoom(const NetworkId & id, const unsigned int sequence, co
 	const ChatAvatar * avatar = getAvatarByNetworkId(id);
 	if(avatar)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
-		unsigned roomId    = 0;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
+		uint32_t roomId    = 0;
 
 		const ChatServerRoomOwner *roomOwner = instance().chatInterface->getRoomOwner(roomName);
 		if (roomOwner)
@@ -1483,7 +1483,7 @@ void ChatServer::enterRoom(const NetworkId & id, const unsigned int sequence, co
 					const ChatServerRoomOwner *room = instance().chatInterface->getRoomOwner(roomName);
 					if (room)
 					{
-						unsigned track = instance().chatInterface->RequestEnterRoom(avatar, room->getAddress(), (void *)sequence);
+						uint32_t track = instance().chatInterface->RequestEnterRoom(avatar, room->getAddress(), (void *)(uintptr_t)sequence);
 						instance().pendingRequests[track] = id;
 
 						return;
@@ -1511,7 +1511,7 @@ void ChatServer::enterRoom(const NetworkId & id, const unsigned int sequence, co
 
 //-----------------------------------------------------------------------
 
-void ChatServer::unbanFromRoom(const unsigned sequence, const NetworkId &banner, const ChatAvatarId &bannee, const std::string &roomName)
+void ChatServer::unbanFromRoom(const uint32_t sequence, const NetworkId &banner, const ChatAvatarId &bannee, const std::string &roomName)
 {
 	canonicalizeAvatarId(bannee);
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "unbanFromRoom() sequence(%u) banner(%s) bannee(%s) roomName(%s)", sequence, banner.getValueString().c_str(), bannee.getFullName().c_str(), roomName.c_str());
@@ -1519,7 +1519,7 @@ void ChatServer::unbanFromRoom(const unsigned sequence, const NetworkId &banner,
 	const ChatAvatar *bannerAvatar = getAvatarByNetworkId(banner);
 	if (bannerAvatar)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
 
 		const ChatServerRoomOwner *roomOwner = instance().chatInterface->getRoomOwner(roomName);
 		if (roomOwner)
@@ -1530,7 +1530,7 @@ void ChatServer::unbanFromRoom(const unsigned sequence, const NetworkId &banner,
 
 			AvatarIdSequencePair *pair = new AvatarIdSequencePair(sequence, bannee);
 
-			unsigned track = instance().chatInterface->RequestRemoveBan(bannerAvatar, banName, banAddress, roomOwner->getAddress(), (void *)pair);
+			uint32_t track = instance().chatInterface->RequestRemoveBan(bannerAvatar, banName, banAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			instance().pendingRequests[track] = banner;
 		}
 		else
@@ -1551,7 +1551,7 @@ void ChatServer::unbanFromRoom(const unsigned sequence, const NetworkId &banner,
 
 //-----------------------------------------------------------------------
 
-void ChatServer::banFromRoom(const unsigned sequence, const NetworkId &banner, const ChatAvatarId &bannee, const std::string &roomName)
+void ChatServer::banFromRoom(const uint32_t sequence, const NetworkId &banner, const ChatAvatarId &bannee, const std::string &roomName)
 {
 	canonicalizeAvatarId(bannee);
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "banFromRoom() sequence(%u) banner(%s) bannee(%s) roomName(%s)", sequence, banner.getValueString().c_str(), bannee.getFullName().c_str(), roomName.c_str());
@@ -1566,7 +1566,7 @@ void ChatServer::banFromRoom(const unsigned sequence, const NetworkId &banner, c
 	const ChatAvatar *bannerAvatar = getAvatarByNetworkId(banner);
 	if (bannerAvatar)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
 
 		const ChatServerRoomOwner *roomOwner = instance().chatInterface->getRoomOwner(roomName);
 		if (roomOwner)
@@ -1578,20 +1578,20 @@ void ChatServer::banFromRoom(const unsigned sequence, const NetworkId &banner, c
 			// Remove the bannee from the invited list
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, bannee);
-				instance().chatInterface->RequestRemoveInvite(bannerAvatar, banName, banAddress, roomOwner->getAddress(), (void *)pair);
+				instance().chatInterface->RequestRemoveInvite(bannerAvatar, banName, banAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			}
 
 			// Remove the bannee from the moderator list
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, bannee);
-				instance().chatInterface->RequestRemoveModerator(bannerAvatar, banName, banAddress, roomOwner->getAddress(), (void *)pair);
+				instance().chatInterface->RequestRemoveModerator(bannerAvatar, banName, banAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			}
 
 			// Ban the avatar
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(sequence, bannee);
 
-				unsigned track = instance().chatInterface->RequestAddBan(bannerAvatar, banName, banAddress, roomOwner->getAddress(), (void *)pair);
+				uint32_t track = instance().chatInterface->RequestAddBan(bannerAvatar, banName, banAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 				instance().pendingRequests[track] = banner;
 			}
 		}
@@ -1631,7 +1631,7 @@ void ChatServer::invite(const NetworkId & id, const ChatAvatarId & avatarId, con
 
 	if (invitor)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
 
 		ChatServerRoomOwner const * const roomOwner = instance().chatInterface->getRoomOwner(roomName);
 		if (roomOwner)
@@ -1644,14 +1644,14 @@ void ChatServer::invite(const NetworkId & id, const ChatAvatarId & avatarId, con
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, avatarId);
 
-				instance().chatInterface->RequestRemoveBan(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)pair);
+				instance().chatInterface->RequestRemoveBan(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			}
 
 			// Invite the avatar
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, avatarId);
 
-				unsigned track = instance().chatInterface->RequestAddInvite(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)pair);
+				uint32_t track = instance().chatInterface->RequestAddInvite(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 				instance().pendingRequests[track] = id;
 			}
 		}
@@ -1681,13 +1681,13 @@ void ChatServer::inviteGroupMembers(const NetworkId & id, const ChatAvatarId & a
 	ChatAvatar const * const invitor = getAvatarByNetworkId(id);
 	if (invitor)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
 
 		ChatServerRoomOwner const * const roomOwner = instance().chatInterface->getRoomOwner(roomName);
 		if (roomOwner)
 		{
 			// Invite each member
-			for (unsigned i = 0; i < members.size(); ++i)
+			for (uint32_t i = 0; i < members.size(); ++i)
 			{
 				NetworkId const &        memberNetworkId = members[i];
 				ChatAvatar const * const memberAvatar    = getAvatarByNetworkId(memberNetworkId);
@@ -1705,14 +1705,14 @@ void ChatServer::inviteGroupMembers(const NetworkId & id, const ChatAvatarId & a
 					{
 						AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, memberId);
 
-						instance().chatInterface->RequestRemoveBan(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)pair);
+						instance().chatInterface->RequestRemoveBan(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 					}
 
 					// Invite the avatar
 					{
 						AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, memberId);
 
-						unsigned track = instance().chatInterface->RequestAddInvite(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)pair);
+						uint32_t track = instance().chatInterface->RequestAddInvite(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 						instance().pendingRequests[track] = id;
 					}
 				}
@@ -1759,20 +1759,20 @@ void ChatServer::removeSystemAvatarFromRoom(const ChatRoom *room)
 
 //-----------------------------------------------------------------------
 
-void ChatServer::leaveRoom(const NetworkId & id, const unsigned int sequence, const unsigned int roomId)
+void ChatServer::leaveRoom(const NetworkId & id, const uint32_t sequence, const uint32_t roomId)
 {
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "leaveRoom() id(%s) sequence(%u) roomId(%u)", id.getValueString().c_str(), sequence, roomId);
 
 	const ChatAvatar * avatar = getAvatarByNetworkId(id);
 	if (avatar)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
 
 		// Try to get the room
 		ChatServerRoomOwner const * const roomOwner = instance().chatInterface->getRoomOwner(roomId);
 		if (roomOwner)
 		{
-			unsigned track = instance().chatInterface->RequestLeaveRoom(avatar, roomOwner->getAddress(), (void *)sequence);
+			uint32_t track = instance().chatInterface->RequestLeaveRoom(avatar, roomOwner->getAddress(), (void *)(uintptr_t)sequence);
 			instance().pendingRequests[track] = id;
 		}
 		else
@@ -1895,7 +1895,7 @@ void ChatServer::kickAvatarFromRoom(const NetworkId & id, const ChatAvatarId & a
 	canonicalizeAvatarId(avatarId);
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "kickAvatarFromRoom() moderator(%s) avatarName(%s) roomName(%s)", id.getValueString().c_str(), avatarId.getFullName().c_str(), roomName.c_str());
 
-	unsigned errorCode = CHATRESULT_SUCCESS;
+	uint32_t errorCode = CHATRESULT_SUCCESS;
 
 	ChatAvatar const * const moderatorChatAvatar = getAvatarByNetworkId(id);
 	if (moderatorChatAvatar)
@@ -1910,20 +1910,20 @@ void ChatServer::kickAvatarFromRoom(const NetworkId & id, const ChatAvatarId & a
 			// Remove the avatar from the invited list
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, avatarId);
-				instance().chatInterface->RequestRemoveInvite(moderatorChatAvatar, kickName, kickAddress, roomOwner->getAddress(), (void *)pair);
+				instance().chatInterface->RequestRemoveInvite(moderatorChatAvatar, kickName, kickAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			}
 
 			// Remove the avatar from the moderator list
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, avatarId);
-				instance().chatInterface->RequestRemoveModerator(moderatorChatAvatar, kickName, kickAddress, roomOwner->getAddress(), (void *)pair);
+				instance().chatInterface->RequestRemoveModerator(moderatorChatAvatar, kickName, kickAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			}
 
 			// Kick the avatar from the room
 			{
 				AvatarIdSequencePair *pair = new AvatarIdSequencePair(0, avatarId);
 
-				unsigned track = instance().chatInterface->RequestKickAvatar(moderatorChatAvatar, kickName, kickAddress, roomOwner->getAddress(), (void*)pair);
+				uint32_t track = instance().chatInterface->RequestKickAvatar(moderatorChatAvatar, kickName, kickAddress, roomOwner->getAddress(), (void *)(uintptr_t)(uintptr_t)pair);
 				instance().pendingRequests[track] = id;
 			}
 		}
@@ -1945,7 +1945,7 @@ void ChatServer::kickAvatarFromRoom(const NetworkId & id, const ChatAvatarId & a
 
 //-----------------------------------------------------------------------
 
-void ChatServer::queryRoom(const NetworkId & id, ConnectionServerConnection * connection, const unsigned int sequence, const std::string & roomName)
+void ChatServer::queryRoom(const NetworkId & id, ConnectionServerConnection * connection, const uint32_t sequence, const std::string & roomName)
 {
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "queryRoom() id(%s) roomName(%s)", id.getValueString().c_str(), roomName.c_str());
 
@@ -1954,7 +1954,7 @@ void ChatServer::queryRoom(const NetworkId & id, ConnectionServerConnection * co
 
 //-----------------------------------------------------------------------
 
-void ChatServer::requestPersistentMessage(const NetworkId &id, const unsigned int sequence, const unsigned int messageId)
+void ChatServer::requestPersistentMessage(const NetworkId &id, const uint32_t sequence, const uint32_t messageId)
 {
 	ChatServer::fileLog(false, "ChatServer", "requestPersistentMessage() id(%s) sequence(%u) messageId(%u)", id.getValueString().c_str(), sequence, messageId);
 
@@ -1962,7 +1962,7 @@ void ChatServer::requestPersistentMessage(const NetworkId &id, const unsigned in
 
 	if (avatar)
 	{
-		IGNORE_RETURN(instance().chatInterface->RequestGetPersistentMessage(avatar, messageId, (void *)sequence));
+		IGNORE_RETURN(instance().chatInterface->RequestGetPersistentMessage(avatar, messageId, (void *)(uintptr_t)sequence));
 	}
 	else
 	{
@@ -2039,7 +2039,7 @@ void ChatServer::sendInstantMessage(const ChatAvatarId & from, const ChatAvatarI
 
 //-----------------------------------------------------------------------
 
-void ChatServer::sendInstantMessage(const NetworkId & fromId, const unsigned int sequence, const ChatAvatarId & n, const Unicode::String & message, const Unicode::String & oob)
+void ChatServer::sendInstantMessage(const NetworkId & fromId, const uint32_t sequence, const ChatAvatarId & n, const Unicode::String & message, const Unicode::String & oob)
 {
 	canonicalizeAvatarId(n);
 	ChatServer::fileLog(false, "ChatServer", "sendInstantMessage() fromId(%s) sequence(%u) toName(%s)", fromId.getValueString().c_str(), sequence, n.getFullName().c_str());
@@ -2064,7 +2064,7 @@ void ChatServer::sendInstantMessage(const NetworkId & fromId, const unsigned int
 			}
 		}
 
-		unsigned int const maxTellLength = 512;
+		uint32_t const maxTellLength = 512;
 
 		if(message.length() < maxTellLength)
 		{
@@ -2114,10 +2114,10 @@ void ChatServer::sendInstantMessage(const NetworkId & fromId, const unsigned int
 
 				splitChatAvatarId(n, friendName, friendAddress);
 
-				unsigned track = instance().chatInterface->RequestSendInstantMessage(from,
+				uint32_t track = instance().chatInterface->RequestSendInstantMessage(from,
 					ChatUnicodeString(friendName.data(), friendName.size()),
 					ChatUnicodeString(friendAddress.data(), friendAddress.size()),
-					ChatUnicodeString(message.data(), message.size()), ChatUnicodeString(oob.data(), oob.size()), (void *)sequence);
+					ChatUnicodeString(message.data(), message.size()), ChatUnicodeString(oob.data(), oob.size()), (void *)(uintptr_t)sequence);
 
 				instance().pendingRequests[track] = fromId;
 			}
@@ -2177,7 +2177,7 @@ void ChatServer::sendPersistentMessage(const ChatAvatarId & from, const ChatAvat
 
 //-----------------------------------------------------------------------
 
-void ChatServer::sendPersistentMessage(const NetworkId & fromId, const unsigned int sequenceId, const ChatAvatarId & to, const Unicode::String & subject, const Unicode::String & message, const Unicode::String & oob)
+void ChatServer::sendPersistentMessage(const NetworkId & fromId, const uint32_t sequenceId, const ChatAvatarId & to, const Unicode::String & subject, const Unicode::String & message, const Unicode::String & oob)
 {
 	canonicalizeAvatarId(to);
 
@@ -2211,14 +2211,14 @@ void ChatServer::sendPersistentMessage(const NetworkId & fromId, const unsigned 
 		Unicode::String friendAddress;
 
 		splitChatAvatarId(to, friendName, friendAddress);
-		unsigned track = instance().chatInterface->RequestSendPersistentMessage(
+		uint32_t track = instance().chatInterface->RequestSendPersistentMessage(
 			from,
 			ChatUnicodeString(friendName.data(), friendName.size()),
 			ChatUnicodeString(friendAddress.data(), friendAddress.size()),
 			ChatUnicodeString(subject.data(), subject.size()),
 			ChatUnicodeString(message.data(), message.size()),
 			ChatUnicodeString(oob.data(), oob.size()),
-			(void *)sequenceId
+			(void *)(uintptr_t)sequenceId
 			);
 		instance().pendingRequests[track] = fromId;
 	}
@@ -2272,7 +2272,7 @@ void ChatServer::sendRoomMessage(const ChatAvatarId &id, const std::string & roo
 
 //-----------------------------------------------------------------------
 
-void ChatServer::sendRoomMessage(const NetworkId & id, const unsigned int sequence, const unsigned int roomId, const Unicode::String &msg, const Unicode::String & oob)
+void ChatServer::sendRoomMessage(const NetworkId & id, const uint32_t sequence, const uint32_t roomId, const Unicode::String &msg, const Unicode::String & oob)
 {
 	if(!msg.empty() || !oob.empty())
 	{
@@ -2336,7 +2336,7 @@ void ChatServer::sendRoomMessage(const NetworkId & id, const unsigned int sequen
 				if (allowToSpeak)
 				{
 					// character allowed to talk
-					unsigned track = instance().chatInterface->RequestSendRoomMessage(sender, room->getAddress(), ChatUnicodeString(msg.data(), msg.size()), ChatUnicodeString(oob.data(), oob.size()), (void  *)sequence);
+					uint32_t track = instance().chatInterface->RequestSendRoomMessage(sender, room->getAddress(), ChatUnicodeString(msg.data(), msg.size()), ChatUnicodeString(oob.data(), oob.size()), (void *)(uintptr_t)sequence);
 					instance().pendingRequests[track] = id;
 				}
 				else if (!squelched && (ConfigChatServer::getChatSpamNotifyPlayerWhenLimitedIntervalSeconds() > 0) && (timeNow >= aed->chatSpamNextTimeToNotifyPlayerWhenLimited))
@@ -2402,7 +2402,7 @@ void ChatServer::sendStandardRoomMessage(const ChatAvatarId &senderId, const std
 
 //-----------------------------------------------------------------------
 
-void ChatServer::uninvite(const NetworkId &id , const unsigned int sequence, const ChatAvatarId &avatarId , const std::string &roomName )
+void ChatServer::uninvite(const NetworkId &id , const uint32_t sequence, const ChatAvatarId &avatarId , const std::string &roomName )
 {
 	canonicalizeAvatarId(avatarId);
 	ChatServer::fileLog(s_enableChatRoomLogs, "ChatServer", "uninvite() id(%s) sequence(%u) avatarId(%s) roomName(%s)", id.getValueString().c_str(), sequence, avatarId.getFullName().c_str(), roomName.c_str());
@@ -2411,7 +2411,7 @@ void ChatServer::uninvite(const NetworkId &id , const unsigned int sequence, con
 	ChatAvatar const * invitor = getAvatarByNetworkId(id);
 	if (invitor)
 	{
-		unsigned errorCode = CHATRESULT_SUCCESS;
+		uint32_t errorCode = CHATRESULT_SUCCESS;
 
 		// Try to get the room
 		ChatServerRoomOwner const * const roomOwner = instance().chatInterface->getRoomOwner(roomName);
@@ -2423,7 +2423,7 @@ void ChatServer::uninvite(const NetworkId &id , const unsigned int sequence, con
 
 			AvatarIdSequencePair * pair = new AvatarIdSequencePair(sequence, avatarId);
 
-			unsigned track = instance().chatInterface->RequestRemoveInvite(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)pair);
+			uint32_t track = instance().chatInterface->RequestRemoveInvite(invitor, inviteName, inviteAddress, roomOwner->getAddress(), (void *)(uintptr_t)pair);
 			instance().pendingRequests[track] = id;
 		}
 		else
@@ -2525,7 +2525,7 @@ std::string ChatServer::toNarrowString(ChatUnicodeString const &chatUnicodeStrin
 {
 	std::string result;
 
-	for (unsigned int index = 0; index < chatUnicodeString.string_length; ++index)
+	for (uint32_t index = 0; index < chatUnicodeString.string_length; ++index)
 	{
 		result += static_cast<char>(chatUnicodeString.string_data[index]);
 	}
@@ -2592,7 +2592,7 @@ void ChatServer::clearCustomerServiceServerConnection()
 
 // ----------------------------------------------------------------------
 
-void ChatServer::connectToCustomerServiceServer(const std::string &address, const unsigned short port)
+void ChatServer::connectToCustomerServiceServer(const std::string &address, const uint16_t port)
 {
 	//DEBUG_REPORT_LOG(true, ("***ChatServer::connectToCustomerServiceServer() address(%s) port(%d)\n", address.c_str(), port));
 
@@ -2634,7 +2634,7 @@ bool ChatServer::isValidChatAvatarName(Unicode::String const &chatAvatarName)
 
 		int dotCount = 0;
 
-		for (unsigned int i = 0; i < lowerNarrowName.length(); ++i)
+		for (uint32_t i = 0; i < lowerNarrowName.length(); ++i)
 		{
 			if (lowerNarrowName[i] == '.')
 			{
@@ -2766,7 +2766,7 @@ void ChatServer::requestTransferAvatar(const TransferCharacterData & request)
 
 // ----------------------------------------------------------------------
 
-void ChatServer::onCreateRoomSuccess(const std::string & lowerName, const unsigned int roomId)
+void ChatServer::onCreateRoomSuccess(const std::string & lowerName, const uint32_t roomId)
 {
 	std::set<std::pair<std::string, ChatAvatarId> >::iterator nameIter;
 	for(nameIter = s_pendingEntersByName.begin(); nameIter != s_pendingEntersByName.end();)
@@ -2782,7 +2782,7 @@ void ChatServer::onCreateRoomSuccess(const std::string & lowerName, const unsign
 		}
 	}
 	
-	std::set<std::pair<NetworkId, std::pair<unsigned int, unsigned int> > >::iterator idIter;
+	std::set<std::pair<NetworkId, std::pair<uint32_t, uint32_t> > >::iterator idIter;
 	for(idIter = s_pendingEntersById.begin(); idIter != s_pendingEntersById.end();)
 	{
 		if(idIter->second.second == roomId)
@@ -2865,9 +2865,9 @@ VChatInterface* ChatServer::getVChatInterface()
 
 // ----------------------------------------------------------------------
 
-unsigned ChatServer::registerGameServerConnection(GameServerConnection *connection)
+uint32_t ChatServer::registerGameServerConnection(GameServerConnection *connection)
 {
-	static unsigned nextId = 0;
+	static uint32_t nextId = 0;
 
 	++nextId;
 	m_gameServerConnectionRegistry.insert(std::make_pair(nextId, connection));
@@ -2876,7 +2876,7 @@ unsigned ChatServer::registerGameServerConnection(GameServerConnection *connecti
 
 //-----------------------------------------------------------------------
 
-void ChatServer::unregisterGameServerConnection(unsigned const connectionId)
+void ChatServer::unregisterGameServerConnection(uint32_t const connectionId)
 {
 	GameServerMap::iterator i = m_gameServerConnectionRegistry.find(connectionId);
 	if(i != m_gameServerConnectionRegistry.end())
@@ -2887,7 +2887,7 @@ void ChatServer::unregisterGameServerConnection(unsigned const connectionId)
 
 // ----------------------------------------------------------------------
 
-void ChatServer::sendToGameServerById(unsigned const connectionId, GameNetworkMessage const & message)
+void ChatServer::sendToGameServerById(uint32_t const connectionId, GameNetworkMessage const & message)
 {
 	GameServerConnection* connection = getGameServerConnectionFromId(connectionId);
 	if(connection)
@@ -2902,10 +2902,10 @@ void ChatServer::sendToGameServerById(unsigned const connectionId, GameNetworkMe
 
 //-----------------------------------------------------------------------
 
-GameServerConnection *ChatServer::getGameServerConnectionFromId(unsigned int sequence)
+GameServerConnection *ChatServer::getGameServerConnectionFromId(uint32_t sequence)
 {
 	GameServerConnection * result = nullptr;
-	std::unordered_map<unsigned int, GameServerConnection *>::iterator f = m_gameServerConnectionRegistry.find(sequence);
+	std::unordered_map<uint32_t, GameServerConnection *>::iterator f = m_gameServerConnectionRegistry.find(sequence);
 	if(f != m_gameServerConnectionRegistry.end())
 	{
 		result = (*f).second;
@@ -2987,7 +2987,7 @@ void ChatServer::requestRemoveClientFromChannel(const NetworkId & id, std::strin
 
 void ChatServer::requestChannelCommand(ReturnAddress const & requester,
 	const std::string &srcUserName, const std::string &destUserName, const std::string &destChannelAddress, 
-	unsigned command,unsigned banTimeout)
+	uint32_t command,uint32_t banTimeout)
 {
 	getVChatInterface()->requestChannelCommand(requester, srcUserName, destUserName, destChannelAddress, command, banTimeout);
 }

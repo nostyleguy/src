@@ -12,19 +12,19 @@
 class ChatServerOnline : public GameNetworkMessage
 {
 public:
-	ChatServerOnline(const std::string & address, const unsigned short port);
+	ChatServerOnline(const std::string & address, const uint16_t port);
 	ChatServerOnline(Archive::ReadIterator & source);
 	~ChatServerOnline();
 
 	const std::string &   getAddress  () const;
-	const unsigned short  getPort     () const;
+	const uint16_t  getPort     () const;
 
 private:
 	ChatServerOnline & operator = (const ChatServerOnline & rhs);
 	ChatServerOnline(const ChatServerOnline & source);
 
 	Archive::AutoVariable<std::string>     address;
-	Archive::AutoVariable<unsigned short>  port;
+	Archive::AutoVariable<uint16_t>  port;
 };
 
 //-----------------------------------------------------------------------
@@ -36,7 +36,7 @@ inline const std::string & ChatServerOnline::getAddress() const
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ChatServerOnline::getPort() const
+inline const uint16_t ChatServerOnline::getPort() const
 {
 	return port.get();
 }

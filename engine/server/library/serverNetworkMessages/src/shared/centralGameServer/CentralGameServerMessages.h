@@ -148,7 +148,7 @@ public:
 		                         const char * const newTemplateName,
 	                             const uint32 newGameServerProcessId,
 								 const std::string & newGameServerAddress,
-								 const unsigned short newGameServerPort);
+								 const uint16_t newGameServerPort);
 	CentralGameServerProxyObject(Archive::ReadIterator & source);
 	~CentralGameServerProxyObject();
 

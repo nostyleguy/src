@@ -78,7 +78,7 @@ public:
          * do so in order to navigate company firewalls which may have specific port numbers open to them for this purpose.
          * default = 0
          */
-        unsigned short port;
+        uint16_t port;
 
         /**
          * @ brief Server bind ip.
@@ -226,7 +226,7 @@ public:
      *          nullptr if the manager object has exceeded its maximum number of connections
      * or if the serverAddress cannot be resolved to an IP address.
      */
-    TcpConnection *EstablishConnection(const char *serverAddress, unsigned short serverPort, unsigned timeout = 0);
+    TcpConnection *EstablishConnection(const char *serverAddress, uint16_t serverPort, unsigned timeout = 0);
 
     /**
      * @brief  Binds this manager as a server which will listen for and accept incoming connections.

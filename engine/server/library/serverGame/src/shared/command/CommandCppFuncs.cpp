@@ -1713,7 +1713,7 @@ static void commandFuncSpatialChatInternal(Command const &, NetworkId const &act
 				return;
 			}
 
-			const size_t nullpos = params.find(static_cast<unsigned short>(0), curpos);
+			const size_t nullpos = params.find(static_cast<uint16_t>(0), curpos);
 
 			Unicode::String text;
 			Unicode::String oob;
@@ -1861,7 +1861,7 @@ static void commandFuncSpatialChat(Command const &, NetworkId const &actor, Netw
 				return;
 			}
 
-			size_t nullpos = params.find(static_cast<unsigned short>(0), curpos);
+			size_t nullpos = params.find(static_cast<uint16_t>(0), curpos);
 
 			Unicode::String text;
 			Unicode::String oob;

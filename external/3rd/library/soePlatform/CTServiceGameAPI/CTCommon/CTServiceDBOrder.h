@@ -13,7 +13,7 @@ namespace CTService
 class CTServiceDBOrder
 //--------------------------------------------------------
 {
-	inline void copy_wide_string(unsigned short * target, const unsigned short * source, int length)
+	inline void copy_wide_string(uint16_t * target, const uint16_t * source, int length)
 	{
 		if (!target)
 			return;
@@ -104,39 +104,39 @@ class CTServiceDBOrder
 		void			SetGameCode(const char * value)							{ if (value) strncpy(mGameCode, value, GAME_CODE_BUFFER); else mGameCode[0] = 0;  }
 		const char *	GetGameCode()											{ return mGameCode; }
 
-		// unsigned short
-		void			SetCustomerFirstName(const unsigned short * value)		{ copy_wide_string(mCustomerFirstName, value, CUSTOMER_NAME_BUFFER); }
-		unsigned short	*GetCustomerFirstName()									{ return mCustomerFirstName; }
+		// uint16_t
+		void			SetCustomerFirstName(const uint16_t * value)		{ copy_wide_string(mCustomerFirstName, value, CUSTOMER_NAME_BUFFER); }
+		uint16_t	*GetCustomerFirstName()									{ return mCustomerFirstName; }
 
-		void			SetCustomerLastName(const unsigned short * value)		{ copy_wide_string(mCustomerLastName, value, CUSTOMER_NAME_BUFFER); }
-		unsigned short	*GetCustomerLastName()									{ return mCustomerLastName; }
+		void			SetCustomerLastName(const uint16_t * value)		{ copy_wide_string(mCustomerLastName, value, CUSTOMER_NAME_BUFFER); }
+		uint16_t	*GetCustomerLastName()									{ return mCustomerLastName; }
 
-		void			SetCustomerPhone(const unsigned short * value)			{ copy_wide_string(mCustomerPhone, value, CUSTOMER_PHONE_BUFFER); }
-		unsigned short	*GetCustomerPhone()										{ return mCustomerPhone; }
+		void			SetCustomerPhone(const uint16_t * value)			{ copy_wide_string(mCustomerPhone, value, CUSTOMER_PHONE_BUFFER); }
+		uint16_t	*GetCustomerPhone()										{ return mCustomerPhone; }
 
-		void			SetCustomerEmail(const unsigned short * value)			{ copy_wide_string(mCustomerEmail, value, CUSTOMER_EMAIL_BUFFER); }
-		unsigned short	*GetCustomerEmail()										{ return mCustomerEmail; }
+		void			SetCustomerEmail(const uint16_t * value)			{ copy_wide_string(mCustomerEmail, value, CUSTOMER_EMAIL_BUFFER); }
+		uint16_t	*GetCustomerEmail()										{ return mCustomerEmail; }
 
-		void			SetCardName(const unsigned short * value)				{ copy_wide_string(mCardName, value, CARD_INFO_BUFFER); }
-		unsigned short	*GetCardName()											{ return mCardName; }
+		void			SetCardName(const uint16_t * value)				{ copy_wide_string(mCardName, value, CARD_INFO_BUFFER); }
+		uint16_t	*GetCardName()											{ return mCardName; }
 
-		void			SetCardAddress1(const unsigned short * value)			{ copy_wide_string(mCardAddress1, value, CARD_INFO_BUFFER); }
-		unsigned short	*GetCardAddress1()										{ return mCardAddress1; }
+		void			SetCardAddress1(const uint16_t * value)			{ copy_wide_string(mCardAddress1, value, CARD_INFO_BUFFER); }
+		uint16_t	*GetCardAddress1()										{ return mCardAddress1; }
 
-		void			SetCardAddress2(const unsigned short * value)			{ copy_wide_string(mCardAddress2, value, CARD_INFO_BUFFER); }
-		unsigned short	*GetCardAddress2()										{ return mCardAddress2; }
+		void			SetCardAddress2(const uint16_t * value)			{ copy_wide_string(mCardAddress2, value, CARD_INFO_BUFFER); }
+		uint16_t	*GetCardAddress2()										{ return mCardAddress2; }
 
-		void			SetCardCity(const unsigned short * value)				{ copy_wide_string(mCardCity, value, CARD_INFO_BUFFER); }
-		unsigned short	*GetCardCity()											{ return mCardCity; }
+		void			SetCardCity(const uint16_t * value)				{ copy_wide_string(mCardCity, value, CARD_INFO_BUFFER); }
+		uint16_t	*GetCardCity()											{ return mCardCity; }
 
-		void			SetCardState(const unsigned short * value)				{ copy_wide_string(mCardState, value, CARD_INFO_BUFFER); }
-		unsigned short	*GetCardState()											{ return mCardState; }
+		void			SetCardState(const uint16_t * value)				{ copy_wide_string(mCardState, value, CARD_INFO_BUFFER); }
+		uint16_t	*GetCardState()											{ return mCardState; }
 
-		void			SetCardZip(const unsigned short * value)				{ copy_wide_string(mCardZip, value, CARD_INFO_BUFFER); }
-		unsigned short	*GetCardZip()											{ return mCardZip; }
+		void			SetCardZip(const uint16_t * value)				{ copy_wide_string(mCardZip, value, CARD_INFO_BUFFER); }
+		uint16_t	*GetCardZip()											{ return mCardZip; }
 
-		void			SetCountry(const unsigned short * value)				{ copy_wide_string(mCountry, value, COUNTRY_BUFFER); }
-		unsigned short	*GetCountry()											{ return mCountry; }
+		void			SetCountry(const uint16_t * value)				{ copy_wide_string(mCountry, value, COUNTRY_BUFFER); }
+		uint16_t	*GetCountry()											{ return mCountry; }
 
 	private:
 		unsigned		mOrderID;
@@ -145,17 +145,17 @@ class CTServiceDBOrder
 		char			mLanguage[LANGUAGE_BUFFER];
 		char			mGameCode[GAME_CODE_BUFFER];
 		unsigned		mStationID;
-		unsigned short	mCustomerFirstName[CUSTOMER_NAME_BUFFER];
-		unsigned short	mCustomerLastName[CUSTOMER_NAME_BUFFER];
-		unsigned short	mCustomerPhone[CUSTOMER_PHONE_BUFFER];
-		unsigned short	mCustomerEmail[CUSTOMER_EMAIL_BUFFER];
-		unsigned short	mCardName[CARD_INFO_BUFFER];
-		unsigned short	mCardAddress1[CARD_INFO_BUFFER];
-		unsigned short	mCardAddress2[CARD_INFO_BUFFER];
-		unsigned short	mCardCity[CARD_INFO_BUFFER];
-		unsigned short	mCardState[CARD_INFO_BUFFER];
-		unsigned short	mCardZip[CARD_INFO_BUFFER];
-		unsigned short	mCountry[COUNTRY_BUFFER];
+		uint16_t	mCustomerFirstName[CUSTOMER_NAME_BUFFER];
+		uint16_t	mCustomerLastName[CUSTOMER_NAME_BUFFER];
+		uint16_t	mCustomerPhone[CUSTOMER_PHONE_BUFFER];
+		uint16_t	mCustomerEmail[CUSTOMER_EMAIL_BUFFER];
+		uint16_t	mCardName[CARD_INFO_BUFFER];
+		uint16_t	mCardAddress1[CARD_INFO_BUFFER];
+		uint16_t	mCardAddress2[CARD_INFO_BUFFER];
+		uint16_t	mCardCity[CARD_INFO_BUFFER];
+		uint16_t	mCardState[CARD_INFO_BUFFER];
+		uint16_t	mCardZip[CARD_INFO_BUFFER];
+		uint16_t	mCountry[COUNTRY_BUFFER];
 		char			mCreationDate[DATE_BUFFER];
 		char			mModifyDate[DATE_BUFFER];
 		char			mCompletionDate[DATE_BUFFER];

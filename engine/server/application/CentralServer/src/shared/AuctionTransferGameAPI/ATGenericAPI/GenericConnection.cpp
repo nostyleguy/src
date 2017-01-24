@@ -22,7 +22,7 @@ namespace NAMESPACE
 	using namespace std;
 	using namespace Base;
 
-	GenericConnection::GenericConnection(const char *host, short port, GenericAPICore *apiCore, unsigned reconnectTimeout, unsigned noDataTimeoutSecs, unsigned, unsigned incomingBufSizeInKB, unsigned outgoingBufSizeInKB, unsigned keepAlive, unsigned maxRecvMessageSizeInKB)
+	GenericConnection::GenericConnection(const char *host, int16_t port, GenericAPICore *apiCore, unsigned reconnectTimeout, unsigned noDataTimeoutSecs, unsigned, unsigned incomingBufSizeInKB, unsigned outgoingBufSizeInKB, unsigned keepAlive, unsigned maxRecvMessageSizeInKB)
 		: m_bConnected(CON_NONE),
 		m_apiCore(apiCore),
 		m_con(nullptr),
@@ -85,7 +85,7 @@ namespace NAMESPACE
 
 	void GenericConnection::OnRoutePacket(TcpConnection *, const unsigned char *data, int dataLen)
 	{
-		short type;
+		int16_t type;
 		unsigned track;
 
 		ByteStream msg(data, dataLen);
@@ -151,7 +151,7 @@ namespace NAMESPACE
 				// identifying us
 	//			m_apiCore->OnConnect(this);
 				Base::ByteStream msg;
-				put(msg, (short)REQUEST_SET_API);
+				put(msg, (int16_t)REQUEST_SET_API);
 				put(msg, (unsigned)0);	// track
 				put(msg, (unsigned)API_VERSION_CODE);
 				put(msg, GAME_RESOURCE);	// identify us as a game connection resource

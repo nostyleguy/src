@@ -26,7 +26,7 @@ namespace NAMESPACE
 
 	//----------------------------------------
 	GenericAPICore::GenericAPICore(const char *host,
-		short port,
+		int16_t port,
 		unsigned reqTimeout,
 		unsigned reconnectTimeout,
 		unsigned noDataTimeoutSecs,
@@ -51,7 +51,7 @@ namespace NAMESPACE
 
 	//----------------------------------------
 	GenericAPICore::GenericAPICore(const char *game, const char *hosts[],
-		const short port[],
+		const int16_t port[],
 		unsigned arraySize,
 		unsigned reqTimeout,
 		unsigned reconnectTimeout,

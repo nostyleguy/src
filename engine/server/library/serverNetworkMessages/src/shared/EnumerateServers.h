@@ -21,13 +21,13 @@ public:
 		PLANET_SERVER
 	};
 
-	EnumerateServers(const bool add, const std::string &address, const unsigned short port, const int serverType);
+	EnumerateServers(const bool add, const std::string &address, const uint16_t port, const int serverType);
 	explicit EnumerateServers(Archive::ReadIterator & source);
 	~EnumerateServers();
 
 	const bool             getAdd         () const;
 	const std::string &    getAddress     () const;
-	const unsigned short   getPort        () const;
+	const uint16_t   getPort        () const;
 	const int              getServerType  () const;
 
 private:
@@ -36,7 +36,7 @@ private:
 
 	Archive::AutoVariable<bool>            add;
 	Archive::AutoVariable<std::string>     address;
-	Archive::AutoVariable<unsigned short>  port;
+	Archive::AutoVariable<uint16_t>  port;
 	Archive::AutoVariable<int>             serverType;
 };
 
@@ -56,7 +56,7 @@ inline const std::string & EnumerateServers::getAddress() const
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short EnumerateServers::getPort() const
+inline const uint16_t EnumerateServers::getPort() const
 {
 	return port.get();
 }

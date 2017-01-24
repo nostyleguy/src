@@ -484,7 +484,7 @@ void Chat::sendSystemMessage   (const std::string & to, const ProsePackage & pp)
 
 void Chat::sendSystemMessage   (const ServerObject & to, const ProsePackage & pp)
 {
-	//MLS shortcut me
+	//MLS int16_tcut me
 	//Chat::sendSystemMessage(Unicode::wideToNarrow(to.getAssignedObjectFirstName()), pp);
 	Unicode::String oob;
 	OutOfBandPackager::pack (pp, -1, oob);

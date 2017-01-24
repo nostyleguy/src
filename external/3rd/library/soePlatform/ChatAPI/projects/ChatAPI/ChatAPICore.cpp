@@ -98,7 +98,7 @@ namespace ChatSystem
 
 	unsigned ChatAPICore::ms_numErrorStrings = sizeof(ChatAPICore::ms_errorStringsEnglish) / sizeof(const char *);
 
-	ChatAPICore::ChatAPICore(const char *registrar_host, short registrar_port, const char *server_host, short server_port)
+	ChatAPICore::ChatAPICore(const char *registrar_host, int16_t registrar_port, const char *server_host, int16_t server_port)
 		: GenericAPICore(registrar_host,
 			registrar_port,
 			180 /*request timeout*/,
@@ -1567,7 +1567,7 @@ namespace ChatSystem
 			if (R->getResult() == CHATRESULT_SUCCESS)
 			{
 				m_assignedServerHost = wideToNarrow(R->getHostname()).c_str();
-				m_assignedServerPort = (short)R->getPort();
+				m_assignedServerPort = (int16_t)R->getPort();
 			}
 		}
 		break;
@@ -1718,7 +1718,7 @@ namespace ChatSystem
 		}
 	}
 
-	void ChatAPICore::responseCallback(short type, ByteStream::ReadIterator &iter)
+	void ChatAPICore::responseCallback(int16_t type, ByteStream::ReadIterator &iter)
 	{
 		switch (type)
 		{
@@ -3053,7 +3053,7 @@ namespace ChatSystem
 		process();
 	}
 
-	void ChatAPICore::OnConnect(const char *host, short port)
+	void ChatAPICore::OnConnect(const char *host, int16_t port)
 	{
 		m_connected = true;
 
@@ -3137,7 +3137,7 @@ namespace ChatSystem
 		}
 	}
 
-	void ChatAPICore::OnDisconnect(const char *host, short port)
+	void ChatAPICore::OnDisconnect(const char *host, int16_t port)
 	{
 		// we may get OnDisconnect even when we're already disconnected,
 		// so protect against unnecessary OnDisconnects by checking m_connected

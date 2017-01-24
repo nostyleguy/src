@@ -146,7 +146,7 @@ inline char *DuplicateString(const char *source)
 	if (!source)
 		return nullptr;
 
-	const uint length = strlen(source)+1;
+	const uint32 length = strlen(source)+1;
 	char *result = NON_NULL (new char[length]);
 	memcpy(result, source, length);
 	return result;
@@ -171,10 +171,10 @@ inline char *DuplicateStringWithToLower(const char *source)
 	if (!source)
 		return nullptr;
 
-	const uint length = strlen(source)+1;
+	const uint32 length = strlen(source)+1;
 	char *result = NON_NULL (new char[length]);
 
-	for (uint i = 0; i < length; ++i)
+	for (uint32 i = 0; i < length; ++i)
 		result[i] = static_cast<char>(tolower(source[i]));
 
 	return result;
@@ -194,7 +194,7 @@ inline char *DuplicateStringWithToLower(const char *source)
 inline void imemset(void *data, int value, int length)
 {
 	DEBUG_FATAL(!data, ("nullptr data arg"));
-	memset(data, value, static_cast<uint>(length));
+	memset(data, value, static_cast<uint32>(length));
 }
 
 // ----------------------------------------------------------------------
@@ -212,25 +212,7 @@ inline void imemcpy(void *destination, const void *source, int length)
 {
 	DEBUG_FATAL(!destination, ("nullptr destination arg"));
 	DEBUG_FATAL(!source, ("nullptr source arg"));
-	memcpy(destination, source, static_cast<uint>(length));
-}
-
-// ----------------------------------------------------------------------
-/**
- * memmove with a integer length.
- * 
- * This routine will
- * 
- * @param destination  Location to copy to
- * @param source  Location to copy from
- * @param length  Number of bytes to copy
- */
-
-inline void *memmove(void *destination, const void *source, int length)
-{
-	DEBUG_FATAL(!destination, ("nullptr destination arg"));
-	DEBUG_FATAL(!source, ("nullptr source arg"));
-	return memmove(destination, source, static_cast<uint>(length));
+	memcpy(destination, source, static_cast<uint32_t>(length));
 }
 
 // ----------------------------------------------------------------------

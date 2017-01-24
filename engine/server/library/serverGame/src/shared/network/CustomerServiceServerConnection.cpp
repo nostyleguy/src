@@ -17,7 +17,7 @@
 #include "sharedObject/Object.h"
 
 //----------------------------------------------------------------------
-CustomerServiceServerConnection::CustomerServiceServerConnection(const std::string & a, const unsigned short p)
+CustomerServiceServerConnection::CustomerServiceServerConnection(const std::string & a, const uint16_t p)
 : ServerConnection(a, p, NetworkSetupData())
 {
 	LOG("CSServerConnection", ("Connection created...listening on (%s:%d)", a.c_str(), static_cast<int>(p)));

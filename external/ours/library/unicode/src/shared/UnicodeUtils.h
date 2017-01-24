@@ -76,7 +76,7 @@ namespace Unicode
 	bool                       isUnicode (const Unicode::String & theStr);
 
 	unsigned int               utf8Size(const Unicode::String & str);
-	unsigned short             utf8CharSize(const Unicode::unicode_char_t value);
+	uint16_t             utf8CharSize(const Unicode::unicode_char_t value);
 	void                       truncateToUTF8Size(Unicode::String & str, unsigned int size);
 
 	enum FieldAlignment
@@ -350,7 +350,7 @@ namespace Unicode
 	 * Return the size of the single character represented by the
 	 * given two byte value if it were stored as UTF-8.
 	 */
-	inline unsigned short utf8CharSize(const Unicode::unicode_char_t value)
+	inline uint16_t utf8CharSize(const Unicode::unicode_char_t value)
 	{
 		if (value < 0x80)
 			return 1;

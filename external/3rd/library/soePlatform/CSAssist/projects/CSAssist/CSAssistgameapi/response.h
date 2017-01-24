@@ -32,14 +32,14 @@ class Response
 	    virtual CSAssistGameAPITrack getTrack()				{ return (CSAssistGameAPITrack)mTrack; }
 		virtual CSAssistGameAPIResult getResult()			{ return (CSAssistGameAPIResult)mResult; }
 		inline void *getUserData()							{ return muserData; }
-		inline void init(short type, unsigned track, unsigned result)
+		inline void init(int16_t type, unsigned track, unsigned result)
 															{ mType = type; mTrack = track; mResult = result; }
 		inline void setResult(unsigned result)				{ mResult = result; }
 
 		virtual void decode(Base::ByteStream::ReadIterator &msg);
 
     protected:
-		short		mType;
+		int16_t		mType;
 	    unsigned	mTrack;
 		unsigned	mResult;
 		void		*muserData;
@@ -393,7 +393,7 @@ class ResConnectLB : public Response
 
 	private:
 		std::string		mServerName;
-		unsigned short	mServerPort;
+		uint16_t	mServerPort;
 		Request			*mConnectRequest;
 		Response		*mConnectResponse;
 

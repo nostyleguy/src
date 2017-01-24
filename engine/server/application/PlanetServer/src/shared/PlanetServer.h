@@ -51,7 +51,7 @@ public:
 	void                 mainLoop(void);
 	void                 setDone(char const *reasonfmt, ...);
 
-	const unsigned short getGameServicePort() const;
+	const uint16_t getGameServicePort() const;
 	const Service *      getGameService() const;
 	int                  getNumberOfGameServers() const;
 	int                  getObjectCountForServer(uint32 serverId) const;

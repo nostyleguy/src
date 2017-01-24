@@ -21,12 +21,12 @@ class TcpClient;
 class TcpServer
 {
 public:
-	TcpServer(Service * service, const std::string & bindAddress, const unsigned short bindPort);
+	TcpServer(Service * service, const std::string & bindAddress, const uint16_t bindPort);
 	~TcpServer();
 
 	TcpClient *           accept              ();
 	const std::string &   getBindAddress      () const;
-	const unsigned short  getBindPort         () const;
+	const uint16_t  getBindPort         () const;
 	void                  onConnectionClosed  (TcpClient *);
 	void                  update              ();
 
@@ -41,7 +41,7 @@ private:
 	HANDLE                    m_localIOCP;
 	std::vector<TcpClient *>  m_pendingConnections;
 	std::string               m_bindAddress;
-	unsigned short            m_bindPort;
+	uint16_t            m_bindPort;
 	Service *                 m_service;
 };
 

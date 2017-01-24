@@ -23,7 +23,7 @@ class GameNetworkMessage;
 class ServerConnection: public Connection, public MessageDispatch::Emitter
 {
 public:
-	          ServerConnection   (const std::string & address, const unsigned short port, const NetworkSetupData &);
+	          ServerConnection   (const std::string & address, const uint16_t port, const NetworkSetupData &);
 	          ServerConnection   (UdpConnectionMT *, TcpClient * t);
 	virtual   ~ServerConnection  ();
 
@@ -41,7 +41,7 @@ public:
 	virtual void                reportReceive           (const Archive::ByteStream & bs);
 	virtual void                reportSend              (const Archive::ByteStream & bs);
 	virtual void                        send                    (const GameNetworkMessage & message, const bool reliable);
-	virtual void                setProcessId            (const unsigned long newProcessId);
+	virtual void                setProcessId            (const uint32 newProcessId);
 
 public:
 	class MessageConnectionCallback: public MessageDispatch::MessageBase

@@ -106,7 +106,7 @@ namespace ChatSystem
 		//    ChatServer (which will automatically reroute the ChatAPI connection to 
 		//    a hotspare ChatServer if the provided choice is unavailable).
 		//    nullptr pointers are NOT valid input.
-		ChatAPI(const char *registrar_host, short registrar_port, const char *server_host, short server_port);
+		ChatAPI(const char *registrar_host, int16_t registrar_port, const char *server_host, int16_t server_port);
 		virtual ~ChatAPI();
 
 		// setRequestTimeout

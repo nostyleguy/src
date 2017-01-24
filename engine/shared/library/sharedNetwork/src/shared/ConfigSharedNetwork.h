@@ -62,7 +62,7 @@ public:
 	static bool  getLogConnectionOpenedClosed();
 	static bool  getLogConnectionDeferredMessagesWarning();
 	static int   getLogConnectionDeferredMessagesWarningInterval();
-	static bool  getIsPortReserved(unsigned short p);
+	static bool  getIsPortReserved(uint16_t p);
 	static bool  getNetworkHandlerDispatchThrottle();
 	static int   getNetworkHandlerDispatchThrottleTimeMilliseconds();
 	static int   getNetworkHandlerDispatchQueueSize();

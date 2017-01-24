@@ -412,7 +412,7 @@ unsigned randomTicketID()
 std::string GetHostName(unsigned port)
 //-----------------------------------------------
 {
-	const short hostLen(512);
+	const int16_t hostLen(512);
 	char hostName[hostLen] = {0};
 	char hostAndPort[hostLen+10] = {0};
 	std::string serverID;
@@ -427,16 +427,16 @@ std::string GetHostName(unsigned port)
 		sprintf(hostName,"localhost-%u", port);
 	}
 //#endif
-	std::string shortName = hostName;
-	unsigned dot = shortName.find_first_of(".");
+	std::string int16_tName = hostName;
+	unsigned dot = int16_tName.find_first_of(".");
 	if (dot != std::string::npos)
 	{
-		shortName = shortName.substr(0,dot);
+		int16_tName = int16_tName.substr(0,dot);
 	}
 #ifdef WIN32
-	_snprintf(hostAndPort, hostLen+10, "%s", shortName.c_str());
+	_snprintf(hostAndPort, hostLen+10, "%s", int16_tName.c_str());
 #else
-	snprintf(hostAndPort, hostLen+10, "%s", shortName.c_str());
+	snprintf(hostAndPort, hostLen+10, "%s", int16_tName.c_str());
 #endif
 	return (std::string)hostAndPort;
 }

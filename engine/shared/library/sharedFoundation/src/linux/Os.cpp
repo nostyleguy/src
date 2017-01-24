@@ -31,7 +31,7 @@ bool            Os::wasPaused;
 bool            Os::gameOver;
 bool            Os::shouldReturnFromAbort;
 char            Os::programName[PROGRAM_NAME_SIZE];
-char           *Os::shortProgramName;
+char           *Os::int16_tProgramName;
 pthread_t       Os::mainThreadId;
 bool            Os::threadDied;
 
@@ -100,11 +100,11 @@ void Os::installCommon(void)
 	FATAL(result == 0, ("GetModuleFileName failed"));
 
 	// get the file name without the path
-	shortProgramName = strrchr(programName, '\\');
-	if (shortProgramName)
-		++shortProgramName;
+	int16_tProgramName = strrchr(programName, '\\');
+	if (int16_tProgramName)
+		++int16_tProgramName;
 	else
-		shortProgramName = programName;
+		int16_tProgramName = programName;
 
 	// determine the number of processors by parsing /proc/cpuinfo
 	processorCount = 1;

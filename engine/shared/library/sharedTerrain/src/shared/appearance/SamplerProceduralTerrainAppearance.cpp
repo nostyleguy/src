@@ -695,7 +695,7 @@ void SamplerProceduralTerrainAppearance::generateBetween(Vector const & start_o,
 		generateList.push_back(GenerateList::value_type(startX, startZ));
 		generateList.push_back(GenerateList::value_type(endX, endZ));
 	}
-	// we only want to do the complicated calculations on the shorter side
+	// we only want to do the complicated calculations on the int16_ter side
 	else if (abs(endX - startX) < abs(endZ - startZ))
 	{
 		Line2d const line(start_o.x, start_o.z, end_o.x, end_o.z);

@@ -571,7 +571,7 @@ bool SwgSnapshot::send(GameServerConnection *connection) const {
         DEBUG_FATAL(networkId != baseData->object_id.getValue(), ("Object ID and row value didn't match"));
 
         uint32 crc = baseData->object_template_id.getValue();
-        CreateObjectByCrcMessage com(networkId, crc, static_cast<unsigned short>(baseData->type_id.getValue()), true, NetworkId(baseData->contained_by.getValue()));
+        CreateObjectByCrcMessage com(networkId, crc, static_cast<uint16_t>(baseData->type_id.getValue()), true, NetworkId(baseData->contained_by.getValue()));
 //		connection->send(com,true);
         DEBUG_REPORT_LOG(ConfigServerDatabase::getLogObjectLoading(), ("\tSent CreateObjectMessage for object %s\n", networkId.getValueString().c_str()));
 

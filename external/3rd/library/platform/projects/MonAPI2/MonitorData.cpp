@@ -113,13 +113,13 @@ void CMonitorData::resize_buffer(int new_size)
 	}
 }
 
-void CMonitorData::send(UdpConnection *con, short & sequence, short msg, char *data)
+void CMonitorData::send(UdpConnection *con, int16_t & sequence, int16_t msg, char *data)
 {
 	int len;
-	unsigned short size;
+	uint16_t size;
 	char *p;
 
-	size = (unsigned short)strlen(data) + 1;
+	size = (uint16_t)strlen(data) + 1;
 	p = (char *)malloc(size + 6);
 	len = 0;
 	packShort(p + len, len, msg);
@@ -131,11 +131,11 @@ void CMonitorData::send(UdpConnection *con, short & sequence, short msg, char *d
 	sequence++;
 }
 
-void CMonitorData::send(UdpConnection *con, short & sequence, short msg, char *data, int size)
+void CMonitorData::send(UdpConnection *con, int16_t & sequence, int16_t msg, char *data, int size)
 {
 	unsigned long compress_len;
 	int len;
-	unsigned short usize;
+	uint16_t usize;
 	char *p;
 	int rnt;
 
@@ -156,7 +156,7 @@ void CMonitorData::send(UdpConnection *con, short & sequence, short msg, char *d
 		return;
 	}
 
-	usize = (unsigned short)compress_len;
+	usize = (uint16_t)compress_len;
 	packShort(p + len, len, usize);
 	usize += 6;
 	con->Send(cUdpChannelReliable1, p, usize);
@@ -164,7 +164,7 @@ void CMonitorData::send(UdpConnection *con, short & sequence, short msg, char *d
 	sequence++;
 }
 
-bool CMonitorData::processHierarchyRequestBlock(UdpConnection *con, short & sequence)
+bool CMonitorData::processHierarchyRequestBlock(UdpConnection *con, int16_t & sequence)
 {
 	int x, size, count, len;
 	char temp[512];
@@ -214,7 +214,7 @@ bool CMonitorData::processHierarchyRequestBlock(UdpConnection *con, short & sequ
 }
 
 bool CMonitorData::processElementsRequest(
-	UdpConnection *con, short & sequence, char * data, int /* dataLen */, long lastUpdateTime)
+	UdpConnection *con, int16_t & sequence, char * data, int /* dataLen */, long lastUpdateTime)
 {
 	char	tmp[200];
 	int		x, id;
@@ -303,7 +303,7 @@ bool CMonitorData::processElementsRequest(
 	return 0;
 }
 
-bool CMonitorData::processDescriptionRequest(UdpConnection *con, short & sequence, char * userData, int, unsigned char *mark)
+bool CMonitorData::processDescriptionRequest(UdpConnection *con, int16_t & sequence, char * userData, int, unsigned char *mark)
 {
 	char line[4096];
 	char tmp[400];
@@ -639,7 +639,7 @@ int packByte(char *buffer, int & len, char value)
 	return 1;
 }
 
-int packShort(char *buffer, int & len, short value)
+int packShort(char *buffer, int & len, int16_t value)
 {
 	char *p;
 
@@ -657,7 +657,7 @@ int packShort(char *buffer, int & len, short value)
 	return 2;
 }
 
-int packShort(char *buffer, int & len, unsigned short value)
+int packShort(char *buffer, int & len, uint16_t value)
 {
 	char *p;
 
@@ -675,7 +675,7 @@ int packShort(char *buffer, int & len, unsigned short value)
 	return 2;
 }
 
-int unpackShort(char *buffer, int & len, short & value)
+int unpackShort(char *buffer, int & len, int16_t & value)
 {
 	char *p;
 	p = (char *)&value;
@@ -693,7 +693,7 @@ int unpackShort(char *buffer, int & len, short & value)
 	return 2;
 }
 
-int unpackShort(char *buffer, int & len, unsigned short & value)
+int unpackShort(char *buffer, int & len, uint16_t & value)
 {
 	char *p;
 	p = (char *)&value;

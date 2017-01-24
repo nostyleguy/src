@@ -36,7 +36,7 @@ Usage
 	'l' - long int (4)
 	'L' - long long int (8)
 	'i' - int (4)
-	's' - short int (2)
+	's' - int16_t int (2)
 	'S' - C-style, nullptr-terminated string (n + nullptr)
 	'Bn' - buffer, of size n.  Used for non-terminated strings, or
 	       other binary data.  
@@ -44,8 +44,8 @@ Usage
 
 extern int packString(char *buffer, int & len, char * value);
 extern int packByte(char *buffer, int & len, char value);
-extern int packShort(char *buffer, int & len, short value);
-extern int unpackShort(char *buffer, int & len, short & value);
+extern int packShort(char *buffer, int & len, int16_t value);
+extern int unpackShort(char *buffer, int & len, int16_t & value);
 extern int unpackByte( char *buffer, int & len, char & value);
  
 
@@ -94,21 +94,21 @@ enum MON_ERRORS
 class monMessage
 {
 public:
-	explicit monMessage(short  command, short sequence, short size);
+	explicit monMessage(int16_t  command, int16_t sequence, int16_t size);
 	explicit monMessage(const unsigned char * source);
 	monMessage(const monMessage &copy);
 	monMessage();
 	
 	~monMessage();
 
-	inline const unsigned short getCommand() const {return command;}
-	inline const unsigned short getSequence() const {return sequence;}
-	inline const unsigned short getSize() const {return size;}
+	inline const uint16_t getCommand() const {return command;}
+	inline const uint16_t getSequence() const {return sequence;}
+	inline const uint16_t getSize() const {return size;}
 
 private:
-	short command;
-	short sequence;
-	short size;
+	int16_t command;
+	int16_t sequence;
+	int16_t size;
 };
 
 
@@ -119,7 +119,7 @@ private:
 class stringMessage : public monMessage
 {
 public:
-	explicit stringMessage(const unsigned short command, const unsigned short sequence, const unsigned short size, char * data);
+	explicit stringMessage(const uint16_t command, const uint16_t sequence, const uint16_t size, char * data);
 	explicit stringMessage(const unsigned char * source);
 
 	~stringMessage();
@@ -137,18 +137,18 @@ private:
 class authReplyMessage : public monMessage
 {
 public:
-	explicit authReplyMessage(const unsigned short command, const unsigned short sequence, const unsigned short size, byte data);
+	explicit authReplyMessage(const uint16_t command, const uint16_t sequence, const uint16_t size, byte data);
 	explicit authReplyMessage(const unsigned char * source);
 
 	~authReplyMessage();
 
 	inline const unsigned char getData() const {return data;};
-	inline const short		 getVersion() const { return version; };
+	inline const int16_t		 getVersion() const { return version; };
 	inline void setData(const unsigned char newData) {data = newData;}
 
 private:
 	char data;
-	short version;
+	int16_t version;
 };
 
 //----------------------------------------------------------------
@@ -158,7 +158,7 @@ private:
 class dataReplyMessage : public monMessage
 {
 public:
-	explicit dataReplyMessage(const unsigned short command, const unsigned short sequence, const unsigned short size, unsigned char *data, int dataLen);
+	explicit dataReplyMessage(const uint16_t command, const uint16_t sequence, const uint16_t size, unsigned char *data, int dataLen);
 	explicit dataReplyMessage(const unsigned char * source);
 
 	~dataReplyMessage();
@@ -178,7 +178,7 @@ private:
 class simpleMessage : public monMessage
 {
 public:
-	explicit simpleMessage(const unsigned short command, const unsigned short sequence, const unsigned short size);
+	explicit simpleMessage(const uint16_t command, const uint16_t sequence, const uint16_t size);
 	explicit simpleMessage(const unsigned char * source);
 
 	~simpleMessage();
@@ -221,12 +221,12 @@ class CMonitorData {
 	int					m_sort;
 	char				*m_buffer;
 	int					m_nbuffer;
-	short				m_sequence;
+	int16_t				m_sequence;
 
 
 	int parseList( char **list, char *data, char tok , int max );
 	void resize_buffer(int new_size);
-	void send( UdpConnection *mConnection,short & sequence, short msg,char *data );
+	void send( UdpConnection *mConnection,int16_t & sequence, int16_t msg,char *data );
 
 public:
 
@@ -235,9 +235,9 @@ public:
 
 	int getCount(){ return m_ndata; }
 	int DataMax(){ return m_max; }
-	bool processHierarchyRequest(UdpConnection *con, short & sequence);
-	bool processElementsRequest( UdpConnection *con, short & sequence, char * userData, int dataLen , long lastUpdateTime);
-	bool processDescriptionRequest(UdpConnection *con, short & sequence, char * userData, int dataLen,unsigned char *mark);
+	bool processHierarchyRequest(UdpConnection *con, int16_t & sequence);
+	bool processElementsRequest( UdpConnection *con, int16_t & sequence, char * userData, int dataLen , long lastUpdateTime);
+	bool processDescriptionRequest(UdpConnection *con, int16_t & sequence, char * userData, int dataLen,unsigned char *mark);
 	int add(const char *label, int id, int ping, char *des );
 	int  setDescription( int Id, const char *Description , int & mode);
 	char *getDescription(int x){ if( m_ndata >= x ) return nullptr; return m_data[x].discription;}

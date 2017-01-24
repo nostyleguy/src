@@ -12,7 +12,7 @@ namespace AuctionTransfer
 	class CommonResponse : public GenericResponse
 	{
 	public:
-		CommonResponse(RequestTypes type, void *user) : GenericResponse((short)type, TRANSFER_SERVER_TIME_OUT, user) {}
+		CommonResponse(RequestTypes type, void *user) : GenericResponse((int16_t)type, TRANSFER_SERVER_TIME_OUT, user) {}
 		virtual ~CommonResponse() {}
 	};
 

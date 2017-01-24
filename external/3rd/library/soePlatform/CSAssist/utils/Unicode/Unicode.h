@@ -29,7 +29,7 @@ namespace NAMESPACE
 namespace Plat_Unicode 
 {
 
-	typedef unsigned short unicode_char_t;
+	typedef uint16_t unicode_char_t;
 
 	/**
 	* Standard Unicode string is UTF-16

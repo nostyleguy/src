@@ -94,7 +94,7 @@ void Snapshot::handleDeltasMessage(NetworkId & objectId, const DeltasMessage &ms
 	DEBUG_REPORT_LOG(count==0,("Deltas package was empty.\n"));
 	for (uint16 i=0; i< count; ++i)
 	{
-		unsigned short int index;
+		uint16_t index;
 		Archive::get(bs,index);
 
 		switch (packageId) {

@@ -237,7 +237,7 @@ void CTSAPIClient::onRequestDestinationServerList(const unsigned server_track, c
 
 //-----------------------------------------------------------------------
 
-void CTSAPIClient::onConnect(const char *host, const short port, const short current, const short max)
+void CTSAPIClient::onConnect(const char *host, const int16_t port, const int16_t current, const int16_t max)
 {
 	LOG("CTSAPI", ("CTSAPIClient::onConnect(%s, %d, %d, %d)", host, port, current, max));
 	REPORT_LOG(true, ("CTSAPIClient::onConnect(%s, %d, %d, %d)\n", host, port, current, max));
@@ -246,7 +246,7 @@ void CTSAPIClient::onConnect(const char *host, const short port, const short cur
 //-----------------------------------------------------------------------
 
 
-void CTSAPIClient::onDisconnect(const char *host, const short port, const short current, const short max)
+void CTSAPIClient::onDisconnect(const char *host, const int16_t port, const int16_t current, const int16_t max)
 {
 	LOG("CTSAPI", ("CTSAPIClient::onDisconnect(%s, %d, %d, %d)", host, port, current, max));
 	REPORT_LOG(true, ("CTSAPIClient::onDisconnect(%s, %d, %d, %d)\n", host, port, current, max));

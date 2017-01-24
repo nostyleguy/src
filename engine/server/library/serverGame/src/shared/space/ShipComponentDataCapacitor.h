@@ -35,7 +35,7 @@ private:
 	ShipComponentDataCapacitor & operator= (const ShipComponentDataCapacitor & rhs);
 
 public:
-	//-- these members are public because this instances of this class are short-lived temporary objects,
+	//-- these members are public because this instances of this class are int16_t-lived temporary objects,
 	//-- to simplify the conversion from the ShipObject & shipt representation of components.
 
 	float m_capacitorEnergyCurrent;

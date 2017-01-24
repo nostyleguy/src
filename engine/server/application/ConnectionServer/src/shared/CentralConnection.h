@@ -14,7 +14,7 @@
 class CentralConnection : public ServerConnection
 {
 public:
-	             CentralConnection   (const std::string & address, const unsigned short port);
+	             CentralConnection   (const std::string & address, const uint16_t port);
 	             CentralConnection(UdpConnectionMT *, TcpClient *);
 	             ~CentralConnection();
 	void         onConnectionClosed();

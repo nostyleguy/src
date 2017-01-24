@@ -955,7 +955,7 @@ void TargaFormatNamespace::_readRleColorMapped(
 				uint8 *lineIter=line;
 				while (rle)
 				{
-					index = (fileBytesPerPixel==1) ? unsigned(*lineIter) : unsigned(*(unsigned short *)lineIter);
+					index = (fileBytesPerPixel==1) ? unsigned(*lineIter) : unsigned(*(uint16_t *)lineIter);
 					lookup = cmap + index*bytesPerColorEntry;
 					switch (bytesPerColorEntry)
 					{
@@ -1180,8 +1180,8 @@ bool TargaFormat::saveImage(const Image &image, const char *filename)
    header.m_colorMapDepth   = 0;   // number of bits per palette entry
    header.m_xOriginOffset   = 0;   // horiz pixel coordinate of lower left of image
    header.m_yOriginOffset   = 0;   // vert pixel coordinate of lower left of image
-   header.m_width           = static_cast<unsigned short>(width);    // image width in pixels
-   header.m_height          = static_cast<unsigned short>(height);   // image height in pixels
+   header.m_width           = static_cast<uint16_t>(width);    // image width in pixels
+   header.m_height          = static_cast<uint16_t>(height);   // image height in pixels
    header.m_pixelDepth      = static_cast<unsigned char>(bitDepth);  // image color depth (bits per pixel)
    header.m_imageDescriptor = 0;   // image attribute flags (lower-left origin)
 	//------------------------------------------

@@ -184,7 +184,7 @@ namespace DB
 			return str;
 
 		//-- Justin Randall [4/11/2001 5:56:56 PM] --
-			// @todo : value is currently a char, should be an short or Unicode::String::value_type or wchar_t
+			// @todo : value is currently a char, should be an int16_t or Unicode::String::value_type or wchar_t
 			//return Unicode::String(Unicode::narrowToWide(m_value));
 		}
 	}

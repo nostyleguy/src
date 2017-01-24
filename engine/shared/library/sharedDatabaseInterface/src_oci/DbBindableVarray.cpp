@@ -138,6 +138,7 @@ bool BindableVarrayNumber::push_back(int value)
 
 // ----------------------------------------------------------------------
 
+#if not __x86_64__
 bool BindableVarrayNumber::push_back(long int value)
 {
 	OCINumber buffer;
@@ -153,9 +154,10 @@ bool BindableVarrayNumber::push_back(long int value)
 
 	return true;
 }
+#endif
 // ----------------------------------------------------------------------
 
-bool BindableVarrayNumber::push_back(int64 value)
+bool BindableVarrayNumber::push_back(int64_t value)
 {
 	OCINumber buffer;
 	
@@ -230,6 +232,7 @@ bool BindableVarrayNumber::push_back(bool IsNULL, int value)
 
 // ----------------------------------------------------------------------
 
+#if not __x86_64__
 bool BindableVarrayNumber::push_back(bool IsNULL, long int value)
 {
 	OCINumber buffer;
@@ -254,9 +257,11 @@ bool BindableVarrayNumber::push_back(bool IsNULL, long int value)
 
 	return true;
 }
+#endif
+
 // ----------------------------------------------------------------------
 
-bool BindableVarrayNumber::push_back(bool IsNULL, int64 value)
+bool BindableVarrayNumber::push_back(bool IsNULL, int64_t value)
 {
 	OCINumber buffer;
 	

@@ -280,12 +280,12 @@ void ShipClientUpdateTracker::update(float elapsedTime) // static
 				+ 4 // syncstamp
 				;
 
-			Archive::put(bs, static_cast<unsigned short>(4/*gcmMemberCount*/));
+			Archive::put(bs, static_cast<uint16_t>(4/*gcmMemberCount*/));
 			Archive::put(bs, s_gcmname.getCrc());
 			Archive::put(bs, (*k).second);
 			Archive::put(bs, false);
 			Archive::put(bs, s_sutmByteStreamLength);
-			Archive::put(bs, static_cast<unsigned short>(5/*sutmMemberCount*/));
+			Archive::put(bs, static_cast<uint16_t>(5/*sutmMemberCount*/));
 			Archive::put(bs, s_sutmname.getCrc());
 			Archive::put(bs, ship->getShipId());
 			PackedTransform const packedTransform(controller->getTransform());

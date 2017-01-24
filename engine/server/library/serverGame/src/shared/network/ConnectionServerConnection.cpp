@@ -67,7 +67,7 @@ ConnectionServerConnectionNamespace::ConnectionServerNetworkSetupData::Connectio
 
 // ======================================================================
 
-ConnectionServerConnection::ConnectionServerConnection(const std::string & a, const unsigned short p) :
+ConnectionServerConnection::ConnectionServerConnection(const std::string & a, const uint16_t p) :
 	ServerConnection(a, p, ConnectionServerNetworkSetupData()),
 	m_syncStampShort(0),
 	m_syncStampLong(0)

@@ -17,7 +17,7 @@ namespace ChatSystem
 		const ChatUnicodeString &getName() const;
 		const ChatUnicodeString &getAddress() const;
 		const ChatUnicodeString &getComment() const;
-		short getStatus() const; // 0 = offline, else = online
+		int16_t getStatus() const; // 0 = offline, else = online
 		
 		friend class ChatFriendStatusCore;
 	private:

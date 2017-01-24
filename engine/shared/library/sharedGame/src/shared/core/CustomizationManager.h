@@ -124,7 +124,7 @@ private:
 
 private:
 	static void clearData();
-	static std::string shortenPaletteName(std::string const & longPaletteName);
+	static std::string int16_tenPaletteName(std::string const & longPaletteName);
 };
 
 // ======================================================================

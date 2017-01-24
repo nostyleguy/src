@@ -61,7 +61,7 @@ namespace OsNamespace
 	bool                                          ms_mouseMoveInClient;
 	bool                                          ms_clickToMove;
 	char                                          ms_programName[PROGRAM_NAME_SIZE];
-	char                                         *ms_shortProgramName;
+	char                                         *ms_int16_tProgramName;
 	char                                          ms_programStartupDirectory[MAX_PATH];
 	Os::ThreadId                                  ms_mainThreadId;
 	Os::IsGdiVisibleHookFunction                  ms_isGdiVisibleHookFunction;
@@ -235,11 +235,11 @@ void Os::installCommon()
 	FATAL(result == 0, ("GetModuleFileName failed"));
 
 	// get the file name without the path
-	ms_shortProgramName = strrchr(ms_programName, '\\');
-	if (ms_shortProgramName)
-		++ms_shortProgramName;
+	ms_int16_tProgramName = strrchr(ms_programName, '\\');
+	if (ms_int16_tProgramName)
+		++ms_int16_tProgramName;
 	else
-		ms_shortProgramName = ms_programName;
+		ms_int16_tProgramName = ms_programName;
 
 	// switch into single-precision floating point mode
 	FloatingPointUnit::install();
@@ -376,17 +376,17 @@ const char *Os::getProgramName()
 
 // ----------------------------------------------------------------------
 /**
- * Return the short name of the running executable.
+ * Return the int16_t name of the running executable.
  *
  * The program name will not include the path, but will just be the file name.
  *
- * @return The short name of the running executable
+ * @return The int16_t name of the running executable
  * @see Os::getProgramName()
  */
 
 const char *Os::getShortProgramName()
 {
-	return ms_shortProgramName;
+	return ms_int16_tProgramName;
 }
 
 // ----------------------------------------------------------------------

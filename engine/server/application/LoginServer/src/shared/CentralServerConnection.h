@@ -22,7 +22,7 @@ public:
 	
 	CentralServerConnection(
 		const std::string & address,
-		const unsigned short port,
+		const uint16_t port,
 		const std::string &clusterName,
 		const uint32 clusterId);
 		

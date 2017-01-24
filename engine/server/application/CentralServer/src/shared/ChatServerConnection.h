@@ -16,16 +16,16 @@ class ChatServerConnection : public ServerConnection
 public:
 	explicit ChatServerConnection(UdpConnectionMT *, TcpClient *);
 	~ChatServerConnection();
-	const unsigned short  getGameServicePort  () const;
+	const uint16_t  getGameServicePort  () const;
 	void                  onConnectionClosed  ();
 	void                  onConnectionOpened  ();
 	void                  onReceive           (const Archive::ByteStream & message);
-	void                  setGameServicePort  (const unsigned short gameServicePort);
+	void                  setGameServicePort  (const uint16_t gameServicePort);
 
 private:
 	ChatServerConnection & operator = (const ChatServerConnection & rhs);
 	ChatServerConnection(const ChatServerConnection & source);
-	unsigned short  gameServicePort;
+	uint16_t  gameServicePort;
 
 }; //lint !e1712 default constructor not defined
 

@@ -18,7 +18,7 @@
 
 // ======================================================================
 
-DatabaseProcessConnection::DatabaseProcessConnection(std::string const &remoteAddress, unsigned short remotePort, uint32 pid) :
+DatabaseProcessConnection::DatabaseProcessConnection(std::string const &remoteAddress, uint16_t remotePort, uint32 pid) :
 	ServerConnection(remoteAddress, remotePort, NetworkSetupData()),
 	m_pid(pid)
 {

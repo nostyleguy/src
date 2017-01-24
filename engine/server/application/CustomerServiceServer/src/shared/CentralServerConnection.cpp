@@ -17,7 +17,7 @@
 
 //-----------------------------------------------------------------------
 
-CentralServerConnection::CentralServerConnection(const std::string & a, const unsigned short p) :
+CentralServerConnection::CentralServerConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData())
 {
 	LOG("CentralServerConnection", ("Connection created...listening on (%s:%d)", a.c_str(), static_cast<int>(p)));
@@ -56,7 +56,7 @@ void CentralServerConnection::onConnectionOpened()
 
 			//DEBUG_REPORT_LOG(true, ("CustServ: sending chat server service address(%s:%d)\n", address.c_str(), port));
 
-			const GenericValueTypeMessage<std::pair<std::string, unsigned short> > message("CustomerServiceServerChatServerServiceAddress", std::make_pair(address, port));
+			const GenericValueTypeMessage<std::pair<std::string, uint16_t> > message("CustomerServiceServerChatServerServiceAddress", std::make_pair(address, port));
 			
 			send(message, true);
 		}
@@ -78,7 +78,7 @@ void CentralServerConnection::onConnectionOpened()
 
 			//DEBUG_REPORT_LOG(true, ("CustServ: sending game server service address(%s:%d)\n", address.c_str(), port));
 
-			const GenericValueTypeMessage<std::pair<std::string, unsigned short> > message("CustomerServiceServerGameServerServiceAddress", std::make_pair(address, port));
+			const GenericValueTypeMessage<std::pair<std::string, uint16_t> > message("CustomerServiceServerGameServerServiceAddress", std::make_pair(address, port));
 			
 			send(message, true);
 		}

@@ -51,7 +51,7 @@ public:
 	friend class GenericConnection;
 
 	GenericAPICore(const char *host,
-								   short port,
+								   int16_t port,
 								   unsigned reqTimeout,
 								   unsigned reconnectTimeout,
 								   unsigned noDataTimeoutSecs = 5,
@@ -66,7 +66,7 @@ public:
      *   ALSO: cannot specify a 0 array size.
      */
     GenericAPICore(const char *game, const char *hosts[],
-								   const short port[],
+								   const int16_t port[],
                                    unsigned arraySize,
 								   unsigned reqTimeout,
 								   unsigned reconnectTimeout,
@@ -80,7 +80,7 @@ public:
 	virtual ~GenericAPICore();
 
 	void				process();
-	virtual void		responseCallback(short type, Base::ByteStream::ReadIterator &iter, GenericConnection *con) = 0;
+	virtual void		responseCallback(int16_t type, Base::ByteStream::ReadIterator &iter, GenericConnection *con) = 0;
 	virtual void		responseCallback(GenericResponse *R) = 0;
 
 	virtual void		OnDisconnect(GenericConnection *con) = 0;

@@ -26,7 +26,7 @@ const static unsigned CSASSIST_VERSION_MAGIC = (4 + (256 * 3) + (65536 * 2) + (6
 const static unsigned API_VERSION = 201;
 
 //------------------------------------------------
-Request::Request(short type, unsigned track) :
+Request::Request(int16_t type, unsigned track) :
 mType(type), mTrack(track), timeout(0)
 //----------------------------------------------
 {
@@ -36,7 +36,7 @@ mType(type), mTrack(track), timeout(0)
 void Request::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 2;
+	int16_t num_args = 2;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -62,7 +62,7 @@ RConnectCSAssist::RConnectCSAssist(unsigned track, Plat_Unicode::String GameName
 void RConnectCSAssist::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 4;
+	int16_t num_args = 4;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -92,7 +92,7 @@ void RConnectCSAssist::pack(ByteStream &msg)
 void RNewTicketActivity::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 4;
+	int16_t num_args = 4;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -114,7 +114,7 @@ void RNewTicketActivity::pack(ByteStream &msg)
 void RRegisterCharacter::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 5;
+	int16_t num_args = 5;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -136,7 +136,7 @@ void RRegisterCharacter::pack(ByteStream &msg)
 void RUnRegisterCharacter::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 4;
+	int16_t num_args = 4;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -157,7 +157,7 @@ void RUnRegisterCharacter::pack(ByteStream &msg)
 void RGetIssueHierarchy::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 4;
+	int16_t num_args = 4;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -178,7 +178,7 @@ RCreateTicket::RCreateTicket(unsigned track, const CSAssistGameAPITicket *ticket
 void RCreateTicket::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 5;
+	int16_t num_args = 5;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -202,7 +202,7 @@ RAppendComment::RAppendComment(unsigned track, const unsigned ticket, const unsi
 void RAppendComment::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 6;
+	int16_t num_args = 6;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -225,7 +225,7 @@ void RAppendComment::pack(ByteStream &msg)
 void RGetTicketByID::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 4;
+	int16_t num_args = 4;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -248,7 +248,7 @@ void RGetTicketByID::pack(ByteStream &msg)
 void RGetTicketComments::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 6;
+	int16_t num_args = 6;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -274,7 +274,7 @@ RGetTicketByCharacter::RGetTicketByCharacter(unsigned track, const unsigned uid,
 void RGetTicketByCharacter::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 7;
+	int16_t num_args = 7;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -297,7 +297,7 @@ void RGetTicketByCharacter::pack(ByteStream &msg)
 void RMarkTicketRead::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 3;
+	int16_t num_args = 3;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -318,7 +318,7 @@ RCancelTicket::RCancelTicket(unsigned track, const unsigned ticket, const unsign
 void RCancelTicket::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 5;
+	int16_t num_args = 5;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -339,7 +339,7 @@ void RCancelTicket::pack(ByteStream &msg)
 void RCommentCount::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 3;
+	int16_t num_args = 3;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -362,7 +362,7 @@ void RCommentCount::pack(ByteStream &msg)
 void RReplyGameLocation::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 7;
+	int16_t num_args = 7;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -384,7 +384,7 @@ void RReplyGameLocation::pack(ByteStream &msg)
 void RGetDocumentList::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 4;
+	int16_t num_args = 4;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -403,7 +403,7 @@ void RGetDocumentList::pack(ByteStream &msg)
 void RGetDocument::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 3;
+	int16_t num_args = 3;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -422,7 +422,7 @@ void RGetDocument::pack(ByteStream &msg)
 void RGetTicketXMLBlock::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 3;
+	int16_t num_args = 3;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -443,7 +443,7 @@ void RGetTicketXMLBlock::pack(ByteStream &msg)
 void RGetKBArticle::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 5;
+	int16_t num_args = 5;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -466,7 +466,7 @@ void RGetKBArticle::pack(ByteStream &msg)
 void RSearchKB::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 5;
+	int16_t num_args = 5;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);
@@ -488,7 +488,7 @@ mConnectString(connectString)
 void RConnectLB::pack(ByteStream &msg)
 //----------------------------------------------
 {
-	short num_args = 3;
+	int16_t num_args = 3;
 	put(msg, num_args);
 	put(msg, mType);
 	put(msg, mTrack);

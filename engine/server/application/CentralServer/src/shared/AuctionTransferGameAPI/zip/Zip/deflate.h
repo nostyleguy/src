@@ -75,7 +75,7 @@ typedef ush Pos;
 typedef Pos FAR Posf;
 typedef unsigned IPos;
 
-/* A Pos is an index in the character window. We use short instead of int to
+/* A Pos is an index in the character window. We use int16_t instead of int to
  * save space in the various tables. IPos is used only for parameter passing.
  */
 

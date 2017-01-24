@@ -18,7 +18,7 @@ class AuctionTransferAPI
 {
 public:
 	// constructor & destructor
-	AuctionTransferAPI(const char *hostName[], const short port[], int count, const char *identifier[], unsigned identifierCount, unsigned reqTimeout = 60, unsigned maxRecvMessageSizeInKB = 16000);
+	AuctionTransferAPI(const char *hostName[], const int16_t port[], int count, const char *identifier[], unsigned identifierCount, unsigned reqTimeout = 60, unsigned maxRecvMessageSizeInKB = 16000);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the identifier list does not have one entry for each connection, it is a simple list of world names that
 	// are handled by this API connection, no matter how many servers are connected to.  In the case of EQ2 this
@@ -32,8 +32,8 @@ public:
 	virtual ~AuctionTransferAPI();
 
 	// connect and disconnect call backs
-	virtual void onConnect(const char* hostname, unsigned short port, const short current, const short max) = 0;
-	virtual void onDisconnect(const char *host, const short port, const short current, const short max) = 0;
+	virtual void onConnect(const char* hostname, uint16_t port, const int16_t current, const int16_t max) = 0;
+	virtual void onDisconnect(const char *host, const int16_t port, const int16_t current, const int16_t max) = 0;
 
 
 	//processing

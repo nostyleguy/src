@@ -133,12 +133,12 @@ void CSAssistReceiver::OnRoutePacket(TcpConnection *con, const uchar *data, int 
 //--------------------------------------------------
 {
 	unsigned track, result;
-	short type;
+	int16_t type;
 	Response *res = 0;
 
 	ByteStream msg(data, dataLen);
 	ByteStream::ReadIterator iter = msg.begin();
-	iter.advance(2);	// skip short num_args
+	iter.advance(2);	// skip int16_t num_args
 	get(iter, type);
 	get(iter, track);
 	get(iter, result);

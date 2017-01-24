@@ -25,7 +25,7 @@ class Address
 {
 public:
 	Address();
-	Address(const std::string & dottedDecimalIPv4Address, unsigned short hostPort);
+	Address(const std::string & dottedDecimalIPv4Address, uint16_t hostPort);
 	Address(const Address & source);
 	Address(const struct sockaddr_in & ipv4sockaddr);
 	~Address();
@@ -36,7 +36,7 @@ public:
 	const bool operator!=(const Address & rhs) const;
 	const bool operator>(const Address & rhs) const;
 	const std::string &  getHostAddress() const;
-	const unsigned short getHostPort() const;
+	const uint16_t getHostPort() const;
 	size_t hashFunction() const;
 	const struct sockaddr_in & getSockAddr4() const;
 

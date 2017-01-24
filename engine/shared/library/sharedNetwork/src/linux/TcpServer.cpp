@@ -20,7 +20,7 @@
 
 //---------------------------------------------------------------------
 
-TcpServer::TcpServer(Service * service, const std::string & a, const unsigned short port) :
+TcpServer::TcpServer(Service * service, const std::string & a, const uint16_t port) :
 m_bindAddress(a, port),
 m_handle(-1),
 m_service(service),
@@ -78,7 +78,7 @@ const std::string & TcpServer::getBindAddress() const
 
 //---------------------------------------------------------------------
 
-const unsigned short TcpServer::getBindPort() const
+const uint16_t TcpServer::getBindPort() const
 {
 	return m_bindAddress.getHostPort();
 }

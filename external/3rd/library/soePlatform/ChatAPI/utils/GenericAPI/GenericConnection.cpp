@@ -19,7 +19,7 @@ namespace NAMESPACE
 
 		unsigned GenericConnection::ms_crcBytes = 0;
 
-		GenericConnection::GenericConnection(const char *host, short port, GenericAPICore *apiCore, unsigned reconnectTimeout, unsigned noDataTimeoutSecs, unsigned noAckTimeoutSecs, unsigned incomingBufSizeInKB, unsigned outgoingBufSizeInKB, unsigned keepAlive, unsigned maxRecvMessageSizeInKB, unsigned holdTime)
+		GenericConnection::GenericConnection(const char *host, int16_t port, GenericAPICore *apiCore, unsigned reconnectTimeout, unsigned noDataTimeoutSecs, unsigned noAckTimeoutSecs, unsigned incomingBufSizeInKB, unsigned outgoingBufSizeInKB, unsigned keepAlive, unsigned maxRecvMessageSizeInKB, unsigned holdTime)
 			: m_bConnected(false),
 			m_apiCore(apiCore),
 			m_con(nullptr),
@@ -74,7 +74,7 @@ namespace NAMESPACE
 			m_manager->Release();
 		}
 
-		void GenericConnection::changeHostPort(const char *host, short port)
+		void GenericConnection::changeHostPort(const char *host, int16_t port)
 		{
 			if (host &&
 				strcmp(host, "") != 0)
@@ -118,7 +118,7 @@ namespace NAMESPACE
 		void GenericConnection::OnRoutePacket(UdpConnection *con, const unsigned char *data, int dataLen)
 #endif
 		{
-			short type;
+			int16_t type;
 			unsigned track;
 
 #ifdef USE_SERIALIZE_LIB

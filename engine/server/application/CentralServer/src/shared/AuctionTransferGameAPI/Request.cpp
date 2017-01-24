@@ -63,7 +63,7 @@ void put(Base::ByteStream &msg, const Blob &source);
 
 //////////////////////////////////////////////////////////////////////////////////////
 ReplyRequest::ReplyRequest( RequestTypes type, unsigned serverTrack, unsigned responseCode )
-	: GenericRequest((short)type, serverTrack), m_responseCode(responseCode)
+	: GenericRequest((int16_t)type, serverTrack), m_responseCode(responseCode)
 {
 }
 
@@ -77,7 +77,7 @@ void ReplyRequest::pack(Base::ByteStream &msg)
 
 //////////////////////////////////////////////////////////////////////////////////////
 CommonRequest::CommonRequest( RequestTypes type, unsigned serverTrack, long long transactionID )
-	: GenericRequest((short)type, serverTrack), m_transactionID(transactionID)
+	: GenericRequest((int16_t)type, serverTrack), m_transactionID(transactionID)
 {
 }
 
@@ -90,7 +90,7 @@ void CommonRequest::pack(Base::ByteStream &msg)
 
 //////////////////////////////////////////////////////////////////////////////////////
 GetIDRequest::GetIDRequest( RequestTypes type, unsigned serverTrack )
-	: GenericRequest((short)type, serverTrack)
+	: GenericRequest((int16_t)type, serverTrack)
 {
 }
 
@@ -102,7 +102,7 @@ void GetIDRequest::pack(Base::ByteStream &msg)
 
 //////////////////////////////////////////////////////////////////////////////////////
 SendPrepareCompressedRequest::SendPrepareCompressedRequest(RequestTypes type, unsigned serverTrack, const char *serverID, long long transactionID, unsigned stationID, unsigned characterID, long long assetID, const unsigned char *xmlAsset, unsigned length)
-  : GenericRequest((short)type, serverTrack),  
+  : GenericRequest((int16_t)type, serverTrack),  
 	m_transactionID(transactionID), 
 	m_stationID(stationID),
 	m_characterID(characterID),
@@ -126,7 +126,7 @@ void SendPrepareCompressedRequest::pack(Base::ByteStream &msg)
 
 //////////////////////////////////////////////////////////////////////////////////////
 SendPrepareRequest::SendPrepareRequest( RequestTypes type, unsigned serverTrack, const char *serverID, long long transactionID, unsigned stationID, unsigned characterID, long long assetID, const char *xml )
-	: GenericRequest((short)type, serverTrack),  
+	: GenericRequest((int16_t)type, serverTrack),  
 	  m_transactionID(transactionID), 
 	  m_stationID(stationID),
 	  m_characterID(characterID),
@@ -150,7 +150,7 @@ void SendPrepareRequest::pack(Base::ByteStream &msg)
 
 //////////////////////////////////////////////////////////////////////////////////////
 ReplyGetCharacterListRequest::ReplyGetCharacterListRequest(RequestTypes type, unsigned serverTrack, unsigned responseCode, const Character characters[], unsigned numCharacters)
-: GenericRequest((short)type, serverTrack), m_responseCode(responseCode)
+: GenericRequest((int16_t)type, serverTrack), m_responseCode(responseCode)
 {
 	for(unsigned i = 0; i < numCharacters; i++)
 	{
@@ -173,7 +173,7 @@ void ReplyGetCharacterListRequest::pack(Base::ByteStream &msg)
 
 //////////////////////////////////////////////////////////////////////////////////////
 IdentifyServerRequest::IdentifyServerRequest(RequestTypes type, unsigned serverTrack, const char *serverID[], unsigned numIDs)
-: GenericRequest((short)type, serverTrack)
+: GenericRequest((int16_t)type, serverTrack)
 {
 	for(unsigned i = 0; i < numIDs; i++)
 	{
@@ -195,7 +195,7 @@ void IdentifyServerRequest::pack(Base::ByteStream &msg)
 //////////////////////////////////////////////////////////////////////////////////////
 SendAuditRequest::SendAuditRequest(	RequestTypes type, unsigned serverTrack, const char *gameCode, const char *serverCode, 
 					long long inGameAssetID, unsigned stationID, const char *event, const char *message)
-: GenericRequest((short)type, serverTrack), m_gameCode(gameCode), m_serverCode(serverCode), m_assetID(inGameAssetID),
+: GenericRequest((int16_t)type, serverTrack), m_gameCode(gameCode), m_serverCode(serverCode), m_assetID(inGameAssetID),
 	m_userID(stationID), m_event(event), m_message(message)
 {
 }

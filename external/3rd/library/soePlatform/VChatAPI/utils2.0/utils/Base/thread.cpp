@@ -301,7 +301,7 @@ RWLock::~RWLock()
 void RWLock::ReadLock()
 {
 	mReadMutex.Lock();
-	unsigned short readCount = mReadCount++;
+	uint16_t readCount = mReadCount++;
 	mReadMutex.Unlock();
 	if (readCount == 0)
 	{
@@ -315,7 +315,7 @@ void RWLock::ReadUnlock()
 {
 	assert(mReadCount);
 	mReadMutex.Lock();
-	unsigned short readCount = --mReadCount;
+	uint16_t readCount = --mReadCount;
 	mReadMutex.Unlock();
 	if (readCount == 0)
 	{

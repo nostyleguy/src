@@ -86,7 +86,7 @@ void DisplayTicket(const CSAssistGameAPITicket *t)
 		std::cout << "   Modified: " << date2 << "   Game/Server: " << wideToNarrow(game) << ", " << wideToNarrow(server);
 		std::cout << "\n   Character: " << wideToNarrow(character) << "\n   Status: " << t->status << "," << t->bugstatus;
 		std::cout << "\n   UID: " << t->uid << "\n   Category: ";
-		for (short i=0; i < CSASSIST_NUM_CATEGORIES; i++)
+		for (int16_t i=0; i < CSASSIST_NUM_CATEGORIES; i++)
 			std::cout << t->category[i] << ",";
 		std::cout << "\n   Language: " << wideToNarrow(language);
 		std::cout << "\n   Location: " << wideToNarrow(location);

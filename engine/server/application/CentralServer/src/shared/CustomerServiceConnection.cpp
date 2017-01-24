@@ -23,7 +23,7 @@ CustomerServiceConnection::~CustomerServiceConnection()
 
 //-----------------------------------------------------------------------
 
-const unsigned short CustomerServiceConnection::getGameServicePort() const
+const uint16_t CustomerServiceConnection::getGameServicePort() const
 {
 	return gameServicePort;
 }
@@ -55,7 +55,7 @@ void CustomerServiceConnection::onReceive(const Archive::ByteStream & message)
 
 //-----------------------------------------------------------------------
 
-void CustomerServiceConnection::setGameServicePort(const unsigned short p)
+void CustomerServiceConnection::setGameServicePort(const uint16_t p)
 {
 	gameServicePort = p;
 }

@@ -23,11 +23,11 @@ class TcpClient;
 class TcpServer
 {
 public:
-	TcpServer(Service * service, const std::string & bindAddress, const unsigned short bindPort);
+	TcpServer(Service * service, const std::string & bindAddress, const uint16_t bindPort);
 	~TcpServer();
 
 	const std::string &   getBindAddress      () const;
-	const unsigned short  getBindPort         () const;
+	const uint16_t  getBindPort         () const;
 	void                  onConnectionClosed  (TcpClient *);
 	void                  removeClient        (TcpClient *);
 	void                  update              ();

@@ -144,7 +144,7 @@ void NpcConversation::sendMessage(const Response & npcMessage, const Unicode::St
 
 	if (!localOob.empty ())
 	{
-		text.append (static_cast<size_t>(1), static_cast<unsigned short>(0));
+		text.append (static_cast<size_t>(1), static_cast<uint16_t>(0));
 		text.append (localOob);
 	}
 
@@ -255,7 +255,7 @@ void NpcConversation::sendResponses()
 
 		if (!localOob.empty ())
 		{
-			text.append (static_cast<size_t>(1), static_cast<unsigned short>(0));
+			text.append (static_cast<size_t>(1), static_cast<uint16_t>(0));
 			text.append (localOob);
 		}
 

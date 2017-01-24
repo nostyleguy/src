@@ -194,19 +194,19 @@ float SpaceDockingManagerNamespace::getShortExtentAxisLength(Object const & obje
 	if (   (axialBox.getWidth() < axialBox.getHeight())
 		&& (axialBox.getWidth() < axialBox.getDepth()))
 	{
-		// Width is the short axis
+		// Width is the int16_t axis
 
 		result = axialBox.getMax().x;
 	}
 	else if (axialBox.getHeight() < axialBox.getDepth())
 	{
-		// Height is the short axis
+		// Height is the int16_t axis
 
 		result = axialBox.getMax().y;
 	}
 	else
 	{
-		// Depth is the short axis
+		// Depth is the int16_t axis
 
 		result = axialBox.getMax().z;
 	}
@@ -221,26 +221,26 @@ Transform SpaceDockingManagerNamespace::getDockHardPoint(Object const & object)
 	CollisionProperty const * const collisionProperty = NON_NULL(object.getCollisionProperty());
 	AxialBox const axialBox = collisionProperty->getExtent_l()->getBoundingBox();
 
-	// Find the short axis of the object's extent
+	// Find the int16_t axis of the object's extent
 
 	if (   (axialBox.getWidth() < axialBox.getHeight())
 		&& (axialBox.getWidth() < axialBox.getDepth()))
 	{
-		// Width is the short axis
+		// Width is the int16_t axis
 
 		result.yaw_l(-PI_OVER_2);
 		result.move_l(Vector(0.0f, 0.0f, -axialBox.getMax().x));
 	}
 	else if (axialBox.getHeight() < axialBox.getDepth())
 	{
-		// Height is the short axis
+		// Height is the int16_t axis
 
 		result.pitch_l(PI_OVER_2);
 		result.move_l(Vector(0.0f, 0.0f, -axialBox.getMax().y));
 	}
 	else
 	{
-		// Depth is the short axis
+		// Depth is the int16_t axis
 
 		result.yaw_l(PI);
 		result.move_l(Vector(0.0f, 0.0f, -axialBox.getMax().z));

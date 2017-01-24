@@ -96,7 +96,7 @@ const unsigned int AutoByteStream::getItemCount() const
 void AutoByteStream::pack(ByteStream & target) const
 {
 	std::vector<AutoVariableBase *>::const_iterator i;
-	unsigned short packedSize=static_cast<unsigned short>(members.size());
+	uint16_t packedSize=static_cast<uint16_t>(members.size());
 	Archive::put(target,packedSize);
 	for(i = members.begin(); i != members.end(); ++i)
 	{
@@ -127,7 +127,7 @@ void AutoByteStream::pack(ByteStream & target) const
 void AutoByteStream::unpack(ReadIterator & source)
 {
 	std::vector<AutoVariableBase *>::iterator i;
-	unsigned short packedSize;
+	uint16_t packedSize;
 	Archive::get(source,packedSize);
 	for(i = members.begin(); i != members.end(); ++i)
 	{

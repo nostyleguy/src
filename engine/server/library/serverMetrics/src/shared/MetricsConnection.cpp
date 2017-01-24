@@ -14,7 +14,7 @@
 
 //-----------------------------------------------------------------------
 
-MetricsConnection::MetricsConnection(const std::string & a, const unsigned short p) :
+MetricsConnection::MetricsConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData())
 {
 }

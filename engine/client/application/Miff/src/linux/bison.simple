@@ -225,15 +225,15 @@ yyparse(YYPARSE_PARAM_ARG)
 {
   register int yystate;
   register int yyn;
-  register short *yyssp;
+  register int16_t *yyssp;
   register YYSTYPE *yyvsp;
   int yyerrstatus;	/*  number of tokens to shift before error messages enabled */
   int yychar1 = 0;		/*  lookahead token as an internal (translated) token number */
 
-  short	yyssa[YYINITDEPTH];	/*  the state stack			*/
+  int16_t	yyssa[YYINITDEPTH];	/*  the state stack			*/
   YYSTYPE yyvsa[YYINITDEPTH];	/*  the semantic value stack		*/
 
-  short *yyss = yyssa;		/*  refer to the stacks thru separate pointers */
+  int16_t *yyss = yyssa;		/*  refer to the stacks thru separate pointers */
   YYSTYPE *yyvs = yyvsa;	/*  to allow yyoverflow to reallocate them elsewhere */
 
 #ifdef YYLSP_NEEDED
@@ -296,7 +296,7 @@ yynewstate:
       /* Give user a chance to reallocate the stack */
       /* Use copies of these so that the &'s don't force the real ones into memory. */
       YYSTYPE *yyvs1 = yyvs;
-      short *yyss1 = yyss;
+      int16_t *yyss1 = yyss;
 #ifdef YYLSP_NEEDED
       YYLTYPE *yyls1 = yyls;
 #endif
@@ -336,7 +336,7 @@ yynewstate:
       yystacksize *= 2;
       if (yystacksize > YYMAXDEPTH)
 	yystacksize = YYMAXDEPTH;
-      yyss = (short *) alloca (yystacksize * sizeof (*yyssp));
+      yyss = (int16_t *) alloca (yystacksize * sizeof (*yyssp));
       __yy_memcpy ((char *)yyss, (char *)yyss1, size * sizeof (*yyssp));
       yyvs = (YYSTYPE *) alloca (yystacksize * sizeof (*yyvsp));
       __yy_memcpy ((char *)yyvs, (char *)yyvs1, size * sizeof (*yyvsp));
@@ -511,7 +511,7 @@ $   /* the action file gets copied in in place of this dollarsign */
 #if YYDEBUG != 0
   if (yydebug)
     {
-      short *ssp1 = yyss - 1;
+      int16_t *ssp1 = yyss - 1;
       fprintf (stderr, "state stack now");
       while (ssp1 != yyssp)
 	fprintf (stderr, " %d", *++ssp1);
@@ -644,7 +644,7 @@ yyerrpop:   /* pop the current state because it cannot handle the error token */
 #if YYDEBUG != 0
   if (yydebug)
     {
-      short *ssp1 = yyss - 1;
+      int16_t *ssp1 = yyss - 1;
       fprintf (stderr, "Error: state stack now");
       while (ssp1 != yyssp)
 	fprintf (stderr, " %d", *++ssp1);

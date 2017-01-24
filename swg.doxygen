@@ -42,7 +42,7 @@ PROJECT_NUMBER         =
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
-# quick idea about the purpose of the project. Keep the description short.
+# quick idea about the purpose of the project. Keep the description int16_t.
 
 PROJECT_BRIEF          =
 
@@ -137,7 +137,7 @@ INLINE_INHERITED_MEMB  = NO
 
 # If the FULL_PATH_NAMES tag is set to YES, doxygen will prepend the full path
 # before files name in the file list and in the header files. If set to NO the
-# shortest path that makes the file name unique will be used
+# int16_test path that makes the file name unique will be used
 # The default value is: YES.
 
 FULL_PATH_NAMES        = YES
@@ -163,7 +163,7 @@ STRIP_FROM_PATH        =
 
 STRIP_FROM_INC_PATH    =
 
-# If the SHORT_NAMES tag is set to YES, doxygen will generate much shorter (but
+# If the SHORT_NAMES tag is set to YES, doxygen will generate much int16_ter (but
 # less readable) file names. This can be useful is your file systems doesn't
 # support long names like on DOS, Mac, or CD-ROM.
 # The default value is: NO.

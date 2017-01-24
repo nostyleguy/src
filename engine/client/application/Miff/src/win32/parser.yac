@@ -68,10 +68,10 @@ void	checkPragmas(void);
 void	includeBinary(char *fname);
 
 void	write32(long i32);
-void	write16(short i16);
+void	write16(int16_t i16);
 void	write8(char i8);
 void	writeU32(unsigned long ui32);
-void	writeU16(unsigned short ui16);
+void	writeU16(uint16_t ui16);
 void	writeU8(unsigned char u8);
 void	writeDouble(double d);
 void	writeFloat(float f);
@@ -127,7 +127,7 @@ int		usePragmas;
 **------------------------------------------------------------------------*/
 int		iTemp, jTemp;
 char	byteTemp;
-short	wordTemp;
+int16_t	wordTemp;
 char	tempStr[MAX_STRING_SIZE];
 
 %}
@@ -448,8 +448,8 @@ l32AllocExpr:	exprL					{ write32($<ltype>1); }
 	|			l32AllocExpr ',' exprL	{ write32($<ltype>3); }
 	;
 
-l16AllocExpr:	exprL					{ write16((short) $<ltype>1); }
-	|			l16AllocExpr ',' exprL	{ write16((short) $<ltype>3); }
+l16AllocExpr:	exprL					{ write16((int16_t) $<ltype>1); }
+	|			l16AllocExpr ',' exprL	{ write16((int16_t) $<ltype>3); }
 	;
 
 l8AllocExpr:	exprL					{ write8((char) $<ltype>1); }
@@ -460,8 +460,8 @@ lU32AllocExpr:	exprL					{ writeU32($<ltype>1); }
 	|			lU32AllocExpr ',' exprL	{ writeU32($<ltype>3); }
 	;
 
-lU16AllocExpr:	exprL					{ writeU16((unsigned short) $<ltype>1); }
-	|			lU16AllocExpr ',' exprL	{ writeU16((unsigned short) $<ltype>3); }
+lU16AllocExpr:	exprL					{ writeU16((uint16_t) $<ltype>1); }
+	|			lU16AllocExpr ',' exprL	{ writeU16((uint16_t) $<ltype>3); }
 	;
 
 lU8AllocExpr:	exprL					{ writeU8((unsigned char) $<ltype>1); }
@@ -633,9 +633,9 @@ void write32(long i32)
 	MIFFinsertChunkData(&i32, sizeof(long));
 }
 
-void write16(short i16)
+void write16(int16_t i16)
 {
-	MIFFinsertChunkData(&i16, sizeof(short));
+	MIFFinsertChunkData(&i16, sizeof(int16_t));
 }
 
 void write8(char i8)
@@ -648,9 +648,9 @@ void writeU32(unsigned long ui32)
 	MIFFinsertChunkData(&ui32, sizeof(long));
 }
 
-void writeU16(unsigned short ui16)
+void writeU16(uint16_t ui16)
 {
-	MIFFinsertChunkData(&ui16, sizeof(short));
+	MIFFinsertChunkData(&ui16, sizeof(int16_t));
 }
 
 void writeU8(unsigned char ui8)

@@ -252,7 +252,7 @@ int UdpConnectionMT::TotalPendingBytes() const
 
 // ----------------------------------------------------------------------
 
-unsigned short UdpConnectionMT::ServerSyncStampShort() const
+uint16_t UdpConnectionMT::ServerSyncStampShort() const
 {
 	// TODO: is there a cleaner way to deal with this?
 	Guard lock(UdpLibraryMT::getMutex());

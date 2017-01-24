@@ -245,7 +245,7 @@ bool Extent::testSphereOnly(Vector const & begin, Vector const & end, Vector * s
 	Vector direction(end - begin);
 	if (!direction.normalize())
 	{
-		// handle the line segment being very short to avoid a divide-by-zero
+		// handle the line segment being very int16_t to avoid a divide-by-zero
 		if (testSphereOnly(begin))
 		{
 			if (surfaceNormal)

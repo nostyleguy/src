@@ -2876,8 +2876,10 @@ void CentralServer::update()
 	{
 		if ( m_pAuctionTransferClient == nullptr )
 		{
+			// TODO: FIXME
+			/*
                		const char* hostName[1] = { ConfigCentralServer::getAuctionServer() };
-               		const short port[1] = { (short)ConfigCentralServer::getAuctionPort() };
+               		const uint16_t port[1] = { (uint16_t)ConfigCentralServer::getAuctionPort() };
 
                		std::string s_id = ConfigCentralServer::getAuctionIDPrefix();
 			s_id += ConfigCentralServer::getClusterName(); 
@@ -2886,6 +2888,7 @@ void CentralServer::update()
                		identifier[ 0 ] = s_id.c_str();
 
                		m_pAuctionTransferClient = new AuctionTransferClient( hostName, port, 1, identifier, 1 );
+			*/
 		}
 		m_pAuctionTransferClient->process();
   	}

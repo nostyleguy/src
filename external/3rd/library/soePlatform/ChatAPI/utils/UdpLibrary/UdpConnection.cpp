@@ -250,7 +250,7 @@ void UdpConnection::SendTerminatePacket(int connectCode, DisconnectReason reason
     buf[0] = 0;
     buf[1] = cUdpPacketTerminate;
     UdpMisc::PutValue32(buf + 2, connectCode);
-    UdpMisc::PutValue16(buf + 6, (udp_ushort)reason);
+    UdpMisc::PutValue16(buf + 6, (uint16_t)reason);
     PhysicalSend(buf, 8, true);
 }
 
@@ -348,7 +348,7 @@ bool UdpConnection::InternalSend(UdpChannel channel, const udp_uchar *data, int 
             udp_uchar *bufPtr = tempBuffer;
             bufPtr[0] = 0;
             bufPtr[1] = cUdpPacketOrdered;
-            UdpMisc::PutValue16(bufPtr + 2, (udp_ushort)(++mOrderedCountOutgoing & 0xffff));
+            UdpMisc::PutValue16(bufPtr + 2, (uint16_t)(++mOrderedCountOutgoing & 0xffff));
             memcpy(bufPtr + 4, data, dataLen);
             if (data2 != nullptr)
                 memcpy(bufPtr + 4 + dataLen, data2, dataLen2);
@@ -361,7 +361,7 @@ bool UdpConnection::InternalSend(UdpChannel channel, const udp_uchar *data, int 
             udp_uchar *bufPtr = tempBuffer;
             bufPtr[0] = 0;
             bufPtr[1] = cUdpPacketOrdered2;
-            UdpMisc::PutValue16(bufPtr + 2, (udp_ushort)(++mOrderedCountOutgoing2 & 0xffff));
+            UdpMisc::PutValue16(bufPtr + 2, (uint16_t)(++mOrderedCountOutgoing2 & 0xffff));
             memcpy(bufPtr + 4, data, dataLen);
             if (data2 != nullptr)
                 memcpy(bufPtr + 4 + dataLen, data2, dataLen2);
@@ -731,7 +731,7 @@ void UdpConnection::ProcessCookedPacket(const udp_uchar *data, int dataLen)
             }
             case cUdpPacketOrdered:
             {
-                udp_ushort orderedStamp = UdpMisc::GetValue16(data + 2);
+                uint16_t orderedStamp = UdpMisc::GetValue16(data + 2);
                 int diff = (int)orderedStamp - (int)mOrderedStampLast;
                 if (diff <= 0)        // equal here makes it strip dupes too
                     diff += 0x10000;
@@ -749,7 +749,7 @@ void UdpConnection::ProcessCookedPacket(const udp_uchar *data, int dataLen)
             }
             case cUdpPacketOrdered2:
             {
-                udp_ushort orderedStamp = UdpMisc::GetValue16(data + 2);
+                uint16_t orderedStamp = UdpMisc::GetValue16(data + 2);
                 int diff = (int)orderedStamp - (int)mOrderedStampLast2;
                 if (diff <= 0)        // equal here makes it strip dupes too
                     diff += 0x10000;
@@ -898,7 +898,7 @@ void UdpConnection::ProcessCookedPacket(const udp_uchar *data, int dataLen)
                 if (mUdpManager->mProcessingInducedLag > 1000)   // if it has been over a second since our manager got processing time, then we should ignore the timing aspects of the clock-sync packets as we will have introduced too much lag ourselves.
                     break;
 
-                udp_ushort curStamp = mUdpManager->LocalSyncStampShort();
+                uint16_t curStamp = mUdpManager->LocalSyncStampShort();
                 int roundTime = UdpMisc::SyncStampShortDeltaTime(pp.timeStamp, curStamp);
 
                 mSyncStatCount++;
@@ -1374,7 +1374,7 @@ void UdpConnection::PhysicalSend(const udp_uchar *data, int dataLen, bool append
                 *crcPtr = (udp_uchar)(crc & 0xff);
                 break;
             case 2:
-                UdpMisc::PutValue16(crcPtr, (udp_ushort)(crc & 0xffff));
+                UdpMisc::PutValue16(crcPtr, (uint16_t)(crc & 0xffff));
                 break;
             case 3:
                 UdpMisc::PutValue24(crcPtr, crc & 0xffffff);

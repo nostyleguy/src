@@ -72,7 +72,7 @@ void put(Base::ByteStream & target, const CSAssistGameAPITicket & source)
 	put(target, scharacter);
 	put(target, (unsigned)source.status);
 	put(target, (unsigned)source.bugstatus);
-	for (short i=0; i < CSASSIST_NUM_CATEGORIES; i++)
+	for (int16_t i=0; i < CSASSIST_NUM_CATEGORIES; i++)
 		put(target, source.category[i]);
 	put(target, sdetails);
 	put(target, slanguage);
@@ -101,7 +101,7 @@ void get(ByteStream::ReadIterator & source, CSAssistGameAPITicket & target)
 		get(source, scharacter);
 		get(source, gstatus);
 		get(source, bstatus);
-		for (short i=0; i < CSASSIST_NUM_CATEGORIES; i++)
+		for (int16_t i=0; i < CSASSIST_NUM_CATEGORIES; i++)
 			get(source, target.category[i]);
 		get(source, sdetails);
 		get(source, slanguage);

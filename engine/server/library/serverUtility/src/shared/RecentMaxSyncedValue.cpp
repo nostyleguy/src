@@ -80,7 +80,7 @@ void RecentMaxSyncedValue::setValue(float value, uint32 curSyncStamp)
 	{
 		// We're reducing our maximum, so we need to preserve our old maximum to
 		// deal with usage in the time following the change.  We also need to
-		// deal with reducing the maximum multiple times in a short interval.
+		// deal with reducing the maximum multiple times in a int16_t interval.
 
 		// m_maximum is our previous maximum.  We know that the new maximum being
 		//   set is less than this value from the previous check, so the maximum

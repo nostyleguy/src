@@ -54,7 +54,17 @@ ResourcePoolObject::~ResourcePoolObject()
  */
 float ResourcePoolObject::harvest(float installedEfficiency, uint32 lastHarvestTime) const
 {
-	int elapsedTime=static_cast<int>(std::min(ServerClock::getInstance().getGameTimeSeconds(),m_depletedTimestamp) - lastHarvestTime);
+	int gameTime = ServerClock::getInstance().getGameTimeSeconds();
+	int ctor;
+	
+	if (gameTime < m_depletedTimestamp) {
+		ctor = gameTime;
+	} else {
+		ctor = m_depletedTimestamp;
+	}
+
+	int elapsedTime = (ctor-lastHarvestTime);
+	
 	if (elapsedTime < 0)
 		return 0;
 	float elapsedTicks =static_cast<float>(elapsedTime) / static_cast<float>(ConfigServerGame::getSecondsPerResourceTick());

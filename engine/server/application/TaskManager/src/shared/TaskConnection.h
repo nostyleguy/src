@@ -34,7 +34,7 @@ class TaskConnection : public Connection
 public:
 
 public:
-	TaskConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	TaskConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	TaskConnection(UdpConnectionMT *, TcpClient *);
 	~TaskConnection();
 

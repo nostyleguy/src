@@ -7,7 +7,7 @@
  *  ALGORITHM
  *
  *      The "deflation" process uses several Huffman trees. The more
- *      common source values are represented by shorter bit sequences.
+ *      common source values are represented by int16_ter bit sequences.
  *
  *      Each code tree is stored in a compressed form which is itself
  * a Huffman encoding of the lengths of all the code strings (in
@@ -174,10 +174,10 @@ local void gen_trees_header OF((void));
 #endif
 
 /* ===========================================================================
- * Output a short LSB first on the stream.
+ * Output a int16_t LSB first on the stream.
  * IN assertion: there is enough room in pendingBuf.
  */
-#define put_short(s, w) { \
+#define put_int16_t(s, w) { \
     put_byte(s, (uch)((w) & 0xff)); \
     put_byte(s, (uch)((ush)(w) >> 8)); \
 }
@@ -204,7 +204,7 @@ local void send_bits(s, value, length)
      */
     if (s->bi_valid > (int)Buf_size - length) {
         s->bi_buf |= (value << s->bi_valid);
-        put_short(s, s->bi_buf);
+        put_int16_t(s, s->bi_buf);
         s->bi_buf = (ush)value >> (Buf_size - s->bi_valid);
         s->bi_valid += length - Buf_size;
     } else {
@@ -219,7 +219,7 @@ local void send_bits(s, value, length)
   if (s->bi_valid > (int)Buf_size - len) {\
     int val = value;\
     s->bi_buf |= (val << s->bi_valid);\
-    put_short(s, s->bi_buf);\
+    put_int16_t(s, s->bi_buf);\
     s->bi_buf = (ush)val >> (Buf_size - s->bi_valid);\
     s->bi_valid += len - Buf_size;\
   } else {\
@@ -1157,7 +1157,7 @@ local void bi_flush(s)
     deflate_state *s;
 {
     if (s->bi_valid == 16) {
-        put_short(s, s->bi_buf);
+        put_int16_t(s, s->bi_buf);
         s->bi_buf = 0;
         s->bi_valid = 0;
     } else if (s->bi_valid >= 8) {
@@ -1174,7 +1174,7 @@ local void bi_windup(s)
     deflate_state *s;
 {
     if (s->bi_valid > 8) {
-        put_short(s, s->bi_buf);
+        put_int16_t(s, s->bi_buf);
     } else if (s->bi_valid > 0) {
         put_byte(s, (Byte)s->bi_buf);
     }
@@ -1199,8 +1199,8 @@ local void copy_block(s, buf, len, header)
     s->last_eob_len = 8; /* enough lookahead for inflate */
 
     if (header) {
-        put_short(s, (ush)len);   
-        put_short(s, (ush)~len);
+        put_int16_t(s, (ush)len);   
+        put_int16_t(s, (ush)~len);
 #ifdef DEBUG
         s->bits_sent += 2*16;
 #endif

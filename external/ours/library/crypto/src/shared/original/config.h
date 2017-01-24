@@ -1,6 +1,8 @@
 #ifndef CRYPTOPP_CONFIG_H
 #define CRYPTOPP_CONFIG_H
 
+#include <stdint.h>
+
 // ***************** Important Settings ********************
 
 // define this if running on a big-endian CPU
@@ -73,14 +75,14 @@ NAMESPACE_BEGIN(CryptoPP)
 
 typedef unsigned short word16;
 #if defined(__alpha) && !defined(_MSC_VER)
-typedef unsigned int word32;
+typedef uint32_t word32;
 #else
-typedef unsigned long word32;
+typedef uint32_t word32;
 #endif
 
 #if defined(__GNUC__) || defined(__MWERKS__)
 #define WORD64_AVAILABLE
-typedef unsigned long long word64;
+typedef uint64_t word64;
 #define W64LIT(x) x##LL
 #elif defined(_MSC_VER) || defined(__BCPLUSPLUS__)
 #define WORD64_AVAILABLE
@@ -97,18 +99,18 @@ typedef unsigned __int64 word64;
 // dword should be twice as big as word
 
 #if (defined(__GNUC__) && !defined(__alpha)) || defined(__MWERKS__)
-typedef unsigned long word;
-typedef unsigned long long dword;
+typedef uint32_t word;
+typedef uint64_t dword;
 #elif defined(_MSC_VER) || defined(__BCPLUSPLUS__)
 typedef unsigned __int32 word;
 typedef unsigned __int64 dword;
 #else
-typedef unsigned int word;
-typedef unsigned long dword;
+typedef uint32_t word;
+typedef uint32_t dword;
 #endif
 
-const unsigned int WORD_SIZE = sizeof(word);
-const unsigned int WORD_BITS = WORD_SIZE * 8;
+const uint32_t WORD_SIZE = sizeof(word);
+const uint32_t WORD_BITS = WORD_SIZE * 8;
 
 #define LOW_WORD(x) (word)(x)
 

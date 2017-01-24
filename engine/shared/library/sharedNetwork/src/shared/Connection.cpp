@@ -159,7 +159,7 @@ const int DeferredSendLogicalPacket::getSize() const
 
 //-----------------------------------------------------------------------
 
-Connection::Connection(const std::string & a, const unsigned short p, const NetworkSetupData & setup) :
+Connection::Connection(const std::string & a, const uint16_t p, const NetworkSetupData & setup) :
 udpConnection(0),
 m_pendingPackets(),
 m_currentFrame(0),
@@ -234,7 +234,7 @@ m_disconnectReason()
 				{
 					UdpManagerMT *m = new UdpManagerMT(&p);
 					m_udpManager = m;
-					setBindPort(static_cast<unsigned short>(m_udpManager->GetLocalPort()));
+					setBindPort(static_cast<uint16_t>(m_udpManager->GetLocalPort()));
 					if (isPortReserved(getBindPort()))
 					{
 						m_udpManager->Release();
@@ -321,7 +321,7 @@ m_disconnectReason()
 			char addrBuf[1024] = {"\0"};
 			newConnection->GetDestinationIp().GetAddress(addrBuf);
 			m_remoteAddress = addrBuf;
-			m_remotePort = static_cast<unsigned short>(newConnection->GetDestinationPort());
+			m_remotePort = static_cast<uint16_t>(newConnection->GetDestinationPort());
 		}
 	}
 	else
@@ -522,7 +522,7 @@ const std::string & Connection::getRemoteAddress() const
 
 //-----------------------------------------------------------------------
 
-const unsigned short Connection::getRemotePort() const
+const uint16_t Connection::getRemotePort() const
 {
 	return m_remotePort;
 }

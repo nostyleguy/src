@@ -14,7 +14,7 @@ public:
 	~ConfigServerConsole();
 
 	static const char * const  getServerAddress  ();
-	static unsigned short      getServerPort     ();
+	static uint16_t      getServerPort     ();
 
 	static void install();
 	static void remove();

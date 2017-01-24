@@ -84,35 +84,35 @@ private:
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConnectionServerConnection::getChatServicePort() const
+inline const uint16_t ConnectionServerConnection::getChatServicePort() const
 {
 	return m_chatServicePort;
 }
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConnectionServerConnection::getVoiceChatServicePort() const
+inline const uint16_t ConnectionServerConnection::getVoiceChatServicePort() const
 {
 	return m_voiceChatServicePort;
 }
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConnectionServerConnection::getCustomerServicePort() const
+inline const uint16_t ConnectionServerConnection::getCustomerServicePort() const
 {
 	return m_csServicePort;
 }
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConnectionServerConnection::getClientServicePortPrivate() const
+inline const uint16_t ConnectionServerConnection::getClientServicePortPrivate() const
 {
 	return m_clientServicePortPrivate;
 }
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConnectionServerConnection::getClientServicePortPublic() const
+inline const uint16_t ConnectionServerConnection::getClientServicePortPublic() const
 {
 	return m_clientServicePortPublic;
 }
@@ -124,7 +124,7 @@ inline int ConnectionServerConnection::getId() const
 }
 //----------------------------------------------------------------------
 
-inline const unsigned short ConnectionServerConnection::getGameServicePort() const
+inline const uint16_t ConnectionServerConnection::getGameServicePort() const
 {
 	return m_gameServicePort;
 }

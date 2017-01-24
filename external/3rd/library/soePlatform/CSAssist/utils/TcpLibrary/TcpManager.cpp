@@ -567,7 +567,7 @@ namespace NAMESPACE
 		return processedIncoming;
 	}
 
-	TcpConnection *TcpManager::EstablishConnection(const char *serverAddress, unsigned short serverPort, unsigned timeout)
+	TcpConnection *TcpManager::EstablishConnection(const char *serverAddress, uint16_t serverPort, unsigned timeout)
 	{
 		if (m_boundAsServer)
 		{

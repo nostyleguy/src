@@ -157,7 +157,7 @@ private:
 	void SubmitImmediateError(Response *res);
 	Response *getPending(CSAssistGameAPITrack track);
 	Response *getResponse(CSAssistGameAPITrack track);
-	Response *createServerResponse(short msgtype);
+	Response *createServerResponse(int16_t msgtype);
 	void SubmitRequestInt(Request *req, Response *res);
 	Response *getPendingInt(CSAssistGameAPITrack track);
 	Response *getResponseInt(CSAssistGameAPITrack track);
@@ -175,9 +175,9 @@ private:
 	TcpConnection			*m_connection;
 #endif
 
-	short					m_port;
-	short					m_oldPort;
-	short					m_connectedPort;
+	int16_t					m_port;
+	int16_t					m_oldPort;
+	int16_t					m_connectedPort;
 	std::string				m_ip;							// this is supposed to be non-internationalised
 	std::string				m_oldIP;						// this is supposed to be non-internationalised
 	std::string				m_connectedIP;					// this is supposed to be non-internationalised

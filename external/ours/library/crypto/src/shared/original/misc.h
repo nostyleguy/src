@@ -15,39 +15,39 @@ NAMESPACE_BEGIN(CryptoPP)
 
 // ************** misc functions ***************
 
-#define GETBYTE(x, y) (unsigned int)(((x)>>(8*(y)))&255)
+#define GETBYTE(x, y) (unsigned long)(((x)>>(8*(y)))&255)
 // this one may be faster on a Pentium
 // #define GETBYTE(x, y) (((byte *)&(x))[y])
 
-unsigned int Parity(unsigned long);
-unsigned int BytePrecision(unsigned long);
-unsigned int BitPrecision(unsigned long);
-unsigned long Crop(unsigned long, unsigned int size);
+unsigned long Parity(unsigned long);
+unsigned long BytePrecision(unsigned long);
+unsigned long BitPrecision(unsigned long);
+unsigned long Crop(unsigned long, unsigned long size);
 
-inline unsigned int bitsToBytes(unsigned int bitCount)
+inline unsigned long bitsToBytes(unsigned long bitCount)
 {
 	return ((bitCount+7)/(8));
 }
 
-inline unsigned int bytesToWords(unsigned int byteCount)
+inline unsigned long bytesToWords(unsigned long byteCount)
 {
 	return ((byteCount+WORD_SIZE-1)/WORD_SIZE);
 }
 
-inline unsigned int bitsToWords(unsigned int bitCount)
+inline unsigned long bitsToWords(unsigned long bitCount)
 {
 	return ((bitCount+WORD_BITS-1)/(WORD_BITS));
 }
 
-void xorbuf(byte *buf, const byte *mask, unsigned int count);
-void xorbuf(byte *output, const byte *input, const byte *mask, unsigned int count);
+void xorbuf(byte *buf, const byte *mask, unsigned long count);
+void xorbuf(byte *output, const byte *input, const byte *mask, unsigned long count);
 
-inline unsigned int RoundDownToMultipleOf(unsigned int n, unsigned int m)
+inline unsigned long RoundDownToMultipleOf(unsigned long n, unsigned long m)
 {
 	return n - n%m;
 }
 
-inline unsigned int RoundUpToMultipleOf(unsigned int n, unsigned int m)
+inline unsigned long RoundUpToMultipleOf(unsigned long n, unsigned long m)
 {
 	return RoundDownToMultipleOf(n+m-1, m);
 }
@@ -91,37 +91,37 @@ std::string IntToString(T a)
 
 // ************** rotate functions ***************
 
-template <class T> inline T rotlFixed(T x, unsigned int y)
+template <class T> inline T rotlFixed(T x, unsigned long y)
 {
 	assert(y < sizeof(T)*8);
 	return (x<<y) | (x>>(sizeof(T)*8-y));
 }
 
-template <class T> inline T rotrFixed(T x, unsigned int y)
+template <class T> inline T rotrFixed(T x, unsigned long y)
 {
 	assert(y < sizeof(T)*8);
 	return (x>>y) | (x<<(sizeof(T)*8-y));
 }
 
-template <class T> inline T rotlVariable(T x, unsigned int y)
+template <class T> inline T rotlVariable(T x, unsigned long y)
 {
 	assert(y < sizeof(T)*8);
 	return (x<<y) | (x>>(sizeof(T)*8-y));
 }
 
-template <class T> inline T rotrVariable(T x, unsigned int y)
+template <class T> inline T rotrVariable(T x, unsigned long y)
 {
 	assert(y < sizeof(T)*8);
 	return (x>>y) | (x<<(sizeof(T)*8-y));
 }
 
-template <class T> inline T rotlMod(T x, unsigned int y)
+template <class T> inline T rotlMod(T x, unsigned long y)
 {
 	y %= sizeof(T)*8;
 	return (x<<y) | (x>>(sizeof(T)*8-y));
 }
 
-template <class T> inline T rotrMod(T x, unsigned int y)
+template <class T> inline T rotrMod(T x, unsigned long y)
 {
 	y %= sizeof(T)*8;
 	return (x>>y) | (x<<(sizeof(T)*8-y));
@@ -129,36 +129,36 @@ template <class T> inline T rotrMod(T x, unsigned int y)
 
 #ifdef INTEL_INTRINSICS
 
-template<> inline word32 rotlFixed<word32>(word32 x, unsigned int y)
+template<> inline word32 rotlFixed<word32>(word32 x, unsigned long y)
 {
 	assert(y < 32);
 	return y ? _lrotl(x, y) : x;
 }
 
-template<> inline word32 rotrFixed<word32>(word32 x, unsigned int y)
+template<> inline word32 rotrFixed<word32>(word32 x, unsigned long y)
 {
 	assert(y < 32);
 	return y ? _lrotr(x, y) : x;
 }
 
-template<> inline word32 rotlVariable<word32>(word32 x, unsigned int y)
+template<> inline word32 rotlVariable<word32>(word32 x, unsigned long y)
 {
 	assert(y < 32);
 	return _lrotl(x, y);
 }
 
-template<> inline word32 rotrVariable<word32>(word32 x, unsigned int y)
+template<> inline word32 rotrVariable<word32>(word32 x, unsigned long y)
 {
 	assert(y < 32);
 	return _lrotr(x, y);
 }
 
-template<> inline word32 rotlMod<word32>(word32 x, unsigned int y)
+template<> inline word32 rotlMod<word32>(word32 x, unsigned long y)
 {
 	return _lrotl(x, y);
 }
 
-template<> inline word32 rotrMod<word32>(word32 x, unsigned int y)
+template<> inline word32 rotrMod<word32>(word32 x, unsigned long y)
 {
 	return _lrotr(x, y);
 }
@@ -167,36 +167,36 @@ template<> inline word32 rotrMod<word32>(word32 x, unsigned int y)
 
 #ifdef PPC_INTRINSICS
 
-template<> inline word32 rotlFixed<word32>(word32 x, unsigned int y)
+template<> inline word32 rotlFixed<word32>(word32 x, unsigned long y)
 {
 	assert(y < 32);
 	return y ? __rlwinm(x,y,0,31) : x;
 }
 
-template<> inline word32 rotrFixed<word32>(word32 x, unsigned int y)
+template<> inline word32 rotrFixed<word32>(word32 x, unsigned long y)
 {
 	assert(y < 32);
 	return y ? __rlwinm(x,32-y,0,31) : x;
 }
 
-template<> inline word32 rotlVariable<word32>(word32 x, unsigned int y)
+template<> inline word32 rotlVariable<word32>(word32 x, unsigned long y)
 {
 	assert(y < 32);
 	return (__rlwnm(x,y,0,31));
 }
 
-template<> inline word32 rotrVariable<word32>(word32 x, unsigned int y)
+template<> inline word32 rotrVariable<word32>(word32 x, unsigned long y)
 {
 	assert(y < 32);
 	return (__rlwnm(x,32-y,0,31));
 }
 
-template<> inline word32 rotlMod<word32>(word32 x, unsigned int y)
+template<> inline word32 rotlMod<word32>(word32 x, unsigned long y)
 {
 	return (__rlwnm(x,y,0,31));
 }
 
-template<> inline word32 rotrMod<word32>(word32 x, unsigned int y)
+template<> inline word32 rotrMod<word32>(word32 x, unsigned long y)
 {
 	return (__rlwnm(x,32-y,0,31));
 }
@@ -297,17 +297,17 @@ inline T bitReverse(T value)
 }
 
 template <class T>
-void byteReverse(T *out, const T *in, unsigned int byteCount)
+void byteReverse(T *out, const T *in, unsigned long byteCount)
 {
-	unsigned int count = (byteCount+sizeof(T)-1)/sizeof(T);
-	for (unsigned int i=0; i<count; i++)
+	unsigned long count = (byteCount+sizeof(T)-1)/sizeof(T);
+	for (unsigned long i=0; i<count; i++)
 		out[i] = byteReverse(in[i]);
 }
 
 template <class T>
-inline void GetUserKeyLittleEndian(T *out, unsigned int outlen, const byte *in, unsigned int inlen)
+inline void GetUserKeyLittleEndian(T *out, unsigned long outlen, const byte *in, unsigned long inlen)
 {
-	const unsigned int U = sizeof(T);
+	const unsigned long U = sizeof(T);
 	assert(inlen <= outlen*U);
 	memcpy(out, in, inlen);
 	memset((byte *)out+inlen, 0, outlen*U-inlen);
@@ -317,9 +317,9 @@ inline void GetUserKeyLittleEndian(T *out, unsigned int outlen, const byte *in, 
 }
 
 template <class T>
-inline void GetUserKeyBigEndian(T *out, unsigned int outlen, const byte *in, unsigned int inlen)
+inline void GetUserKeyBigEndian(T *out, unsigned long outlen, const byte *in, unsigned long inlen)
 {
-	const unsigned int U = sizeof(T);
+	const unsigned long U = sizeof(T);
 	assert(inlen <= outlen*U);
 	memcpy(out, in, inlen);
 	memset((byte *)out+inlen, 0, outlen*U-inlen);
@@ -468,23 +468,23 @@ T StringToWord(const std::string &str, bool highFirst = true)
 // ************** key length query ***************
 
 /// support query of fixed key length
-template <unsigned int N>
+template <unsigned long N>
 class FixedKeyLength
 {
 public:
 	enum {KEYLENGTH=N, MIN_KEYLENGTH=N, MAX_KEYLENGTH=N, DEFAULT_KEYLENGTH=N};
 	/// returns the key length
-	static unsigned int KeyLength(unsigned int) {return KEYLENGTH;}
+	static unsigned long KeyLength(unsigned long) {return KEYLENGTH;}
 };
 
 /// support query of variable key length, template parameters are default, min, max, multiple (default multiple 1)
-template <unsigned int D, unsigned int N, unsigned int M, unsigned int Q=1>
+template <unsigned long D, unsigned long N, unsigned long M, unsigned long Q=1>
 class VariableKeyLength
 {
 public:
 	enum {MIN_KEYLENGTH=N, MAX_KEYLENGTH=M, DEFAULT_KEYLENGTH=D, KEYLENGTH_MULTIPLE=Q};
 	/// returns the smallest valid key length in bytes that is >= min(n, MAX_KEYLENGTH)
-	static unsigned int KeyLength(unsigned int n)
+	static unsigned long KeyLength(unsigned long n)
 	{
 		assert(KEYLENGTH_MULTIPLE > 0 && MIN_KEYLENGTH % KEYLENGTH_MULTIPLE == 0 && MAX_KEYLENGTH % KEYLENGTH_MULTIPLE == 0);
 		if (n < MIN_KEYLENGTH)
@@ -503,7 +503,7 @@ class SameKeyLengthAs
 public:
 	enum {MIN_KEYLENGTH=T::MIN_KEYLENGTH, MAX_KEYLENGTH=T::MAX_KEYLENGTH, DEFAULT_KEYLENGTH=T::DEFAULT_KEYLENGTH};
 	/// returns the smallest valid key length in bytes that is >= min(n, MAX_KEYLENGTH)
-	static unsigned int KeyLength(unsigned int keylength)
+	static unsigned long KeyLength(unsigned long keylength)
 		{return T::KeyLength(keylength);}
 };
 
@@ -520,11 +520,11 @@ public:
 //! a block of memory allocated using SecAlloc
 template <class T> struct SecBlock
 {
-	explicit SecBlock(unsigned int size=0)
+	explicit SecBlock(unsigned long size=0)
 		: size(size) {ptr = SecAlloc(T, size);}
 	SecBlock(const SecBlock<T> &t)
 		: size(t.size) {ptr = SecAlloc(T, size); memcpy(ptr, t.ptr, size*sizeof(T));}
-	SecBlock(const T *t, unsigned int len)
+	SecBlock(const T *t, unsigned long len)
 		: size(len) {ptr = SecAlloc(T, len); memcpy(ptr, t, len*sizeof(T));}
 	~SecBlock()
 		{SecFree(ptr, size);}
@@ -551,13 +551,13 @@ template <class T> struct SecBlock
 
 // CodeWarrior defines _MSC_VER
 #if !defined(_MSC_VER) || defined(__MWERKS__)
-	T *operator +(unsigned int offset)
+	T *operator +(unsigned long offset)
 		{return ptr+offset;}
-	const T *operator +(unsigned int offset) const
+	const T *operator +(unsigned long offset) const
 		{return ptr+offset;}
-	T& operator[](unsigned int index)
+	T& operator[](unsigned long index)
 		{assert(index<size); return ptr[index];}
-	const T& operator[](unsigned int index) const
+	const T& operator[](unsigned long index) const
 		{assert(index<size); return ptr[index];}
 #endif
 
@@ -570,9 +570,9 @@ template <class T> struct SecBlock
 	T* End()
 		{return ptr+size;}
 
-	unsigned int Size() const {return size;}
+	unsigned long Size() const {return size;}
 
-	void Assign(const T *t, unsigned int len)
+	void Assign(const T *t, unsigned long len)
 	{
 		New(len);
 		memcpy(ptr, t, len*sizeof(T));
@@ -600,7 +600,7 @@ template <class T> struct SecBlock
 		return !operator==(t);
 	}
 
-	void New(unsigned int newSize)
+	void New(unsigned long newSize)
 	{
 		if (newSize != size)
 		{
@@ -611,7 +611,7 @@ template <class T> struct SecBlock
 		}
 	}
 
-	void CleanNew(unsigned int newSize)
+	void CleanNew(unsigned long newSize)
 	{
 		if (newSize != size)
 		{
@@ -623,7 +623,7 @@ template <class T> struct SecBlock
 		memset(ptr, 0, size*sizeof(T));
 	}
 
-	void Grow(unsigned int newSize)
+	void Grow(unsigned long newSize)
 	{
 		if (newSize > size)
 		{
@@ -635,7 +635,7 @@ template <class T> struct SecBlock
 		}
 	}
 
-	void CleanGrow(unsigned int newSize)
+	void CleanGrow(unsigned long newSize)
 	{
 		if (newSize > size)
 		{
@@ -648,7 +648,7 @@ template <class T> struct SecBlock
 		}
 	}
 
-	void Resize(unsigned int newSize)
+	void Resize(unsigned long newSize)
 	{
 		if (newSize != size)
 		{
@@ -662,7 +662,7 @@ template <class T> struct SecBlock
 
 	void swap(SecBlock<T> &b);
 
-	unsigned int size;
+	unsigned long size;
 	T *ptr;
 };
 

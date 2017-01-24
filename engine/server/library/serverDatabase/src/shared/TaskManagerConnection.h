@@ -14,7 +14,7 @@
 class TaskManagerConnection : public ServerConnection
 {
 public:
-	TaskManagerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	TaskManagerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	~TaskManagerConnection();
 	void                          onConnectionClosed      ();
 	void                          onConnectionOpened      ();

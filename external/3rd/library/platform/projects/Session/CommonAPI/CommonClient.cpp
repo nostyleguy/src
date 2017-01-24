@@ -87,8 +87,8 @@ void CConnectionHandler::OnTerminated(UdpConnection *)
 
 void CConnectionHandler::OnRoutePacket(UdpConnection *, const uchar *data, int dataLen)
 {
-    unsigned short  itemCount;
-    unsigned short  messageId = 0;
+    uint16_t  itemCount;
+    uint16_t  messageId = 0;
     unsigned        trackingNumber = 0;
     
 	if (dataLen < 8)
@@ -518,12 +518,12 @@ void apiCore::OnConnectionFailed(const std::string & address, unsigned connectio
     mParent->OnConnectionFailed(address.c_str(),connectionCount);
 }
 
-bool apiCore::IsTrackedMessage(const unsigned short messageId)
+bool apiCore::IsTrackedMessage(const uint16_t messageId)
 {
     return mTrackedMessages.find(messageId) != mTrackedMessages.end();
 }
 
-void apiCore::RegisterTrackedMessage(const unsigned short messageId)
+void apiCore::RegisterTrackedMessage(const uint16_t messageId)
 {
     mTrackedMessages.insert(messageId);
 }
@@ -674,8 +674,8 @@ void apiCore::Process()
     //  Process Tracked Callback Queue
     while (!mTrackedCallbackQueue.empty())
     {
-		unsigned short  itemCount;
-		unsigned short  messageId = 0;
+		uint16_t  itemCount;
+		uint16_t  messageId = 0;
 
         Base::ByteStream & stream = mTrackedCallbackQueue.front();
         Base::ByteStream::ReadIterator streamIterator = stream.begin();
@@ -712,7 +712,7 @@ void apiCore::Process()
 const int DEFAULT_TIMEOUT   = 20;
 
 
-apiTrackedRequest::apiTrackedRequest(apiTrackingNumber trackingNumber, const unsigned short messageId, const void * userData, unsigned duration) :
+apiTrackedRequest::apiTrackedRequest(apiTrackingNumber trackingNumber, const uint16_t messageId, const void * userData, unsigned duration) :
     mTrackingNumber(trackingNumber),
     mMessageId(messageId),
     mUserData(userData),
@@ -743,7 +743,7 @@ apiTrackingNumber apiTrackedRequest::GetTrackingNumber()
     return mTrackingNumber;
 }
 
-unsigned short apiTrackedRequest::GetMessageId()
+uint16_t apiTrackedRequest::GetMessageId()
 {
     return mMessageId;
 }

@@ -10,7 +10,7 @@ using namespace Base;
 using namespace Plat_Unicode;
 
 //----------------------------------------
-CTServiceAPICore::CTServiceAPICore(const char *host[], const short port[], int count, CTServiceAPI *api, const char *game)
+CTServiceAPICore::CTServiceAPICore(const char *host[], const int16_t port[], int count, CTServiceAPI *api, const char *game)
 : GenericAPICore(game, host, port, count, 45, 5, 0, 90, 32, 32), 
   m_api(api), m_mappedServerTrack(1000)
 //----------------------------------------
@@ -40,7 +40,7 @@ void CTServiceAPICore::OnDisconnect(GenericConnection *con)
 }
 
 //----------------------------------------
-void CTServiceAPICore::responseCallback(short type, Base::ByteStream::ReadIterator &iter, GenericConnection *con)
+void CTServiceAPICore::responseCallback(int16_t type, Base::ByteStream::ReadIterator &iter, GenericConnection *con)
 // Received a request/notification from the server
 //----------------------------------------
 {

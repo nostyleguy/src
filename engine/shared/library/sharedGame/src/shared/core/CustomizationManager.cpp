@@ -560,8 +560,8 @@ CustomizationManager::PaletteColumns CustomizationManager::getPaletteColumnDataS
 */
 CustomizationManager::PaletteColumns CustomizationManager::getPaletteColumnDataLongName(std::string const & paletteName)
 {
-	std::string const & shortPaletteName = shortenPaletteName(paletteName);
-	return ms_paletteColumnData[shortPaletteName]; 
+	std::string const & int16_tPaletteName = int16_tenPaletteName(paletteName);
+	return ms_paletteColumnData[int16_tPaletteName]; 
 }
 
 //----------------------------------------------------------------------
@@ -573,7 +573,7 @@ std::map<std::string, CustomizationManager::PaletteColumns> const & Customizatio
 
 //----------------------------------------------------------------------
 
-std::string CustomizationManager::shortenPaletteName(std::string const & longPaletteName)
+std::string CustomizationManager::int16_tenPaletteName(std::string const & longPaletteName)
 {
 	std::string result;
 	std::string::size_type startingPos = longPaletteName.find_last_of("/");

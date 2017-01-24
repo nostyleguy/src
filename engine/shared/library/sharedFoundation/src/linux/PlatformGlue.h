@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
-typedef unsigned short int WORD;
+typedef uint16_t WORD;
 typedef unsigned long int DWORD;
 typedef bool BOOL;
 typedef long long     __int64; //lint !e13 !e19 // Error: 13 (Bad type), Error: 19 (Useless declaration) // -TRF- Lint preprocessor discrepency, @todo look into this.

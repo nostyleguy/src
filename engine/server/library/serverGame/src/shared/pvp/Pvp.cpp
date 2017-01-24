@@ -611,7 +611,7 @@ void Pvp::updateTimedFlags(const void *context)
 {
 	UNREF(context);
 
-	unsigned long const updateTimeMs = static_cast<unsigned long>(ConfigServerGame::getPvpUpdateTimeMs());
+	uint32_t const updateTimeMs = static_cast<uint32_t>(ConfigServerGame::getPvpUpdateTimeMs());
 	PvpInternal::updateTimedFlags(updateTimeMs);
 	getScheduler().setCallback(Pvp::updateTimedFlags, nullptr, updateTimeMs);
 }
@@ -843,14 +843,14 @@ int Pvp::calculateGcwImperialScorePercentile(std::string const & gcwCategory, st
 	{
 		std::map<std::string, std::pair<int64, int64> >::const_iterator const iterImperial = gcwImperialScore.find(gcwCategory);
 		if (iterImperial != gcwImperialScore.end())
-			totalImperial = static_cast<uint64>(std::max(0ll, iterImperial->second.first)) + static_cast<uint64>(std::max(0ll, iterImperial->second.second));
+			totalImperial = static_cast<uint64>(std::max((int64)0ll, iterImperial->second.first)) + static_cast<uint64>(std::max((int64)0ll, iterImperial->second.second));
 	}
 
 	uint64 total = totalImperial;
 	{
 		std::map<std::string, std::pair<int64, int64> >::const_iterator const iterRebel = gcwRebelScore.find(gcwCategory);
 		if (iterRebel != gcwRebelScore.end())
-			total += (static_cast<uint64>(std::max(0ll, iterRebel->second.first)) + static_cast<uint64>(std::max(0ll, iterRebel->second.second)));
+			total += (static_cast<uint64>(std::max((int64)0ll, iterRebel->second.first)) + static_cast<uint64>(std::max((int64)0ll, iterRebel->second.second)));
 	}
 
 	// if the score is less than 1, treat it as a tie; note that score is scaled by 1000

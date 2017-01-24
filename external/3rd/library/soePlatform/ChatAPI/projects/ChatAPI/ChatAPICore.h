@@ -22,7 +22,7 @@ namespace ChatSystem
 	class ChatAPICore : public GenericAPI::GenericAPICore
 	{
 	public:
-		ChatAPICore(const char *registrar_host, short registrar_port, const char *server_host, short server_port);
+		ChatAPICore(const char *registrar_host, int16_t registrar_port, const char *server_host, int16_t server_port);
 		virtual ~ChatAPICore();
 
 		void setRequestTimeout(unsigned requestTimeout) { m_requestTimeout = requestTimeout; }
@@ -31,11 +31,11 @@ namespace ChatSystem
 		unsigned RequestDestroyAvatar(ChatAvatar *avatar);
 
 		virtual void responseCallback(GenericAPI::GenericResponse *res);
-		virtual void responseCallback(short type, Base::ByteStream::ReadIterator &iter);
+		virtual void responseCallback(int16_t type, Base::ByteStream::ReadIterator &iter);
 		void clearRequestCount() { m_requestCount = 0; }
 
-		virtual void OnConnect(const char *host, short port);
-		virtual void OnDisconnect(const char *host, short port);
+		virtual void OnConnect(const char *host, int16_t port);
+		virtual void OnDisconnect(const char *host, int16_t port);
 
 		void setAPI(ChatAPI *api) { m_api = api; }
 		ChatAvatar   *getAvatar(const ChatUnicodeString &avatarName, const ChatUnicodeString &avatarAddress);
@@ -86,9 +86,9 @@ namespace ChatSystem
 		std::string m_registrarHost;
 		std::string m_defaultServerHost;
 		std::string m_assignedServerHost;
-		short m_registrarPort;
-		short m_defaultServerPort;
-		short m_assignedServerPort;
+		int16_t m_registrarPort;
+		int16_t m_defaultServerPort;
+		int16_t m_assignedServerPort;
 
 		time_t m_timeSinceLastDisconnect;
 		bool m_rcvdRegistrarResponse;

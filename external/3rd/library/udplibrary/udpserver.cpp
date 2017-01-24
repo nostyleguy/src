@@ -136,11 +136,11 @@ int main(int argc, char **argv)
 		{
 			count++;
 			char buf[2000];
-			*(ushort *)buf = (ushort)count;
+			*(uint16_t *)buf = (uint16_t)count;
 			int len = (rand() % 1000) + 10;
-			*(ushort *)(buf + len - 2) = (ushort)count;
+			*(uint16_t *)(buf + len - 2) = (uint16_t)count;
 			myPlayerManager->SendPacketToAll(cUdpChannelReliable1, buf, len);
-			printf("OUT=%d/%d  LEN=%d      \n", *(ushort *)buf, *(ushort *)(buf + len - 2), len);
+			printf("OUT=%d/%d  LEN=%d      \n", *(uint16_t *)buf, *(uint16_t *)(buf + len - 2), len);
 		}
 
 		myUdpManager->GiveTime();

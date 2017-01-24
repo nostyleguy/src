@@ -283,7 +283,7 @@ void LoggingServerApi::PacketSend(LogicalPacket *lp)
 	}
 }
 
-void LoggingServerApi::Log16(const char *filename, int typeCode, const unsigned short *ucs2String)
+void LoggingServerApi::Log16(const char *filename, int typeCode, const uint16_t *ucs2String)
 {
 	char buffer[32768];
 	char * const ptr_end_buffer = &buffer[sizeof(buffer)];
@@ -293,7 +293,7 @@ void LoggingServerApi::Log16(const char *filename, int typeCode, const unsigned 
 	strcpy(ptr, filename);
 	ptr += strlen(ptr) + 1;
 
-	const unsigned short *rawPtr = ucs2String;
+	const uint16_t *rawPtr = ucs2String;
 	char *startPtr = ptr;
 	for (;;)
 	{

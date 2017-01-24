@@ -14,7 +14,7 @@
 // ======================================================================
 
 int                          FloatingPointUnit::updateNumber;
-ushort                       FloatingPointUnit::status;
+uint16_t                       FloatingPointUnit::status;
 FloatingPointUnit::Precision FloatingPointUnit::precision;
 FloatingPointUnit::Rounding  FloatingPointUnit::rounding;
 bool                         FloatingPointUnit::exceptionEnabled[E_max];

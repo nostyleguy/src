@@ -181,6 +181,6 @@ int main(int argc, char **argv)
 
 void MyConnectionHandler::OnRoutePacket(UdpConnection * /*con*/, const uchar *data, int dataLen)
 {
-	printf("IN=%d/%d LEN=%d    \n", *(ushort *)data, *(ushort *)(data + dataLen - 2), dataLen);
+	printf("IN=%d/%d LEN=%d    \n", *(uint16_t *)data, *(uint16_t *)(data + dataLen - 2), dataLen);
 }
 

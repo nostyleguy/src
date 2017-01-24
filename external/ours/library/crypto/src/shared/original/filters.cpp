@@ -29,13 +29,13 @@ void Filter::Insert(Filter *filter)
 
 // *************************************************************
 
-FilterWithBufferedInput::BlockQueue::BlockQueue(unsigned int blockSize, unsigned int maxBlocks)
+FilterWithBufferedInput::BlockQueue::BlockQueue(uint32_t blockSize, uint32_t maxBlocks)
 	: m_buffer(blockSize * maxBlocks)
 {
 	ResetQueue(blockSize, maxBlocks);
 }
 
-void FilterWithBufferedInput::BlockQueue::ResetQueue(unsigned int blockSize, unsigned int maxBlocks)
+void FilterWithBufferedInput::BlockQueue::ResetQueue(uint32_t blockSize, uint32_t maxBlocks)
 {
 	m_buffer.Resize(blockSize * maxBlocks);
 	m_blockSize = blockSize;
@@ -58,9 +58,9 @@ const byte *FilterWithBufferedInput::BlockQueue::GetBlock()
 		return nullptr;
 }
 
-const byte *FilterWithBufferedInput::BlockQueue::GetContigousBlocks(unsigned int &numberOfBlocks)
+const byte *FilterWithBufferedInput::BlockQueue::GetContigousBlocks(uint32_t &numberOfBlocks)
 {
-	numberOfBlocks = STDMIN(numberOfBlocks, STDMIN((unsigned int)(m_buffer.End()-m_begin), m_size)/m_blockSize);
+	numberOfBlocks = STDMIN(numberOfBlocks, STDMIN((uint32_t)(m_buffer.End()-m_begin), m_size)/m_blockSize);
 	const byte *ptr = m_begin;
 	if ((m_begin+=m_blockSize*numberOfBlocks) == m_buffer.End())
 		m_begin = m_buffer;
@@ -68,10 +68,10 @@ const byte *FilterWithBufferedInput::BlockQueue::GetContigousBlocks(unsigned int
 	return ptr;
 }
 
-unsigned int FilterWithBufferedInput::BlockQueue::GetAll(byte *outString)
+uint32_t FilterWithBufferedInput::BlockQueue::GetAll(byte *outString)
 {
-	unsigned int size = m_size;
-	unsigned int numberOfBlocks = m_maxBlocks;
+	uint32_t size = m_size;
+	uint32_t numberOfBlocks = m_maxBlocks;
 	const byte *ptr = GetContigousBlocks(numberOfBlocks);
 	memcpy(outString, ptr, numberOfBlocks*m_blockSize);
 	memcpy(outString+numberOfBlocks*m_blockSize, m_begin, m_size);
@@ -79,18 +79,18 @@ unsigned int FilterWithBufferedInput::BlockQueue::GetAll(byte *outString)
 	return size;
 }
 
-void FilterWithBufferedInput::BlockQueue::Put(const byte *inString, unsigned int length)
+void FilterWithBufferedInput::BlockQueue::Put(const byte *inString, uint32_t length)
 {
 	assert(m_size + length <= m_buffer.size);
 	byte *end = (m_size < (unsigned)(m_buffer+m_buffer.size-m_begin)) ? m_begin + m_size : m_begin + m_size - m_buffer.size;
-	unsigned int len = STDMIN(length, (unsigned int)(m_buffer+m_buffer.size-end));
+	uint32_t len = STDMIN(length, (uint32_t)(m_buffer+m_buffer.size-end));
 	memcpy(end, inString, len);
 	if (len < length)
 		memcpy(m_buffer, inString+len, length-len);
 	m_size += length;
 }
 
-FilterWithBufferedInput::FilterWithBufferedInput(unsigned int firstSize, unsigned int blockSize, unsigned int lastSize, BufferedTransformation *outQ)
+FilterWithBufferedInput::FilterWithBufferedInput(uint32_t firstSize, uint32_t blockSize, uint32_t lastSize, BufferedTransformation *outQ)
 	: Filter(outQ), m_firstSize(firstSize), m_blockSize(blockSize), m_lastSize(lastSize)
 	, m_firstInputDone(false)
 	, m_queue(1, m_firstSize)
@@ -102,16 +102,16 @@ void FilterWithBufferedInput::Put(byte inByte)
 	Put(&inByte, 1);
 }
 
-void FilterWithBufferedInput::Put(const byte *inString, unsigned int length)
+void FilterWithBufferedInput::Put(const byte *inString, uint32_t length)
 {
 	if (length == 0)
 		return;
 
-	unsigned int newLength = m_queue.CurrentSize() + length;
+	uint32_t newLength = m_queue.CurrentSize() + length;
 
 	if (!m_firstInputDone && newLength >= m_firstSize)
 	{
-		unsigned int len = m_firstSize - m_queue.CurrentSize();
+		uint32_t len = m_firstSize - m_queue.CurrentSize();
 		m_queue.Put(inString, len);
 		FirstPut(m_queue.GetContigousBlocks(m_firstSize));
 		assert(m_queue.CurrentSize() == 0);
@@ -128,7 +128,7 @@ void FilterWithBufferedInput::Put(const byte *inString, unsigned int length)
 		{
 			while (newLength > m_lastSize && m_queue.CurrentSize() > 0)
 			{
-				unsigned int len = newLength - m_lastSize;
+				uint32_t len = newLength - m_lastSize;
 				const byte *ptr = m_queue.GetContigousBlocks(len);
 				NextPut(ptr, len);
 				newLength -= len;
@@ -136,7 +136,7 @@ void FilterWithBufferedInput::Put(const byte *inString, unsigned int length)
 
 			if (newLength > m_lastSize)
 			{
-				unsigned int len = newLength - m_lastSize;
+				uint32_t len = newLength - m_lastSize;
 				NextPut(inString, len);
 				inString += len;
 				newLength -= len;
@@ -153,7 +153,7 @@ void FilterWithBufferedInput::Put(const byte *inString, unsigned int length)
 			if (newLength >= m_blockSize + m_lastSize && m_queue.CurrentSize() > 0)
 			{
 				assert(m_queue.CurrentSize() < m_blockSize);
-				unsigned int len = m_blockSize - m_queue.CurrentSize();
+				uint32_t len = m_blockSize - m_queue.CurrentSize();
 				m_queue.Put(inString, len);
 				inString += len;
 				NextPut(m_queue.GetBlock(), m_blockSize);
@@ -199,7 +199,7 @@ void FilterWithBufferedInput::ForceNextPut()
 
 // *************************************************************
 
-ProxyFilter::ProxyFilter(Filter *filter, unsigned int firstSize, unsigned int lastSize, BufferedTransformation *outQ)
+ProxyFilter::ProxyFilter(Filter *filter, uint32_t firstSize, uint32_t lastSize, BufferedTransformation *outQ)
 	: FilterWithBufferedInput(firstSize, 1, lastSize, outQ), m_filter(filter), m_proxy(nullptr)
 {
 	if (m_filter.get())
@@ -232,7 +232,7 @@ void ProxyFilter::SetFilter(Filter *filter)
 		m_proxy=nullptr;
 }
 
-void ProxyFilter::NextPut(const byte *s, unsigned int len) 
+void ProxyFilter::NextPut(const byte *s, uint32_t len) 
 {
 	if (m_filter.get())
 		m_filter->Put(s, len);
@@ -240,7 +240,7 @@ void ProxyFilter::NextPut(const byte *s, unsigned int len)
 
 // *************************************************************
 
-void StreamCipherFilter::Put(const byte *inString, unsigned int length)
+void StreamCipherFilter::Put(const byte *inString, uint32_t length)
 {
 	SecByteBlock temp(length);
 	cipher.ProcessString(temp, inString, length);
@@ -254,7 +254,7 @@ void HashFilter::Put(byte inByte)
 		AttachedTransformation()->Put(inByte);
 }
 
-void HashFilter::Put(const byte *inString, unsigned int length)
+void HashFilter::Put(const byte *inString, uint32_t length)
 {
 	m_hashModule.Update(inString, length);
 	if (m_putMessage)
@@ -288,14 +288,14 @@ void HashVerifier::FirstPut(const byte *inString)
 	}
 }
 
-void HashVerifier::NextPut(const byte *inString, unsigned int length)
+void HashVerifier::NextPut(const byte *inString, uint32_t length)
 {
 	m_hashModule.Update(inString, length);
 	if (m_flags & PUT_MESSAGE)
 		AttachedTransformation()->Put(inString, length);
 }
 
-void HashVerifier::LastPut(const byte *inString, unsigned int length)
+void HashVerifier::LastPut(const byte *inString, uint32_t length)
 {
 	if (m_flags & HASH_AT_BEGIN)
 	{
@@ -354,7 +354,7 @@ StringSource::StringSource(const char *string, bool pumpAll, BufferedTransformat
 		PumpAll();
 }
 
-StringSource::StringSource(const byte *string, unsigned int length, bool pumpAll, BufferedTransformation *outQueue)
+StringSource::StringSource(const byte *string, uint32_t length, bool pumpAll, BufferedTransformation *outQueue)
 	: Source(outQueue), m_store(string, length)
 {
 	if (pumpAll)
@@ -372,7 +372,7 @@ bool Store::GetNextMessage()
 		return false;
 }
 
-unsigned int Store::CopyMessagesTo(BufferedTransformation &target, unsigned int count) const
+uint32_t Store::CopyMessagesTo(BufferedTransformation &target, uint32_t count) const
 {
 	if (m_messageEnd || count == 0)
 		return 0;
@@ -385,36 +385,36 @@ unsigned int Store::CopyMessagesTo(BufferedTransformation &target, unsigned int 
 	}
 }
 
-unsigned long StringStore::TransferTo(BufferedTransformation &target, unsigned long transferMax)
+uint32_t StringStore::TransferTo(BufferedTransformation &target, uint32_t transferMax)
 {
-	unsigned long result = CopyTo(target, transferMax);
+	uint32_t result = CopyTo(target, transferMax);
 	m_count += result;
 	return result;
 }
 
-unsigned long StringStore::CopyTo(BufferedTransformation &target, unsigned long copyMax) const
+uint32_t StringStore::CopyTo(BufferedTransformation &target, uint32_t copyMax) const
 {
-	unsigned int len = (unsigned int)STDMIN((unsigned long)(m_length-m_count), copyMax);
+	uint32_t len = (uint32_t)STDMIN((uint32_t)(m_length-m_count), copyMax);
 	target.Put(m_store+m_count, len);
 	return len;
 }
 
-unsigned long RandomNumberStore::CopyTo(BufferedTransformation &target, unsigned long copyMax) const
+uint32_t RandomNumberStore::CopyTo(BufferedTransformation &target, uint32_t copyMax) const
 {
-	unsigned int len = (unsigned int)STDMIN((unsigned long)(m_length-m_count), copyMax);
-	for (unsigned int i=0; i<len; i++)
+	uint32_t len = (uint32_t)STDMIN((uint32_t)(m_length-m_count), copyMax);
+	for (uint32_t i=0; i<len; i++)
 		target.Put(m_rng.GenerateByte());
 	return len;
 }
 
-unsigned long RandomNumberStore::TransferTo(BufferedTransformation &target, unsigned long transferMax)
+uint32_t RandomNumberStore::TransferTo(BufferedTransformation &target, uint32_t transferMax)
 {
-	unsigned long len = RandomNumberStore::CopyTo(target, transferMax);
+	uint32_t len = RandomNumberStore::CopyTo(target, transferMax);
 	m_count += len;
 	return len;
 }
 
-RandomNumberSource::RandomNumberSource(RandomNumberGenerator &rng, unsigned int length, bool pumpAll, BufferedTransformation *outQueue)
+RandomNumberSource::RandomNumberSource(RandomNumberGenerator &rng, uint32_t length, bool pumpAll, BufferedTransformation *outQueue)
 	: Source(outQueue), m_store(rng, length)
 {
 	if (pumpAll)

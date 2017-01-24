@@ -17,7 +17,7 @@ ChatUnicodeString::ChatUnicodeString()
 	m_cString = wideToNarrow(m_wideString);
 }
 
-ChatUnicodeString::ChatUnicodeString(const unsigned short *data, unsigned length)
+ChatUnicodeString::ChatUnicodeString(const uint16_t *data, unsigned length)
 { 
 	m_wideString.assign(data, length);
 	m_cString = wideToNarrow(m_wideString);

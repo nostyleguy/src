@@ -13,7 +13,7 @@
 class ConnectionServerConnection : public ServerConnection
 {
 public:
-	ConnectionServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	ConnectionServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	~ConnectionServerConnection();
 	void                          onConnectionClosed      ();
 	void                          onConnectionOpened      ();

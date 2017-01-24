@@ -94,7 +94,7 @@ elseif (UNIX)
 		-fno-signed-zeros -freciprocal-math -ffp-contract=fast \
 		-fno-threadsafe-statics -fslp-vectorize-aggressive -fslp-vectorize \
 		-fno-stack-protector -fstrict-enums -fstrict-vtable-pointers \
-		-fno-coverage-mapping -fno-spell-checking -fshort-enums -finline-functions \
+		-fno-coverage-mapping -fno-spell-checking -fint16_t-enums -finline-functions \
 		-finline-hint-functions -fno-unroll-loops")
 
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb")
@@ -117,13 +117,17 @@ elseif (UNIX)
     endif ()
 
     # our "always on" flags - build by default for the system we're on but include all instruction sets
-    set(CMAKE_CXX_FLAGS "-m32 -pipe -march=native -mtune=native \
+    set(CMAKE_CXX_FLAGS "-pipe -march=native -mtune=native \
 		-msse -msse2 -msse3 -mmmx -m3dnow \
 		-Wformat -Wno-overloaded-virtual -Wno-missing-braces -Wno-format \
 		-Wno-write-strings -Wno-unknown-pragmas \
 		-Wno-uninitialized -Wno-reorder -Wno-tautological-constant-out-of-range-compare")
 
-    add_definitions(-DLINUX -D_REENTRANT -Dlinux -D_USING_STL -D_GNU_SOURCE -D_XOPEN_SOURCE=500 -U_FORTIFY_SOURCE)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+        set(CMAKE_CXX_FLAGS "-m32 ${CMAKE_CXX_FLAGS}")
+    endif ()
+
+    add_definitions(-DLINUX -D_REENTRANT -Dlinux -D_USING_STL -D_GNU_SOURCE -D_XOPEN_SOURCE=500 -U_FORTIFY_SOURCE -D_IS_LITTLE_ENDIAN)
 
     # release and debug are internal use only
     if (${CMAKE_BUILD_TYPE} STREQUAL "Debug" OR ${CMAKE_BUILD_TYPE} STREQUAL "Release")

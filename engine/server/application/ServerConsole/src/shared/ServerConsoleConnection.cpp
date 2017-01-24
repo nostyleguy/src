@@ -14,7 +14,7 @@
 
 //-----------------------------------------------------------------------
 
-ServerConsoleConnection::ServerConsoleConnection(const std::string & address, const unsigned short port) :
+ServerConsoleConnection::ServerConsoleConnection(const std::string & address, const uint16_t port) :
 Connection(address, port, NetworkSetupData())
 {
 }

@@ -36,7 +36,7 @@ void SharedRemoteDebugServer::install()
 	DEBUG_FATAL(ms_installed, ("sharedRemoteDebugServer already installed"));
 
 	NetworkSetupData setup;
-	setup.port = static_cast<unsigned short>(ConfigSharedFoundation::getDefaultRemoteDebugPort());
+	setup.port = static_cast<uint16_t>(ConfigSharedFoundation::getDefaultRemoteDebugPort());
 	setup.maxConnections = 5;
 	ms_serviceHandle = new Service(ConnectionAllocator<SharedRemoteDebugServerConnection>(), setup);
 

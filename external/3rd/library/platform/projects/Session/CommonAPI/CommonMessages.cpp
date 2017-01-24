@@ -228,7 +228,7 @@ namespace Message
     }
     */
 
-    Basic::Basic(const unsigned short newMessageId) :
+    Basic::Basic(const uint16_t newMessageId) :
         AutoByteStream(),
         mMessageID(newMessageId)
     {

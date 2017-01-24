@@ -16,7 +16,7 @@ class GameCommandChannel;
 class GameConnection : public ServerConnection
 {
 public:
-	                     GameConnection(const std::string & remoteAddress, const unsigned short port);
+	                     GameConnection(const std::string & remoteAddress, const uint16_t port);
 	                     GameConnection(UdpConnectionMT *, TcpClient *);
 	virtual              ~GameConnection();
 

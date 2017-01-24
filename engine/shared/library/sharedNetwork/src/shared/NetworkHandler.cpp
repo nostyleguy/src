@@ -208,7 +208,7 @@ const std::string & NetworkHandler::getBindAddress() const
 
 //-----------------------------------------------------------------------
 
-const unsigned short NetworkHandler::getBindPort() const
+const uint16_t NetworkHandler::getBindPort() const
 {
 	return m_bindPort;
 }
@@ -338,7 +338,7 @@ void NetworkHandler::setBindAddress(const std::string & address)
 
 //-----------------------------------------------------------------------
 
-void NetworkHandler::setBindPort(const unsigned short p)
+void NetworkHandler::setBindPort(const uint16_t p)
 {
 	m_bindPort = p;
 }
@@ -593,7 +593,7 @@ bool NetworkHandler::removing()
 
 //-----------------------------------------------------------------------
 
-bool NetworkHandler::isPortReserved(unsigned short p)
+bool NetworkHandler::isPortReserved(uint16_t p)
 {
 	return(ConfigSharedNetwork::getIsPortReserved(p));
 }

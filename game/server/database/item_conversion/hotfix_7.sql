@@ -3015,7 +3015,7 @@ CREATE OR REPLACE PACKAGE BODY  "HOTFIX_7" as
 				--pistol_blaster_scout_trooper_corsec
 				elsif template_id = -1929515589 then
 					DeleteObjVar('weapon.strCertUsed');
-				--pistol_blaster_short_range_combat
+				--pistol_blaster_int16_t_range_combat
 				elsif template_id = 1691705957 then
 					DeleteObjVar('weapon.strCertUsed');
 				--pistol_projectile_striker

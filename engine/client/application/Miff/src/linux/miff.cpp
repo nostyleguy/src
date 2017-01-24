@@ -96,7 +96,7 @@ char        err_msg[256];
 errorType   errorFlag = ERR_NONE;            // assume no error (default)
 
 
-// long and short name definitions for command line options
+// long and int16_t name definitions for command line options
 
 static const char * const LNAME_HELP          = "help";
 static const char * const LNAME_INPUT_FILE    = "inputfile";

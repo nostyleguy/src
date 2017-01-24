@@ -19,7 +19,7 @@ class SharedRemoteDebugServerCommandChannel;
 class SharedRemoteDebugServerConnection : public Connection
 {
 public:
-	SharedRemoteDebugServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	SharedRemoteDebugServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	SharedRemoteDebugServerConnection(UdpConnectionMT *, TcpClient *);
 	virtual ~SharedRemoteDebugServerConnection();
 	void                          onConnectionClosed      ();

@@ -1551,7 +1551,7 @@ void Iff::read_string(char *string, int maxLength)
 	for ( ; *source; ++string, ++source, ++s.used, --maxLength)
 	{
 		DEBUG_FATAL(s.used >= s.length, ("hit end of chunk before string terminator"));
-		DEBUG_FATAL(maxLength <= 0, ("destination string too short"));
+		DEBUG_FATAL(maxLength <= 0, ("destination string too int16_t"));
 		*string = *source;
 	}
 
@@ -1559,7 +1559,7 @@ void Iff::read_string(char *string, int maxLength)
 	++s.used;
 
 	// nullptr terminate the output string
-	DEBUG_FATAL(maxLength <= 0, ("destination string too short"));
+	DEBUG_FATAL(maxLength <= 0, ("destination string too int16_t"));
 	*string = '\0';
 }
 
@@ -1667,7 +1667,7 @@ std::string Iff::read_stdstring()
 void  Iff::read_string(Unicode::String &str)
 {
 	const int32 count = read_int32 ();
-	unsigned short * data = new unsigned short [count];
+	uint16_t * data = new uint16_t [count];
 	read_uint16 (count, data);
 	str.assign (data, static_cast<size_t>(count));
 	delete [] data;

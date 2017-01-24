@@ -11,7 +11,7 @@
 #include <cstdio>
 
 // ----------------------------------------------------------------------
-template <int bufferSize>
+template <size_t bufferSize>
 class FormattedString
 {
 public:
@@ -19,7 +19,7 @@ public:
 	FormattedString();
 
 	char const * sprintf(char const * format, ...);
-	char const * vsprintf(char const * format, va_list const & va);
+	char const * vsprintf(char const * format, va_list & va);
 
 private:
 
@@ -32,14 +32,14 @@ private:
 };
 
 // ----------------------------------------------------------------------
-template <int bufferSize>
+template <size_t bufferSize>
 inline FormattedString<bufferSize>::FormattedString()
 {
 	m_text[0] = '\0';
 }
 
 //-----------------------------------------------------------------------------
-template <int bufferSize>
+template <size_t bufferSize>
 inline char const * FormattedString<bufferSize>::sprintf(char const * const format, ...)
 {
 	char const * result = nullptr;
@@ -55,8 +55,8 @@ inline char const * FormattedString<bufferSize>::sprintf(char const * const form
 }
 
 // ----------------------------------------------------------------------
-template <int bufferSize>
-inline char const * FormattedString<bufferSize>::vsprintf(char const * const format, va_list const & va)
+template <size_t bufferSize>
+inline char const * FormattedString<bufferSize>::vsprintf(char const * const format, va_list & va)
 {
 	// Format the string
 

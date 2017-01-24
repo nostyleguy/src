@@ -14,7 +14,7 @@
 class TransferServerConnection : public ServerConnection
 {
 public:
-	TransferServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	TransferServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	~TransferServerConnection();
 
 	void  onConnectionClosed();

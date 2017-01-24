@@ -6,6 +6,8 @@
 #include "smartptr.h"
 #include "queue.h"
 
+#define ULONG_SIZE sizeof(uint32_t)
+
 NAMESPACE_BEGIN(CryptoPP)
 
 /// provides an implementation of BufferedTransformation's attachment interface
@@ -35,7 +37,7 @@ class TransparentFilter : public Filter
 public:
 	TransparentFilter(BufferedTransformation *outQ=nullptr) : Filter(outQ) {}
 	void Put(byte inByte) {AttachedTransformation()->Put(inByte);}
-	void Put(const byte *inString, unsigned int length) {AttachedTransformation()->Put(inString, length);}
+	void Put(const byte *inString, uint32_t length) {AttachedTransformation()->Put(inString, length);}
 };
 
 //! .
@@ -44,7 +46,7 @@ class OpaqueFilter : public Filter
 public:
 	OpaqueFilter(BufferedTransformation *outQ=nullptr) : Filter(outQ) {}
 	void Put(byte inByte) {}
-	void Put(const byte *inString, unsigned int length) {}
+	void Put(const byte *inString, uint32_t length) {}
 };
 
 /*! FilterWithBufferedInput divides up the input stream into
@@ -56,9 +58,9 @@ class FilterWithBufferedInput : public Filter
 {
 public:
 	/// firstSize and lastSize may be 0, blockSize must be at least 1
-	FilterWithBufferedInput(unsigned int firstSize, unsigned int blockSize, unsigned int lastSize, BufferedTransformation *outQ);
+	FilterWithBufferedInput(uint32_t firstSize, uint32_t blockSize, uint32_t lastSize, BufferedTransformation *outQ);
 	void Put(byte inByte);
-	void Put(const byte *inString, unsigned int length);
+	void Put(const byte *inString, uint32_t length);
 	void MessageEnd(int propagation=-1);
 
 	/*! the input buffer may contain more than blockSize bytes if lastSize != 0
@@ -74,33 +76,33 @@ protected:
 	virtual void FirstPut(const byte *inString) =0;
 	// NextPut() is called if totalLength >= firstSize+blockSize+lastSize
 	// length parameter is always blockSize unless blockSize == 1
-	virtual void NextPut(const byte *inString, unsigned int length) =0;
+	virtual void NextPut(const byte *inString, uint32_t length) =0;
 	// LastPut() is always called
 	// if totalLength < firstSize then length == totalLength
 	// else if totalLength <= firstSize+lastSize then length == totalLength-firstSize
 	// else lastSize <= length < lastSize+blockSize
-	virtual void LastPut(const byte *inString, unsigned int length) =0;
+	virtual void LastPut(const byte *inString, uint32_t length) =0;
 
 private:
 	class BlockQueue
 	{
 	public:
-		BlockQueue(unsigned int blockSize, unsigned int maxBlocks);
-		void ResetQueue(unsigned int blockSize, unsigned int maxBlocks);
+		BlockQueue(uint32_t blockSize, uint32_t maxBlocks);
+		void ResetQueue(uint32_t blockSize, uint32_t maxBlocks);
 		const byte *GetBlock();
-		const byte *GetContigousBlocks(unsigned int &numberOfBlocks);
-		unsigned int GetAll(byte *outString);
-		void Put(const byte *inString, unsigned int length);
-		unsigned int CurrentSize() const {return m_size;}
-		unsigned int MaxSize() const {return m_buffer.size;}
+		const byte *GetContigousBlocks(uint32_t &numberOfBlocks);
+		uint32_t GetAll(byte *outString);
+		void Put(const byte *inString, uint32_t length);
+		uint32_t CurrentSize() const {return m_size;}
+		uint32_t MaxSize() const {return m_buffer.size;}
 
 	private:
 		SecByteBlock m_buffer;
-		unsigned int m_blockSize, m_maxBlocks, m_size;
+		uint32_t m_blockSize, m_maxBlocks, m_size;
 		byte *m_begin;
 	};
 
-	unsigned int m_firstSize, m_blockSize, m_lastSize;
+	uint32_t m_firstSize, m_blockSize, m_lastSize;
 	bool m_firstInputDone;
 	BlockQueue m_queue;
 };
@@ -111,7 +113,7 @@ class FilterWithInputQueue : public Filter
 public:
 	FilterWithInputQueue(BufferedTransformation *attachment) : Filter(attachment) {}
 	void Put(byte inByte) {m_inQueue.Put(inByte);}
-	void Put(const byte *inString, unsigned int length) {m_inQueue.Put(inString, length);}
+	void Put(const byte *inString, uint32_t length) {m_inQueue.Put(inString, length);}
 
 protected:
 	ByteQueue m_inQueue;
@@ -128,7 +130,7 @@ public:
 	void Put(byte inByte)
 		{AttachedTransformation()->Put(cipher.ProcessByte(inByte));}
 
-	void Put(const byte *inString, unsigned int length);
+	void Put(const byte *inString, uint32_t length);
 
 private:
 	StreamCipher &cipher;
@@ -144,7 +146,7 @@ public:
 	void MessageEnd(int propagation=-1);
 
 	void Put(byte inByte);
-	void Put(const byte *inString, unsigned int length);
+	void Put(const byte *inString, uint32_t length);
 
 private:
 	HashModule &m_hashModule;
@@ -169,8 +171,8 @@ public:
 
 protected:
 	void FirstPut(const byte *inString);
-	void NextPut(const byte *inString, unsigned int length);
-	void LastPut(const byte *inString, unsigned int length);
+	void NextPut(const byte *inString, uint32_t length);
+	void LastPut(const byte *inString, uint32_t length);
 
 private:
 	HashModule &m_hashModule;
@@ -191,7 +193,7 @@ public:
 	void Put(byte inByte)
 		{m_messageAccumulator->Update(&inByte, 1);}
 
-	void Put(const byte *inString, unsigned int length)
+	void Put(const byte *inString, uint32_t length)
 		{m_messageAccumulator->Update(inString, length);}
 
 private:
@@ -216,7 +218,7 @@ public:
 	void Put(byte inByte)
 		{m_messageAccumulator->Update(&inByte, 1);}
 
-	void Put(const byte *inString, unsigned int length)
+	void Put(const byte *inString, uint32_t length)
 		{m_messageAccumulator->Update(inString, length);}
 
 private:
@@ -235,7 +237,7 @@ class BitBucket : public Sink
 {
 public:
 	void Put(byte) {}
-	void Put(const byte *, unsigned int) {}
+	void Put(const byte *, uint32_t) {}
 };
 
 extern BitBucket g_bitBucket;
@@ -254,7 +256,7 @@ public:
 
 	void Put(byte b) 
 		{if (m_target) m_target->Put(b);}
-	void Put(const byte *string, unsigned int len) 
+	void Put(const byte *string, uint32_t len) 
 		{if (m_target) m_target->Put(string, len);}
 	void Flush(bool completeFlush, int propagation=-1) 
 		{if (m_target && m_passSignal) m_target->Flush(completeFlush, propagation);}
@@ -265,7 +267,7 @@ public:
 
 	void ChannelPut(const std::string &channel, byte b) 
 		{if (m_target) m_target->ChannelPut(channel, b);}
-	void ChannelPut(const std::string &channel, const byte *string, unsigned int len) 
+	void ChannelPut(const std::string &channel, const byte *string, uint32_t len) 
 		{if (m_target) m_target->ChannelPut(channel, string, len);}
 	void ChannelFlush(const std::string &channel, bool completeFlush, int propagation=-1) 
 		{if (m_target && m_passSignal) m_target->ChannelFlush(channel, completeFlush, propagation);}
@@ -290,7 +292,7 @@ public:
 
 	void Put(byte b) 
 		{m_owner.AttachedTransformation()->Put(b);}
-	void Put(const byte *string, unsigned int len) 
+	void Put(const byte *string, uint32_t len) 
 		{m_owner.AttachedTransformation()->Put(string, len);}
 	void Flush(bool completeFlush, int propagation=-1) 
 		{if (m_passSignal) m_owner.AttachedTransformation()->Flush(completeFlush, propagation);}
@@ -301,7 +303,7 @@ public:
 
 	void ChannelPut(const std::string &channel, byte b) 
 		{m_owner.AttachedTransformation()->ChannelPut(channel, b);}
-	void ChannelPut(const std::string &channel, const byte *string, unsigned int len) 
+	void ChannelPut(const std::string &channel, const byte *string, uint32_t len) 
 		{m_owner.AttachedTransformation()->ChannelPut(channel, string, len);}
 	void ChannelFlush(const std::string &channel, bool completeFlush, int propagation=-1) 
 		{if (m_passSignal) m_owner.AttachedTransformation()->ChannelFlush(channel, completeFlush, propagation);}
@@ -319,12 +321,12 @@ private:
 class ProxyFilter : public FilterWithBufferedInput
 {
 public:
-	ProxyFilter(Filter *filter, unsigned int firstSize, unsigned int lastSize, BufferedTransformation *outQ);
+	ProxyFilter(Filter *filter, uint32_t firstSize, uint32_t lastSize, BufferedTransformation *outQ);
 
 	void Flush(bool completeFlush, int propagation=-1);
 
 	void SetFilter(Filter *filter);
-	void NextPut(const byte *s, unsigned int len);
+	void NextPut(const byte *s, uint32_t len);
 
 protected:
 	member_ptr<Filter> m_filter;
@@ -343,7 +345,7 @@ public:
 		: m_output(output) {assert(sizeof(output[0])==1);}
 	void Put(byte b)
 		{m_output += (char_type)b;}
-	void Put(const byte *str, unsigned int bc)
+	void Put(const byte *str, uint32_t bc)
 		{m_output.append((const char_type *)str, bc);}
 
 private:	
@@ -357,10 +359,10 @@ typedef StringSinkTemplate<std::string> StringSink;
 class ArraySink : public Sink
 {
 public:
-	ArraySink(byte *buf, unsigned int size) : m_buf(buf), m_size(size), m_total(0) {}
+	ArraySink(byte *buf, uint32_t size) : m_buf(buf), m_size(size), m_total(0) {}
 
-	unsigned int AvailableSize() {return m_size - STDMIN(m_total, (unsigned long)m_size);}
-	unsigned long TotalPutLength() {return m_total;}
+	uint32_t AvailableSize() {return m_size - STDMIN(m_total, (uint32_t)m_size);}
+	uint32_t TotalPutLength() {return m_total;}
 
 	void Put(byte b)
 	{
@@ -369,24 +371,24 @@ public:
 		m_total++;
 	}
 
-	void Put(const byte *str, unsigned int len)
+	void Put(const byte *str, uint32_t len)
 	{
 		if (m_total < m_size)
-			memcpy(m_buf+m_total, str, STDMIN(len, (unsigned int)(m_size-m_total)));
+			memcpy(m_buf+m_total, str, STDMIN(len, (uint32_t)(m_size-m_total)));
 		m_total += len;
 	}
 
 protected:
 	byte *m_buf;
-	unsigned int m_size;
-	unsigned long m_total;
+	uint32_t m_size;
+	uint32_t m_total;
 };
 
 //! Xor input to a memory buffer
 class ArrayXorSink : public ArraySink
 {
 public:
-	ArrayXorSink(byte *buf, unsigned int size)
+	ArrayXorSink(byte *buf, uint32_t size)
 		: ArraySink(buf, size) {}
 
 	void Put(byte b)
@@ -396,10 +398,10 @@ public:
 		m_total++;
 	}
 
-	void Put(const byte *str, unsigned int len)
+	void Put(const byte *str, uint32_t len)
 	{
 		if (m_total < m_size)
-			xorbuf(m_buf+m_total, str, STDMIN(len, (unsigned int)(m_size-m_total)));
+			xorbuf(m_buf+m_total, str, STDMIN(len, (uint32_t)(m_size-m_total)));
 		m_total += len;
 	}
 };
@@ -427,15 +429,15 @@ public:
 
 	void Put(byte)
 		{}
-	void Put(const byte *, unsigned int length)
+	void Put(const byte *, uint32_t length)
 		{}
 
-	virtual unsigned long TransferTo(BufferedTransformation &target, unsigned long transferMax=ULONG_MAX) =0;
-	virtual unsigned long CopyTo(BufferedTransformation &target, unsigned long copyMax=ULONG_MAX) const =0;
+	virtual uint32_t TransferTo(BufferedTransformation &target, uint32_t transferMax=ULONG_SIZE) =0;
+	virtual uint32_t CopyTo(BufferedTransformation &target, uint32_t copyMax=ULONG_SIZE) const =0;
 
-	unsigned int NumberOfMessages() const {return m_messageEnd ? 0 : 1;}
+	uint32_t NumberOfMessages() const {return m_messageEnd ? 0 : 1;}
 	bool GetNextMessage();
-	unsigned int CopyMessagesTo(BufferedTransformation &target, unsigned int count=UINT_MAX) const;
+	uint32_t CopyMessagesTo(BufferedTransformation &target, uint32_t count=UINT_MAX) const;
 
 private:
 	bool m_messageEnd;
@@ -447,32 +449,32 @@ class StringStore : public Store
 public:
 	StringStore(const char *string)
 		: m_store((const byte *)string), m_length(strlen(string)), m_count(0) {}
-	StringStore(const byte *string, unsigned int length)
+	StringStore(const byte *string, uint32_t length)
 		: m_store(string), m_length(length), m_count(0) {}
 	template <class T> StringStore(const T &string)
 		: m_store((const byte *)string.data()), m_length(string.length()), m_count(0) {assert(sizeof(string[0])==1);}
 
-	unsigned long TransferTo(BufferedTransformation &target, unsigned long transferMax=ULONG_MAX);
-	unsigned long CopyTo(BufferedTransformation &target, unsigned long copyMax=ULONG_MAX) const;
+	uint32_t TransferTo(BufferedTransformation &target, uint32_t transferMax=ULONG_SIZE);
+	uint32_t CopyTo(BufferedTransformation &target, uint32_t copyMax=ULONG_SIZE) const;
 
 private:
 	const byte *m_store;
-	unsigned int m_length, m_count;
+	uint32_t m_length, m_count;
 };
 
 //! .
 class RandomNumberStore : public Store
 {
 public:
-	RandomNumberStore(RandomNumberGenerator &rng, unsigned long length)
+	RandomNumberStore(RandomNumberGenerator &rng, uint32_t length)
 		: m_rng(rng), m_length(length), m_count(0) {}
 
-	unsigned long TransferTo(BufferedTransformation &target, unsigned long transferMax=ULONG_MAX);
-	unsigned long CopyTo(BufferedTransformation &target, unsigned long copyMax=ULONG_MAX) const;
+	uint32_t TransferTo(BufferedTransformation &target, uint32_t transferMax=ULONG_SIZE);
+	uint32_t CopyTo(BufferedTransformation &target, uint32_t copyMax=ULONG_SIZE) const;
 
 private:
 	RandomNumberGenerator &m_rng;
-	unsigned long m_length, m_count;
+	uint32_t m_length, m_count;
 };
 
 //! A Filter that pumps data into its attachment as input
@@ -482,13 +484,13 @@ public:
 	Source(BufferedTransformation *outQ)
 		: Filter(outQ) {}
 
-	virtual unsigned long Pump(unsigned long pumpMax=ULONG_MAX) =0;
-	virtual unsigned int PumpMessages(unsigned int count=UINT_MAX) {return 0;}
+	virtual uint32_t Pump(uint32_t pumpMax=ULONG_SIZE) =0;
+	virtual uint32_t PumpMessages(uint32_t count=UINT_MAX) {return 0;}
 	void PumpAll();
 
 	void Put(byte)
 		{Pump(1);}
-	void Put(const byte *, unsigned int length)
+	void Put(const byte *, uint32_t length)
 		{Pump(length);}
 	void MessageEnd(int propagation=-1)
 		{PumpAll();}
@@ -504,9 +506,9 @@ public:
 		if (pumpAll) PumpAll();
 	}
 
-	unsigned long Pump(unsigned long pumpMax=ULONG_MAX)
+	uint32_t Pump(uint32_t pumpMax=ULONG_SIZE)
 		{return m_store.TransferTo(*AttachedTransformation(), pumpMax);}
-	unsigned int PumpMessages(unsigned int count=UINT_MAX)
+	uint32_t PumpMessages(uint32_t count=UINT_MAX)
 		{return m_store.TransferMessagesTo(*AttachedTransformation(), count);}
 
 private:
@@ -518,7 +520,7 @@ class StringSource : public Source
 {
 public:
 	StringSource(const char *string, bool pumpAll, BufferedTransformation *outQueue = nullptr);
-	StringSource(const byte *string, unsigned int length, bool pumpAll, BufferedTransformation *outQueue = nullptr);
+	StringSource(const byte *string, uint32_t length, bool pumpAll, BufferedTransformation *outQueue = nullptr);
 
 #ifdef __MWERKS__	// CW60 workaround
 	StringSource(const std::string &string, bool pumpAll, BufferedTransformation *outQueue = nullptr)
@@ -531,9 +533,9 @@ public:
 			PumpAll();
 	}
 
-	unsigned long Pump(unsigned long pumpMax=ULONG_MAX)
+	uint32_t Pump(uint32_t pumpMax=ULONG_SIZE)
 		{return m_store.TransferTo(*AttachedTransformation(), pumpMax);}
-	unsigned int PumpMessages(unsigned int count=UINT_MAX)
+	uint32_t PumpMessages(uint32_t count=UINT_MAX)
 		{return m_store.TransferMessagesTo(*AttachedTransformation(), count);}
 
 private:
@@ -544,11 +546,11 @@ private:
 class RandomNumberSource : public Source
 {
 public:
-	RandomNumberSource(RandomNumberGenerator &rng, unsigned int length, bool pumpAll, BufferedTransformation *outQueue = nullptr);
+	RandomNumberSource(RandomNumberGenerator &rng, uint32_t length, bool pumpAll, BufferedTransformation *outQueue = nullptr);
 
-	unsigned long Pump(unsigned long pumpMax=ULONG_MAX)
+	uint32_t Pump(uint32_t pumpMax=ULONG_SIZE)
 		{return m_store.TransferTo(*AttachedTransformation(), pumpMax);}
-	unsigned int PumpMessages(unsigned int count=UINT_MAX)
+	uint32_t PumpMessages(uint32_t count=UINT_MAX)
 		{return m_store.TransferMessagesTo(*AttachedTransformation(), count);}
 
 private:

@@ -135,10 +135,10 @@ void	checkPragmas(void);
 void	includeBinary(char *fname);
 
 void	write32(long i32);
-void	write16(short i16);
+void	write16(int16_t i16);
 void	write8(char i8);
 void	writeU32(unsigned long ui32);
-void	writeU16(unsigned short ui16);
+void	writeU16(uint16_t ui16);
 void	writeU8(unsigned char u8);
 void	writeDouble(double d);
 void	writeFloat(float f);
@@ -194,7 +194,7 @@ int		usePragmas;
 **------------------------------------------------------------------------*/
 int		iTemp, jTemp;
 char	byteTemp;
-short	wordTemp;
+int16_t	wordTemp;
 char	tempStr[MAX_STRING_SIZE];
 
 
@@ -300,8 +300,8 @@ typedef union YYSTYPE
 /* Line 343 of yacc.c  */
 #line 302 "/swg/whitengold/src/engine/client/application/Miff/src/parser.c"
 
-#ifdef short
-# undef short
+#ifdef int16_t
+# undef int16_t
 #endif
 
 #ifdef YYTYPE_UINT8
@@ -316,19 +316,19 @@ typedef YYTYPE_INT8 yytype_int8;
      || defined __cplusplus || defined _MSC_VER)
 typedef signed char yytype_int8;
 #else
-typedef short int yytype_int8;
+typedef int16_t int yytype_int8;
 #endif
 
 #ifdef YYTYPE_UINT16
 typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef unsigned short int yytype_uint16;
+typedef uint16_t yytype_uint16;
 #endif
 
 #ifdef YYTYPE_INT16
 typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short int yytype_int16;
+typedef int16_t int yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -2145,14 +2145,14 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 450 "/swg/whitengold/src/engine/client/application/Miff/src/linux/parser.yac"
-    { write16((short) (yyvsp[(1) - (1)].ltype)); }
+    { write16((int16_t) (yyvsp[(1) - (1)].ltype)); }
     break;
 
   case 62:
 
 /* Line 1806 of yacc.c  */
 #line 451 "/swg/whitengold/src/engine/client/application/Miff/src/linux/parser.yac"
-    { write16((short) (yyvsp[(3) - (3)].ltype)); }
+    { write16((int16_t) (yyvsp[(3) - (3)].ltype)); }
     break;
 
   case 63:
@@ -2187,14 +2187,14 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 462 "/swg/whitengold/src/engine/client/application/Miff/src/linux/parser.yac"
-    { writeU16((unsigned short) (yyvsp[(1) - (1)].ltype)); }
+    { writeU16((uint16_t) (yyvsp[(1) - (1)].ltype)); }
     break;
 
   case 68:
 
 /* Line 1806 of yacc.c  */
 #line 463 "/swg/whitengold/src/engine/client/application/Miff/src/linux/parser.yac"
-    { writeU16((unsigned short) (yyvsp[(3) - (3)].ltype)); }
+    { writeU16((uint16_t) (yyvsp[(3) - (3)].ltype)); }
     break;
 
   case 69:
@@ -2834,9 +2834,9 @@ void write32(long i32)
 	MIFFinsertChunkData(&i32, sizeof(long));
 }
 
-void write16(short i16)
+void write16(int16_t i16)
 {
-	MIFFinsertChunkData(&i16, sizeof(short));
+	MIFFinsertChunkData(&i16, sizeof(int16_t));
 }
 
 void write8(char i8)
@@ -2849,9 +2849,9 @@ void writeU32(unsigned long ui32)
 	MIFFinsertChunkData(&ui32, sizeof(long));
 }
 
-void writeU16(unsigned short ui16)
+void writeU16(uint16_t ui16)
 {
-	MIFFinsertChunkData(&ui16, sizeof(short));
+	MIFFinsertChunkData(&ui16, sizeof(int16_t));
 }
 
 void writeU8(unsigned char ui8)

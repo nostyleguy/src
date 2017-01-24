@@ -155,9 +155,9 @@ void TerrainQuadTree::Node::remove ()
 * @param newSize the width/height of the node in chunkspace.
 */
 TerrainQuadTree::Node::Node (const int x, const int z, const int size, const float minChunkWidthInMeters) : 
-	m_x(static_cast<short>(x)), 
-	m_z(static_cast<short>(z)),
-	m_size(static_cast<short>(size)), 
+	m_x(static_cast<int16_t>(x)), 
+	m_z(static_cast<int16_t>(z)),
+	m_size(static_cast<int16_t>(size)), 
 	m_childIndex (0), 
 	m_worldExtentInitialized (false),
 	m_selectedForRender (false),

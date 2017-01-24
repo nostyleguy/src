@@ -17,16 +17,16 @@ protected:
 
 public:
 	CustomerServiceSearchResult();
-	CustomerServiceSearchResult(const Unicode::String &title, const std::string &id, short matchPercent);
+	CustomerServiceSearchResult(const Unicode::String &title, const std::string &id, int16_t matchPercent);
 	~CustomerServiceSearchResult();
 
 	const Unicode::String &getTitle()        const {return m_title;}
 	const std::string &    getId()           const {return m_id;}
-	short                  getMatchPercent() const {return m_matchPercent;}
+	int16_t                  getMatchPercent() const {return m_matchPercent;}
 
 	Unicode::String                       m_title;
 	std::string                           m_id;
-	short                                 m_matchPercent;
+	int16_t                                 m_matchPercent;
 };
 
 #endif //_INCLUDED_CustomerServiceSearchResult_H

@@ -6,17 +6,17 @@ namespace NAMESPACE
 #endif
 	namespace GenericAPI
 	{
-		GenericMessage::GenericMessage(short type)
+		GenericMessage::GenericMessage(int16_t type)
 			: m_type(type)
 		{
 		}
 
-		GenericRequest::GenericRequest(short type)
+		GenericRequest::GenericRequest(int16_t type)
 			: GenericMessage(type)
 		{
 		}
 
-		GenericResponse::GenericResponse(short type, unsigned result, void *user)
+		GenericResponse::GenericResponse(int16_t type, unsigned result, void *user)
 			: GenericMessage(type),
 			m_result(result),
 			m_user(user),

@@ -16,18 +16,18 @@ namespace GenericAPI
 class GenericMessage
 {
 public:
-	GenericMessage(short type);
+	GenericMessage(int16_t type);
 	virtual ~GenericMessage() {};
 
-	short getType() const { return m_type; }
+	int16_t getType() const { return m_type; }
 protected:
-	short m_type;
+	int16_t m_type;
 };
 
 class GenericRequest : public GenericMessage
 {
 public:
-	GenericRequest(short type);
+	GenericRequest(int16_t type);
 	virtual ~GenericRequest() {};
 #ifdef USE_SERIALIZE_LIB
     virtual const unsigned char *pack(unsigned &msgSize) = 0;
@@ -54,7 +54,7 @@ protected:
 class GenericResponse : public GenericMessage
 {
 public:
-	GenericResponse(short type, unsigned result, void *user);
+	GenericResponse(int16_t type, unsigned result, void *user);
 	virtual ~GenericResponse() {};
 #ifdef USE_SERIALIZE_LIB
     virtual void unpack(const unsigned char *data, unsigned dataLen) = 0;

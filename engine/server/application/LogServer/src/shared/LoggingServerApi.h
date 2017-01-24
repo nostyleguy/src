@@ -35,7 +35,7 @@ class LoggingServerApi : public UdpConnectionHandler
 
 		Status GetStatus() const;
 		void GiveTime();
-		void Log16(const char *filename, int typeCode, const unsigned short *ucs2String);		// no formatting support, application will have to do that on it's own
+		void Log16(const char *filename, int typeCode, const uint16_t *ucs2String);		// no formatting support, application will have to do that on it's own
 		void Log(const char *filename, int typeCode, const char *message, ...);		// printf style formatting
 		
 		void StartTransaction();

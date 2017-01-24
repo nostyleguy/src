@@ -40,13 +40,13 @@ public:
 	};
 
 	static const char *          getBackupGatewayServerIP    ();
-	static const unsigned short  getBackupGatewayServerPort  ();
+	static const uint16_t  getBackupGatewayServerPort  ();
 	static const char *          getCentralServerAddress     ();
-	static const unsigned short  getCentralServerPort        ();
+	static const uint16_t  getCentralServerPort        ();
 	static const char *	         getClusterName			     ();
 	static const char *          getGameCode                 ();
 	static const char *          getGatewayServerIP          ();
-	static const unsigned short  getGatewayServerPort        ();
+	static const uint16_t  getGatewayServerPort        ();
 	static const time_t          getRoomInactivityTimeout    ();
 	static const time_t          getRoomUnpopulatedTimeout   ();
 	static const char *          getGameServiceBindInterface ();
@@ -85,9 +85,9 @@ inline const char * ConfigChatServer::getBackupGatewayServerIP()
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConfigChatServer::getBackupGatewayServerPort()
+inline const uint16_t ConfigChatServer::getBackupGatewayServerPort()
 {
-	return static_cast<unsigned short>(data->backupGatewayServerPort);
+	return static_cast<uint16_t>(data->backupGatewayServerPort);
 }
 
 //-----------------------------------------------------------------------
@@ -99,9 +99,9 @@ inline const char * ConfigChatServer::getCentralServerAddress()
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConfigChatServer::getCentralServerPort()
+inline const uint16_t ConfigChatServer::getCentralServerPort()
 {
-	return static_cast<unsigned short>(data->centralServerPort);
+	return static_cast<uint16_t>(data->centralServerPort);
 }
 
 //-----------------------------------------------------------------------
@@ -127,9 +127,9 @@ inline const char * ConfigChatServer::getGatewayServerIP()
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConfigChatServer::getGatewayServerPort()
+inline const uint16_t ConfigChatServer::getGatewayServerPort()
 {
-	return static_cast<unsigned short>(data->gatewayServerPort);
+	return static_cast<uint16_t>(data->gatewayServerPort);
 }
 	
 //-----------------------------------------------------------------------

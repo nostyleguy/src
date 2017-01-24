@@ -6115,7 +6115,8 @@ void PlayerObject::getByteStreamFromAutoVariable(const std::string & name, Archi
 {
 	if(name == "quests")
 	{
-		Archive::AutoDeltaMap<unsigned long, PlayerQuestData>(m_quests).pack(target);
+		//TODO: fixme
+		//Archive::AutoDeltaMap<unsigned long, PlayerQuestData>(m_quests).pack(target);
 	}
 	else if(name == "completedQuests")
 	{
@@ -6206,7 +6207,8 @@ void PlayerObject::setAutoVariableFromByteStream(const std::string & name, const
 		std::vector<Commands> quests;
 
 		m_quests.clear();
-		Archive::AutoDeltaMap<unsigned long, PlayerQuestData>(m_quests).unpack(ri, quests);
+		//TODO: fixme wtf
+		//Archive::AutoDeltaMap<unsigned long, PlayerQuestData>(m_quests).unpack(ri, quests);
 
 		for (std::vector<Commands>::const_iterator questIter = quests.begin(); questIter != quests.end(); ++questIter)
 		{

@@ -19,7 +19,7 @@ namespace GenericAPI
 
 
 GenericAPICore::GenericAPICore(const char *host, 
-									short port, 
+									int16_t port, 
 									unsigned reqTimeout, 
 									unsigned reconnectTimeout, 
 									unsigned noDataTimeoutSecs, 
@@ -40,7 +40,7 @@ GenericAPICore::GenericAPICore(const char *host,
 }
 
 GenericAPICore::GenericAPICore(const char *hosts[],
-								   const short port[],
+								   const int16_t port[],
                                    unsigned arraySize,
 								   unsigned reqTimeout,
 								   unsigned reconnectTimeout,
@@ -90,7 +90,7 @@ GenericAPICore::~GenericAPICore()
 	}
 }
 
-void GenericAPICore::changeHostPort(unsigned connectionIndex, const char *host, short port)
+void GenericAPICore::changeHostPort(unsigned connectionIndex, const char *host, int16_t port)
 {
 	if (connectionIndex <= m_serverConnections.size() - 1)
 	{

@@ -13,7 +13,7 @@ class Connection;
 class TestServer : public TcpManagerHandler
 {
 public:
-    TestServer(unsigned short port);
+    TestServer(uint16_t port);
     virtual ~TestServer();
 
     void process();
@@ -23,7 +23,7 @@ public:
     void removeConnection(Connection *con);
 
 private:
-    unsigned short m_port;
+    uint16_t m_port;
     TcpManager *m_manager;
     std::list<Connection *> m_connections;
 

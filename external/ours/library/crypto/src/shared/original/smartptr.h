@@ -147,21 +147,21 @@ template <class T> counted_ptr<T> & counted_ptr<T>::operator=(const counted_ptr<
 template <class T> class vector_member_ptrs
 {
 public:
-	vector_member_ptrs(unsigned int size=0)
+	vector_member_ptrs(uint32_t size=0)
 		: _size(size) {ptr = new member_ptr<T>[_size];}
 	~vector_member_ptrs()
 		{delete [] ptr;}
 
-	member_ptr<T>& operator[](unsigned int index)
+	member_ptr<T>& operator[](uint32_t index)
 		{assert(index<_size); return ptr[index];}
-	const member_ptr<T>& operator[](unsigned int index) const
+	const member_ptr<T>& operator[](uint32_t index) const
 		{assert(index<_size); return ptr[index];}
 
-	unsigned int size() const {return _size;}
-	void resize(unsigned int newSize)
+	uint32_t size() const {return _size;}
+	void resize(uint32_t newSize)
 	{
 		member_ptr<T> *newPtr = new member_ptr<T>[newSize];
-		for (unsigned int i=0; i<STDMIN(_size, newSize); i++)
+		for (uint32_t i=0; i<STDMIN(_size, newSize); i++)
 			newPtr[i].reset(ptr[i].release());
 		delete [] ptr;
 		_size = newSize;
@@ -172,7 +172,7 @@ private:
 	vector_member_ptrs(const vector_member_ptrs<T> &c);	// copy not allowed
 	void operator=(const vector_member_ptrs<T> &x);		// assignment not allowed
 
-	unsigned int _size;
+	uint32_t _size;
 	member_ptr<T> *ptr;
 };
 

@@ -20,7 +20,7 @@
 class CommoditiesServerConnection : public ServerConnection, public MessageDispatch::Receiver
 {
 public:
-	CommoditiesServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	CommoditiesServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	explicit CommoditiesServerConnection(UdpConnectionMT *, TcpClient * t);
 	~CommoditiesServerConnection();
 

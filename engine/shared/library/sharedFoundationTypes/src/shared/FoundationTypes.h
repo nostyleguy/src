@@ -21,9 +21,8 @@
 // ======================================================================
 
 typedef unsigned char          byte;
-typedef unsigned int           uint;
-typedef unsigned long          ulong;
-typedef unsigned short         ushort;
+typedef uint32_t           uint;
+typedef uint16_t         uint16_t;
 
 // ======================================================================
 

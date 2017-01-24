@@ -198,7 +198,7 @@ public:
 	/** pure virtual */
 	virtual void        clearDelta() const = 0;
 
-	const unsigned short int getIndex() const;
+	const uint16_t getIndex() const;
 
 	/** pure virtual */
 	virtual const bool  isDirty() const = 0;
@@ -207,7 +207,7 @@ public:
 protected:
 	friend class AutoDeltaByteStream;
 	AutoDeltaByteStream * getOwner();
-	void                setIndex(const unsigned short int index);
+	void                setIndex(const uint16_t index);
 	void                setOwner(AutoDeltaByteStream * owner);
 
 	/** pure virtual */
@@ -219,7 +219,7 @@ protected:
 	/** pure virtual */
 	virtual void        unpackDelta(ReadIterator & source) = 0;
 private:
-	unsigned short int  index;
+	uint16_t  index;
 	AutoDeltaByteStream * owner;
 };
 
@@ -244,7 +244,7 @@ private:
 
 	@author Justin Randall
 */
-inline const unsigned short int AutoDeltaVariableBase::getIndex() const
+inline const uint16_t AutoDeltaVariableBase::getIndex() const
 {
 	return index;
 }
@@ -298,7 +298,7 @@ inline AutoDeltaByteStream * AutoDeltaVariableBase::getOwner()
 
 	@author Justin Randall
 */
-inline void AutoDeltaVariableBase::setIndex(const unsigned short int newIndex)
+inline void AutoDeltaVariableBase::setIndex(const uint16_t newIndex)
 {
 	index = newIndex;
 }

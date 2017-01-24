@@ -88,7 +88,7 @@ public:
     /**
      * @brief Returns the port on the other side of this conection.
      */
-    unsigned short GetDestinationPort(){ return m_destPort; }
+    uint16_t GetDestinationPort(){ return m_destPort; }
 
     /**
      * @brief Standard AddRef/Release scheme
@@ -107,9 +107,9 @@ public:
 
 protected:
     friend class TcpManager;
-    TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAlloc, TcpManager::TcpParams &params, const IPAddress &destIP, unsigned short destPort, unsigned timeout);
+    TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAlloc, TcpManager::TcpParams &params, const IPAddress &destIP, uint16_t destPort, unsigned timeout);
     int finishConnect();/**< returns < 0 if fatal error and connect will not work, =0 if need more time, >0 if connect completed */
-    TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAlloc, TcpManager::TcpParams &params, SOCKET socket, const IPAddress &destIP, unsigned short destPort);
+    TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAlloc, TcpManager::TcpParams &params, SOCKET socket, const IPAddress &destIP, uint16_t destPort);
     TcpConnection *m_nextConnection; /**< Double linked list imp. */
     TcpConnection *m_prevConnection; /**< Double linked list imp. */
     SOCKET m_socket;
@@ -133,7 +133,7 @@ private:
     Status m_status;
     TcpConnectionHandler *m_handler;
     IPAddress m_destIP;
-    unsigned short m_destPort;
+    uint16_t m_destPort;
     unsigned m_refCount;
     TcpBlockAllocator *m_sendAllocator;
     data_block *m_head;

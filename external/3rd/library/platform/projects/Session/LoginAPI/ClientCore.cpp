@@ -1893,7 +1893,7 @@ namespace LoginAPI
         return true;
     }    
 
-    void ClientCore::Timeout(unsigned short messageId, apiTrackingNumber trackingNumber, void * userData)
+    void ClientCore::Timeout(uint16_t messageId, apiTrackingNumber trackingNumber, void * userData)
     {
         switch (messageId)
         {

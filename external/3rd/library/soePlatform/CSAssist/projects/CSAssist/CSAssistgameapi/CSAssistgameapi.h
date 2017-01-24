@@ -22,7 +22,10 @@
 #endif
 
 
+#include <stdint.h>
 #include "time.h"
+
+
 
 namespace CSAssist
 {
@@ -34,7 +37,7 @@ namespace CSAssist
 typedef unsigned  CSAssistGameAPITrack;			// An API tracking number
 typedef unsigned  CSAssistGameAPIUID;			// A station UID
 typedef unsigned  CSAssistGameAPITicketID;		// A ticket ID
-typedef unsigned short CSAssistUnicodeChar;		// base type for unicode strings (uint16)
+typedef uint16_t CSAssistUnicodeChar;		// base type for unicode strings (uint16)
 typedef CSAssistUnicodeChar *CSAssistGameAPIXML;// A pointer to an XML block
 
 //------------------------------------------------------------------------------
@@ -149,7 +152,7 @@ static const unsigned	CSASSIST_TICKET_LENGTH_COMMENT = 4000;
 static const unsigned	CSASSIST_TICKET_LENGTH_NAME = 64;
 static const unsigned	CSASSIST_TICKET_LENGTH_LOCATION = 128;
 
-static const short	CSASSIST_NUM_CATEGORIES = 4;
+static const int16_t	CSASSIST_NUM_CATEGORIES = 4;
 
 static const unsigned	CSASSIST_DOCUMENT_LENGTH_NAME = 25;
 static const unsigned	CSASSIST_DOCUMENT_LENGTH_LANGUAGE = 2;

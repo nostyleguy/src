@@ -127,7 +127,7 @@ void DB::OCIQueryImpl::preprocessBinds()
 			(*i)->indicator=-1;
 		else
 		{
-			(*i)->length=(unsigned short)*((*i)->owner->getIndicator()); //TODO:  something better
+			(*i)->length=(uint16_t)*((*i)->owner->getIndicator()); //TODO:  something better
 			(*i)->indicator=1;
 			if ((*i)->stringAdjust)
 				++(*i)->length;  //TODO:  This feels like a hack

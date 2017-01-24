@@ -1,6 +1,8 @@
 #ifndef CTENUM_H
 #define CTENUM_H
 
+#include <stdint.h>
+
 namespace CTService
 {
 

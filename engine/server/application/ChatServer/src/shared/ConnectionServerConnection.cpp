@@ -50,7 +50,7 @@
 
 //-----------------------------------------------------------------------
 
-ConnectionServerConnection::ConnectionServerConnection(const std::string & a, const unsigned short p) :
+ConnectionServerConnection::ConnectionServerConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData()),
 m_avatars()
 {
@@ -146,7 +146,7 @@ void ConnectionServerConnection::onReceive(const Archive::ByteStream & message)
 				if (!avatar && cmtype == constcrc("ChatInstantMessageToCharacter"))
 				{
 					PROFILER_AUTO_BLOCK_DEFINE("ConnectionServer - ChatInstantMessageToCharacter");
-					//printf("!Sending via the shortcut\n");
+					//printf("!Sending via the int16_tcut\n");
 					cri = c.getByteStream().begin();
 
 					// deliver IM to character

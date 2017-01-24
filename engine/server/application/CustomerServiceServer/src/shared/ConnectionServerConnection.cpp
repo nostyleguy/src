@@ -28,7 +28,7 @@
 
 //-----------------------------------------------------------------------
 
-ConnectionServerConnection::ConnectionServerConnection(const std::string & a, const unsigned short p) :
+ConnectionServerConnection::ConnectionServerConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData())
 {
 	LOG("ConnectionServerConnection", ("Connection created...listening on (%s:%d)", a.c_str(), static_cast<int>(p)));

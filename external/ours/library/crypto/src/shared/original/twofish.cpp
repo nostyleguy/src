@@ -8,11 +8,11 @@ NAMESPACE_BEGIN(CryptoPP)
 
 // compute (c * x^4) mod (x^4 + (a + 1/a) * x^3 + a * x^2 + (a + 1/a) * x + 1)
 // over GF(256)
-static inline unsigned int Mod(unsigned int c)
+static inline uint32_t Mod(uint32_t c)
 {
-	static const unsigned int modulus = 0x14d;
-	unsigned int c2 = (c<<1) ^ ((c & 0x80) ? modulus : 0);
-	unsigned int c1 = c2 ^ (c>>1) ^ ((c & 1) ? (modulus>>1) : 0);
+	static const uint32_t modulus = 0x14d;
+	uint32_t c2 = (c<<1) ^ ((c & 0x80) ? modulus : 0);
+	uint32_t c1 = c2 ^ (c>>1) ^ ((c & 1) ? (modulus>>1) : 0);
 	return c | (c1 << 8) | (c2 << 16) | (c1 << 24);
 }
 
@@ -20,7 +20,7 @@ static inline unsigned int Mod(unsigned int c)
 // this is equivalent to multiplying by the RS matrix
 static word32 ReedSolomon(word32 high, word32 low)
 {
-	for (unsigned int i=0; i<8; i++)
+	for (uint32_t i=0; i<8; i++)
 	{
 		high = Mod(high>>24) ^ (high<<8) ^ (low>>24);
 		low <<= 8;
@@ -28,7 +28,7 @@ static word32 ReedSolomon(word32 high, word32 low)
 	return high;
 }
 
-inline word32 Twofish::h0(word32 x, const word32 *key, unsigned int kLen)
+inline word32 Twofish::h0(word32 x, const word32 *key, uint32_t kLen)
 {
 	x = x | (x<<8) | (x<<16) | (x<<24);
 	switch(kLen)
@@ -42,22 +42,22 @@ inline word32 Twofish::h0(word32 x, const word32 *key, unsigned int kLen)
 	return x;
 }
 
-inline word32 Twofish::h(word32 x, const word32 *key, unsigned int kLen)
+inline word32 Twofish::h(word32 x, const word32 *key, uint32_t kLen)
 {
 	x = h0(x, key, kLen);
 	return mds[0][GETBYTE(x,0)] ^ mds[1][GETBYTE(x,1)] ^ mds[2][GETBYTE(x,2)] ^ mds[3][GETBYTE(x,3)];
 }
 
-Twofish::Twofish(const byte *userKey, unsigned int keylength)
+Twofish::Twofish(const byte *userKey, uint32_t keylength)
 	: m_k(40), m_s(4)
 {
 	assert(keylength == KeyLength(keylength));
 
-	unsigned int len = (keylength <= 16 ? 2 : (keylength <= 24 ? 3 : 4));
+	uint32_t len = (keylength <= 16 ? 2 : (keylength <= 24 ? 3 : 4));
 	SecBlock<word32> key(len*2);
 	GetUserKeyLittleEndian(key.ptr, len*2, userKey, keylength);
 
-	unsigned int i;
+	uint32_t i;
 	for (i=0; i<40; i+=2)
 	{
 		word32 a = h(i, key, len);

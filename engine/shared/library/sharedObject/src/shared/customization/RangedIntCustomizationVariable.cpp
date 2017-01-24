@@ -117,7 +117,7 @@ bool RangedIntCustomizationVariable::restoreFromByteVector(ByteVector const &dat
 			// Check range.
 			if (startIndex + 1 >= static_cast<int>(data.size()))
 			{
-				WARNING(true, ("restoreFromByteVector(): attempting to restore short signed int but not enough data."));
+				WARNING(true, ("restoreFromByteVector(): attempting to restore int16_t signed int but not enough data."));
 				return false;
 			}
 			

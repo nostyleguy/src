@@ -33,7 +33,7 @@ __declspec(naked) ulong htonl(ulong hostLong)
 	}
 } //lint !e533 !e715 // function should return a value, argument not referenced
 
-__declspec(naked) ushort ntohs(ushort netShort)
+__declspec(naked) uint16_t ntohs(uint16_t netShort)
 {
 	_asm
 	{
@@ -44,7 +44,7 @@ __declspec(naked) ushort ntohs(ushort netShort)
 	}
 } //lint !e533 !e715 // function should return a value, argument not referenced
 
-__declspec(naked) ushort htons(ushort hostShort)
+__declspec(naked) uint16_t htons(uint16_t hostShort)
 {
 	_asm
 	{

@@ -914,7 +914,7 @@ void GameServer::receiveMessage(const MessageDispatch::Emitter & source, const M
 		}
 		case constcrc("CustomerServiceServerGameServerServiceAddress"): {
 			Archive::ReadIterator ri = static_cast<GameNetworkMessage const &>(message).getByteStream().begin();
-			GenericValueTypeMessage <std::pair<std::string, unsigned short>> const address(ri);
+			GenericValueTypeMessage <std::pair<std::string, uint16_t>> const address(ri);
 
 			DEBUG_REPORT_LOG(true, ("GameServer: Creating customer service server connection @ (%s:%d)\n", address
 					.getValue().first.c_str(), address.getValue().second));

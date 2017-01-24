@@ -11,7 +11,7 @@
 
 //-----------------------------------------------------------------------
 
-LoginConnection::LoginConnection(const std::string & a, const unsigned short p) :
+LoginConnection::LoginConnection(const std::string & a, const uint16_t p) :
 Connection(a, p, NetworkSetupData())
 {
 	REPORT_LOG(true, ("Waiting for loginserver connection %s:%d\n", a.c_str(), p));

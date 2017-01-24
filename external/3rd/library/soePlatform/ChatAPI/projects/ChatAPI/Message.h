@@ -741,7 +741,7 @@ namespace ChatSystem
 	private:
 		ChatAvatarCore m_srcAvatar;
 		unsigned m_destAvatarID;
-		short m_confirm;
+		int16_t m_confirm;
 	};
 
 	class MFriendConfirmReciprocateRequest : GenericAPI::GenericMessage
@@ -769,7 +769,7 @@ namespace ChatSystem
 	private:
 		ChatAvatarCore m_srcAvatar;
 		unsigned m_destAvatarID;
-		short m_confirm;
+		int16_t m_confirm;
 	};
 
 	class MChangeRoomOwner: GenericAPI::GenericMessage

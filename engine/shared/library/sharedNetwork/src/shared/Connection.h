@@ -31,7 +31,7 @@ class UdpConnectionMT;
 class Connection : public NetworkHandler
 {
 public:
-	Connection   (const std::string & remoteAddress, const unsigned short remotePort, const NetworkSetupData & setup);
+	Connection   (const std::string & remoteAddress, const uint16_t remotePort, const NetworkSetupData & setup);
 	explicit Connection   (UdpConnectionMT * newConnection, TcpClient * t = 0);
 
 	virtual   ~Connection  ();
@@ -39,7 +39,7 @@ public:
 	void                  describeConnection       (const std::string &);
 	const std::string &   getConnectionDescription () const;
 	const std::string &   getRemoteAddress         () const;
-	const unsigned short  getRemotePort            () const;
+	const uint16_t  getRemotePort            () const;
 	const UdpConnectionMT * getUdpConnection         () const;
 	UdpConnectionMT *       getUdpConnection         ();
 	WatchedByList        &getWatchedByList         () const;
@@ -105,7 +105,7 @@ protected:
 
 private:
 	std::string                  m_remoteAddress;
-	unsigned short               m_remotePort;
+	uint16_t               m_remotePort;
 	std::vector<DeferredSend *>  m_deferredMessages;
 	int                          m_deferredDataSize;
 	mutable WatchedByList        m_watchedByList;

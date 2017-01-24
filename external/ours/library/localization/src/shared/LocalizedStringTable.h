@@ -105,7 +105,7 @@ private:
 //-----------------------------------------------------------------
 
 /**
-* Get the short name of this table.
+* Get the int16_t name of this table.
 */
 
 inline const std::string & LocalizedStringTable::getName () const

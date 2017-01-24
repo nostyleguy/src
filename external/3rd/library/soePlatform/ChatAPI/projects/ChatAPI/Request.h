@@ -836,7 +836,7 @@ public:
 	virtual void pack(Base::ByteStream &msg);
 
 private:
-	short m_avatarPresence;;
+	int16_t m_avatarPresence;;
 	unsigned m_srcAvatarID;
 	Plat_Unicode::String m_srcName;
 	Plat_Unicode::String m_destAvatar;
@@ -860,7 +860,7 @@ public:
 	virtual void pack(Base::ByteStream &msg);
 
 private:
-	short m_avatarPresence;;
+	int16_t m_avatarPresence;;
 	unsigned m_srcAvatarID;
 	Plat_Unicode::String m_srcName;
 	unsigned m_numDestAvatars;
@@ -1078,7 +1078,7 @@ public:
 private:
 	unsigned m_srcAvatarID;
 	unsigned m_destAvatarID;
-	short m_confirm;
+	int16_t m_confirm;
 	Plat_Unicode::String m_srcAddress;
 };
 
@@ -1093,7 +1093,7 @@ public:
 private:
 	unsigned m_srcAvatarID;
 	unsigned m_destAvatarID;
-	short m_confirm;
+	int16_t m_confirm;
 	Plat_Unicode::String m_srcAddress;
 };
 class RGetFanClubHandle : public GenericAPI::GenericRequest
@@ -1124,14 +1124,14 @@ private:
 class RRegistrarGetChatServer : public GenericAPI::GenericRequest
 {
 public:
-	RRegistrarGetChatServer(std::string &hostname, unsigned short port);
+	RRegistrarGetChatServer(std::string &hostname, uint16_t port);
 	virtual ~RRegistrarGetChatServer() {};
 
 	virtual void pack(Base::ByteStream &msg);
 
 private:
 	Plat_Unicode::String m_hostname;
-	unsigned short m_port;
+	uint16_t m_port;
 };
 
 class RSendApiVersion : public GenericAPI::GenericRequest

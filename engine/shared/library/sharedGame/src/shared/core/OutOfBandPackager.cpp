@@ -45,7 +45,7 @@ void OutOfBandPackager::pack(const Archive::ByteStream & source, const unsigned 
 	DEBUG_FATAL (ubufSize * sizeof (Unicode::unicode_char_t) != package.getSize (), ("bad packing logic"));
 
 	//-- note the size of the skip remainder padding so the unpacking function can advance over it
-	target.append (1, static_cast<unsigned short>(skipRemainder));
+	target.append (1, static_cast<uint16_t>(skipRemainder));
 	target.append (ubuf, ubuf + ubufSize);
 }
 
@@ -130,7 +130,7 @@ OutOfBandPackager::OutOfBandBaseVector OutOfBandPackager::unpack(const Unicode::
 			if (count > 0 && numUnpacked >= count)
 				break;
 			
-			unsigned short skipRemainder = 0;
+			uint16_t skipRemainder = 0;
 			
 			Archive::get(ri, skipRemainder);
 			Archive::get(ri, typeId);

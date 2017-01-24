@@ -7,6 +7,8 @@
 // **********************************************************************************************
 // **********************************************************************************************
 //#include <UdpHandler.hpp>
+
+#include <stdint.h>
 #include <UdpLibrary.hpp>
 
 #define CURRENT_API_VERSION	 3
@@ -34,7 +36,7 @@ Usage
 	'l' - long int (4)
 	'L' - long long int (8)
 	'i' - int (4)
-	's' - short int (2)
+	's' - int16_t int (2)
 	'S' - C-style, nullptr-terminated string (n + nullptr)
 	'Bn' - buffer, of size n.  Used for non-terminated strings, or
 	       other binary data.  
@@ -42,9 +44,9 @@ Usage
 
 extern int packString(char *buffer, int & len, char * value);
 extern int packByte(char *buffer, int & len, char value);
-extern int packShort(char *buffer, int & len, short value);
-extern int unpackShort(char *buffer, int & len, short & value);
-extern int unpackShort(char *buffer, int & len, unsigned short & value);
+extern int packShort(char *buffer, int & len, int16_t value);
+extern int unpackShort(char *buffer, int & len, int16_t & value);
+extern int unpackShort(char *buffer, int & len, uint16_t & value);
 extern int unpackByte( char *buffer, int & len, char & value);
  
 
@@ -97,20 +99,20 @@ enum MON_ERRORS
 class monMessage
 {
 public:
-	monMessage(short  command, short sequence, short size);
+	monMessage(int16_t  command, int16_t sequence, int16_t size);
 	monMessage(const unsigned char * source);
 	monMessage(const monMessage &copy);
 	monMessage();
 
-	inline const unsigned short getCommand() const {return command;}
-	inline const unsigned short getSequence() const {return sequence;}
-	inline const unsigned short getSize() const {return size;}
-    inline void setSize(unsigned short _size ) {size=_size;}
+	inline const uint16_t getCommand() const {return command;}
+	inline const uint16_t getSequence() const {return sequence;}
+	inline const uint16_t getSize() const {return size;}
+    inline void setSize(uint16_t _size ) {size=_size;}
 
 private:
-	short command;
-	short sequence;
-	unsigned short size;
+	int16_t command;
+	int16_t sequence;
+	uint16_t size;
 };
 
 //----------------------------------------------------------------
@@ -119,7 +121,7 @@ private:
 class stringMessage : public monMessage
 {
 public:
-	stringMessage(const unsigned short command, const unsigned short sequence, const unsigned short size, char * data);
+	stringMessage(const uint16_t command, const uint16_t sequence, const uint16_t size, char * data);
 	stringMessage(const unsigned char * source);
 
 	virtual ~stringMessage();
@@ -137,16 +139,16 @@ private:
 class authReplyMessage : public monMessage
 {
 public:
-	authReplyMessage(const unsigned short command, const unsigned short sequence, const unsigned short size, byte data);
+	authReplyMessage(const uint16_t command, const uint16_t sequence, const uint16_t size, byte data);
 	authReplyMessage(const unsigned char * source);
 
 	inline const unsigned char getData() const {return data;};
-	inline const short		 getVersion() const { return version; };
+	inline const int16_t		 getVersion() const { return version; };
 	inline void setData(const unsigned char newData) {data = newData;}
 
 private:
 	char data;
-	short version;
+	int16_t version;
 };
 
 //----------------------------------------------------------------
@@ -156,7 +158,7 @@ private:
 class dataReplyMessage : public monMessage
 {
 public:
-	dataReplyMessage(const unsigned short command, const unsigned short sequence, const unsigned short size, unsigned char *data, int dataLen);
+	dataReplyMessage(const uint16_t command, const uint16_t sequence, const uint16_t size, unsigned char *data, int dataLen);
 	dataReplyMessage(const unsigned char * source);
 
 	virtual ~dataReplyMessage();
@@ -192,7 +194,7 @@ private:
 class simpleMessage : public monMessage
 {
 public:
-	simpleMessage(const unsigned short command, const unsigned short sequence, const unsigned short size);
+	simpleMessage(const uint16_t command, const uint16_t sequence, const uint16_t size);
 	simpleMessage(const unsigned char * source);
 
 	virtual ~simpleMessage();
@@ -242,13 +244,13 @@ class CMonitorData {
 	int					m_max;
 	char				*m_buffer;
 	int					m_nbuffer;
-	short				m_sequence;
+	int16_t				m_sequence;
 //	GenericNotifier     *m_notifier;
 
 	int parseList( char **list, char *data, char tok , int max );
 	void resize_buffer(int new_size);
-	void send( UdpConnection *mConnection, short & sequence, short msg, char *data );
-	void send( UdpConnection *mConnection, short & sequence, short msg, char *data , int size);
+	void send( UdpConnection *mConnection, int16_t & sequence, int16_t msg, char *data );
+	void send( UdpConnection *mConnection, int16_t & sequence, int16_t msg, char *data , int size);
 
 public:
 
@@ -260,10 +262,10 @@ public:
 	int DataMax(){ return m_max; }
     void setMax(int _max);
 								 
-	// bool processHierarchyRequest(UdpConnection *con, short & sequence);
-    bool processHierarchyRequestBlock(UdpConnection *con, short & sequence);
-	bool processElementsRequest( UdpConnection *con, short & sequence, char * userData, int dataLen , long lastUpdateTime);
-	bool processDescriptionRequest(UdpConnection *con, short & sequence, char * userData, int dataLen,unsigned char *mark);
+	// bool processHierarchyRequest(UdpConnection *con, int16_t & sequence);
+    bool processHierarchyRequestBlock(UdpConnection *con, int16_t & sequence);
+	bool processElementsRequest( UdpConnection *con, int16_t & sequence, char * userData, int dataLen , long lastUpdateTime);
+	bool processDescriptionRequest(UdpConnection *con, int16_t & sequence, char * userData, int dataLen,unsigned char *mark);
 	int add(const char *label, int id, int ping, const char *des );
 	int  setDescription( int Id, const char *Description , int & mode);
 	char *getDescription(int x){ if( m_ndata >= x ) return nullptr; return m_data[x].discription;}
@@ -283,7 +285,7 @@ public:
 class MonitorObject : public UdpConnectionHandler
 {
 	CMonitorData  *mMonitorData;
-	short mSequence;
+	int16_t mSequence;
 	char *mPasswd;
 	char **mAddressList;
 	unsigned char *mMark;

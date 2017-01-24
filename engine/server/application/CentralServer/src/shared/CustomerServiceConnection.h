@@ -16,16 +16,16 @@ class CustomerServiceConnection : public ServerConnection
 public:
 	CustomerServiceConnection(UdpConnectionMT *, TcpClient *);
 	~CustomerServiceConnection();
-	const unsigned short  getGameServicePort  () const;
+	const uint16_t  getGameServicePort  () const;
 	void                  onConnectionClosed  ();
 	void                  onConnectionOpened  ();
 	void                  onReceive           (const Archive::ByteStream & message);
-	void                  setGameServicePort  (const unsigned short gameServicePort);
+	void                  setGameServicePort  (const uint16_t gameServicePort);
 
 private:
 	CustomerServiceConnection & operator = (const CustomerServiceConnection & rhs);
 	CustomerServiceConnection(const CustomerServiceConnection & source);
-	unsigned short  gameServicePort;
+	uint16_t  gameServicePort;
 
 }; //lint !e1712 default constructor not defined
 

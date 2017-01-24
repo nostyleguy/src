@@ -46,7 +46,7 @@ class GenericConnection : public TcpConnectionHandler
 	{
 	public:
 		GenericConnection(const char *host,
-						  short port,
+						  int16_t port,
 						  GenericAPICore *apiCore,
 						  unsigned reconnectTimeout,
 						  unsigned noDataTimeoutSecs = 5,
@@ -62,7 +62,7 @@ class GenericConnection : public TcpConnectionHandler
 		virtual void		OnTerminated(TcpConnection *con);
 		void				Send(Base::ByteStream &msg);
 		inline const char	*getHost()	const	{ return m_host.c_str(); }
-		inline const short	getPort()	const	{ return m_port; }
+		inline const int16_t	getPort()	const	{ return m_port; }
         
 		inline eConnectStatus isConnected()		{ return m_bConnected; }
 		void				disconnect();
@@ -74,7 +74,7 @@ private:
         TcpManager		*m_manager;
         TcpConnection	*m_con;
 		std::string		m_host;
-		short			m_port;
+		int16_t			m_port;
 		eConState		m_conState;
 		time_t			m_conTimeout;
 		unsigned		m_reconnectTimeout;

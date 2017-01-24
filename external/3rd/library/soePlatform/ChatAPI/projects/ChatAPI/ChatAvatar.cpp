@@ -193,7 +193,7 @@ ChatUnicodeString ChatAvatar::CreateAddressFromName(const ChatUnicodeString & na
 	unsigned sum = std::accumulate(hexName.begin(), hexName.end(), 0);
 
 	// mod to a world ID.
-	unsigned short worldID = (sum % MOD_NUMBER);
+	uint16_t worldID = (sum % MOD_NUMBER);
 
 	char buff[256];
 	memset(buff, 0, 256);

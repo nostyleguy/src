@@ -6,10 +6,10 @@
 #include "Request.h"
 #include "Response.h"
 
-const unsigned short EMPTY_STRING[1] = { 0 };
+const uint16_t EMPTY_STRING[1] = { 0 };
 const char * DEFAULT_GAMECODE = "SWG";
 const char * DEFAULT_HOST = "localhost";
-const unsigned short DEFAULT_PORT = 2000;
+const uint16_t DEFAULT_PORT = 2000;
 
 namespace CTService 
 {
@@ -21,7 +21,7 @@ CTServiceAPI::CTServiceAPI(const char *hostName, const char *game)
 //-----------------------------------------------
 {
 	std::vector<const char *> hostArray;
-	std::vector<short> portArray;
+	std::vector<int16_t> portArray;
 	char hostConfig[4096];
 	if (hostName == nullptr) 
 		hostName = DEFAULT_HOST;
@@ -34,7 +34,7 @@ CTServiceAPI::CTServiceAPI(const char *hostName, const char *game)
 		{
 			char * host = ptr;
 			char * portStr = strchr(host, ':');
-			unsigned short port = DEFAULT_PORT;
+			uint16_t port = DEFAULT_PORT;
 			if (portStr)
 			{
 				*portStr++ = 0;

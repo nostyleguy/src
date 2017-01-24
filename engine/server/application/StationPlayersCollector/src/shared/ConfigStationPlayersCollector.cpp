@@ -58,7 +58,7 @@ void ConfigStationPlayersCollector::remove(void)
 
 //-----------------------------------------------------------------------
 
-unsigned short ConfigStationPlayersCollector::getCentralServerServiceBindPort()
+uint16_t ConfigStationPlayersCollector::getCentralServerServiceBindPort()
 {
 	return data->centralServerServiceBindPort;
 }
@@ -101,7 +101,7 @@ const char * ConfigStationPlayersCollector::getDatabaseSchema()
 
 //-----------------------------------------------------------------------
 
-unsigned short ConfigStationPlayersCollector::getSecondsBetweenDBReconnect()
+uint16_t ConfigStationPlayersCollector::getSecondsBetweenDBReconnect()
 {
 	return data->secondsBetweenDBReconnect;
 }

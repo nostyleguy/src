@@ -19,11 +19,11 @@
 // basic types that we assume to be around
 
 typedef unsigned char          uint8;
-typedef unsigned short         uint16;
+typedef uint16_t         uint16;
 typedef unsigned long          uint32;
 typedef unsigned __int64       uint64;
 typedef signed char            int8;
-typedef signed short           int16;
+typedef int16_t           int16;
 typedef signed long            int32;
 typedef signed __int64         int64;
 typedef int                    FILE_HANDLE;

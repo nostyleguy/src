@@ -4,6 +4,7 @@
 // Copyright 2004 Sony Online Entertainment, all rights reserved.
 // Author: Jeff Petersen
 
+#include <stdint.h>
 #include <assert.h>
 
 namespace UdpLibrary
@@ -22,8 +23,7 @@ class UdpPlatformAddress;
 #endif
 
 typedef unsigned char udp_uchar;
-typedef unsigned short udp_ushort;
-typedef unsigned int udp_uint;
+typedef uint32_t udp_uint;
 typedef unsigned long udp_ulong;
 typedef udp_int64 UdpClockStamp;
 typedef UdpPlatformAddress UdpIpAddress;        // deprecated, use UdpPlatformAddress directly instead

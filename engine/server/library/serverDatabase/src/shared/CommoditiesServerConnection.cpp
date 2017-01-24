@@ -27,7 +27,7 @@ using namespace CommoditiesServerConnectionNamespace;
 
 //-----------------------------------------------------------------------
 
-CommoditiesServerConnection::CommoditiesServerConnection(const std::string & a, const unsigned short p) :
+CommoditiesServerConnection::CommoditiesServerConnection(const std::string & a, const uint16_t p) :
 	ServerConnection(a, p, NetworkSetupData()),
 	MessageDispatch::Receiver()
 {

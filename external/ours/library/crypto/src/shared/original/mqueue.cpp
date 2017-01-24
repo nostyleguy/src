@@ -5,7 +5,7 @@
 
 NAMESPACE_BEGIN(CryptoPP)
 
-MessageQueue::MessageQueue(unsigned int nodeSize)
+MessageQueue::MessageQueue(uint32_t nodeSize)
 	: m_queue(nodeSize), m_lengths(1, 0)
 {
 }
@@ -21,11 +21,11 @@ bool MessageQueue::RetrieveNextMessage()
 		return false;
 }
 
-unsigned int MessageQueue::CopyMessagesTo(BufferedTransformation &target, unsigned int count) const
+uint32_t MessageQueue::CopyMessagesTo(BufferedTransformation &target, uint32_t count) const
 {
 	ByteQueue::Walker walker(m_queue);
-	std::deque<unsigned long>::const_iterator it = m_lengths.begin();
-	unsigned int i;
+	std::deque<uint32_t>::const_iterator it = m_lengths.begin();
+	uint32_t i;
 	for (i=0; i<count && it != --m_lengths.end(); ++i, ++it)
 	{
 		walker.TransferTo(target, *it);

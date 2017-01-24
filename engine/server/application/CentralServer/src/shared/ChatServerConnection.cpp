@@ -23,7 +23,7 @@ ChatServerConnection::~ChatServerConnection()
 
 //-----------------------------------------------------------------------
 
-const unsigned short ChatServerConnection::getGameServicePort() const
+const uint16_t ChatServerConnection::getGameServicePort() const
 {
 	return gameServicePort;
 }
@@ -55,7 +55,7 @@ void ChatServerConnection::onReceive(const Archive::ByteStream & message)
 
 //-----------------------------------------------------------------------
 
-void ChatServerConnection::setGameServicePort(const unsigned short p)
+void ChatServerConnection::setGameServicePort(const uint16_t p)
 {
 	gameServicePort = p;
 }

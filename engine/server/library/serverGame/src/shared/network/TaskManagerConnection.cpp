@@ -13,7 +13,7 @@
 
 //-----------------------------------------------------------------------
 
-TaskManagerConnection::TaskManagerConnection(const std::string & a, const unsigned short p) :
+TaskManagerConnection::TaskManagerConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData())
 {
 }

@@ -14,7 +14,7 @@
 class ChatServerConnection : public ServerConnection
 {
 public:
-	ChatServerConnection(const std::string & address, const unsigned short port);
+	ChatServerConnection(const std::string & address, const uint16_t port);
 	~ChatServerConnection();
 
 	void onConnectionClosed();

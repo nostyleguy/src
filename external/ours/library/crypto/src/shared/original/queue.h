@@ -6,6 +6,8 @@
 #include "cryptlib.h"
 #include <algorithm>
 
+#define ULONG_SIZE sizeof(uint32_t)
+
 NAMESPACE_BEGIN(CryptoPP)
 
 /** The queue is implemented as a linked list of arrays, but you don't need to
@@ -16,48 +18,48 @@ class ByteQueueNode;
 class ByteQueue : public BufferedTransformation
 {
 public:
-	ByteQueue(unsigned int m_nodeSize=256);
+	ByteQueue(uint32_t m_nodeSize=256);
 	ByteQueue(const ByteQueue &copy);
 	~ByteQueue();
 
-	unsigned long MaxRetrievable() const
+	uint32_t MaxRetrievable() const
 		{return CurrentSize();}
 	bool AnyRetrievable() const
 		{return !IsEmpty();}
 
 	void Put(byte inByte);
-	void Put(const byte *inString, unsigned int length);
+	void Put(const byte *inString, uint32_t length);
 
-	unsigned int Get(byte &outByte);
-	unsigned int Get(byte *outString, unsigned int getMax);
+	uint32_t Get(byte &outByte);
+	uint32_t Get(byte *outString, uint32_t getMax);
 
-	unsigned int Peek(byte &outByte) const;
-	unsigned int Peek(byte *outString, unsigned int peekMax) const;
+	uint32_t Peek(byte &outByte) const;
+	uint32_t Peek(byte *outString, uint32_t peekMax) const;
 
-	unsigned long Skip(unsigned long skipMax=ULONG_MAX);
-	unsigned long TransferTo(BufferedTransformation &target, unsigned long transferMax=ULONG_MAX);
-	unsigned long CopyTo(BufferedTransformation &target, unsigned long copyMax=ULONG_MAX) const;
+	uint32_t Skip(uint32_t skipMax=ULONG_SIZE);
+	uint32_t TransferTo(BufferedTransformation &target, uint32_t transferMax=ULONG_SIZE);
+	uint32_t CopyTo(BufferedTransformation &target, uint32_t copyMax=ULONG_SIZE) const;
 
 	// these member functions are not inherited
-	unsigned long CurrentSize() const;
+	uint32_t CurrentSize() const;
 	bool IsEmpty() const;
 
 	void Clear();
 
 	void Unget(byte inByte);
-	void Unget(const byte *inString, unsigned int length);
+	void Unget(const byte *inString, uint32_t length);
 
-	const byte * Spy(unsigned int &contiguousSize) const;
+	const byte * Spy(uint32_t &contiguousSize) const;
 
-	byte * MakeNewSpace(unsigned int &contiguousSize);
-	void OccupyNewSpace(unsigned int size);
+	byte * MakeNewSpace(uint32_t &contiguousSize);
+	void OccupyNewSpace(uint32_t size);
 
-	void LazyPut(const byte *inString, unsigned int size);
+	void LazyPut(const byte *inString, uint32_t size);
 	void FinalizeLazyPut();
 
 	ByteQueue & operator=(const ByteQueue &rhs);
 	bool operator==(const ByteQueue &rhs) const;
-	byte operator[](unsigned long i) const;
+	byte operator[](uint32_t i) const;
 	void swap(ByteQueue &rhs);
 
 	class Walker : public BufferedTransformation
@@ -67,28 +69,28 @@ public:
 			: m_queue(queue), m_node(queue.m_head), m_position(0), m_offset(0)
 			, m_lazyString(queue.m_lazyString), m_lazyLength(queue.m_lazyLength) {}
 
-		unsigned long MaxRetrievable() const
+		uint32_t MaxRetrievable() const
 			{return m_queue.CurrentSize() - m_position;}
 
 		void Put(byte inByte) {}
-		void Put(const byte *inString, unsigned int length) {}
+		void Put(const byte *inString, uint32_t length) {}
 
-		unsigned int Get(byte &outByte);
-		unsigned int Get(byte *outString, unsigned int getMax);
+		uint32_t Get(byte &outByte);
+		uint32_t Get(byte *outString, uint32_t getMax);
 
-		unsigned int Peek(byte &outByte) const;
-		unsigned int Peek(byte *outString, unsigned int peekMax) const;
+		uint32_t Peek(byte &outByte) const;
+		uint32_t Peek(byte *outString, uint32_t peekMax) const;
 
-		unsigned long Skip(unsigned long skipMax=ULONG_MAX);
-		unsigned long TransferTo(BufferedTransformation &target, unsigned long transferMax=ULONG_MAX);
-		unsigned long CopyTo(BufferedTransformation &target, unsigned long copyMax=ULONG_MAX) const;
+		uint32_t Skip(uint32_t skipMax=ULONG_SIZE);
+		uint32_t TransferTo(BufferedTransformation &target, uint32_t transferMax=ULONG_SIZE);
+		uint32_t CopyTo(BufferedTransformation &target, uint32_t copyMax=ULONG_SIZE) const;
 
 	private:
 		const ByteQueue &m_queue;
 		const ByteQueueNode *m_node;
-		unsigned int m_position, m_offset;
+		uint32_t m_position, m_offset;
 		const byte *m_lazyString;
-		unsigned int m_lazyLength;
+		uint32_t m_lazyLength;
 	};
 
 	friend class Walker;
@@ -98,17 +100,17 @@ private:
 	void CopyFrom(const ByteQueue &copy);
 	void Destroy();
 
-	unsigned int m_nodeSize;
+	uint32_t m_nodeSize;
 	ByteQueueNode *m_head, *m_tail;
 	const byte *m_lazyString;
-	unsigned int m_lazyLength;
+	uint32_t m_lazyLength;
 };
 
 //! use this to make sure LazyPut is finalized in event of exception
 class LazyPutter
 {
 public:
-	LazyPutter(ByteQueue &bq, const byte *inString, unsigned int size)
+	LazyPutter(ByteQueue &bq, const byte *inString, uint32_t size)
 		: m_bq(bq) {bq.LazyPut(inString, size);}
 	~LazyPutter()
 		{try {m_bq.FinalizeLazyPut();} catch(...) {}}

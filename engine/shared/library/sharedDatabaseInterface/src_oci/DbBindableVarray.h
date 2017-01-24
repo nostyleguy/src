@@ -59,12 +59,18 @@ namespace DB
 	  public:
 		bool push_back(bool IsNULL, int value);
 		bool push_back(bool IsNULL, double value);
+
+#if not __x86_64__
 		bool push_back(bool IsNULL, long int value);
-		bool push_back(bool IsNULL, int64 value);
+#endif
+		bool push_back(bool IsNULL, int64_t value);
 		bool push_back(int value);
 		bool push_back(double value);
+
+#if not __x86_64__
 		bool push_back(long int value);
-		bool push_back(int64 value);
+#endif		
+		bool push_back(int64_t value);
 
 		virtual std::string outputValue() const;
 	};

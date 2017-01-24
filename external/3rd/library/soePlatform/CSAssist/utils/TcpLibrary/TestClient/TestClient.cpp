@@ -5,7 +5,7 @@ extern unsigned g_numSent;
 extern unsigned g_numRecvd;
 
 
-TestClient::TestClient(const std::string &serverAddress, unsigned short serverPort)
+TestClient::TestClient(const std::string &serverAddress, uint16_t serverPort)
 : m_conState(CON_DISCONNECT),
   m_serverAddress(serverAddress),
   m_serverPort(serverPort)

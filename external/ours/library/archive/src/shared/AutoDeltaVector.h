@@ -33,7 +33,7 @@ public:
 			CLEAR
 		};
 		unsigned char cmd;
-		unsigned short int  index;
+		uint16_t  index;
 		ValueType     value;
 	};
 
@@ -207,10 +207,10 @@ inline void AutoDeltaVector<ValueType, ObjectType>::erase(const unsigned int ele
 		Command c;
 		c.cmd = Command::ERASE;
 
-		//-- cast to shorts to reduce net traffic. If we are synchronizing
+		//-- cast to int16_ts to reduce net traffic. If we are synchronizing
 		// vectors with more than 65,535 elements, we have some serious
 		// design issues
-		c.index = static_cast<unsigned short>(element);
+		c.index = static_cast<uint16_t>(element);
 		//--
 
 		commands.push_back(c);
@@ -273,7 +273,7 @@ inline void AutoDeltaVector<ValueType, ObjectType>::insert(const unsigned int be
 {
 	Command c;
 	c.cmd = Command::INSERT;
-	c.index = static_cast<unsigned short>(before);
+	c.index = static_cast<uint16_t>(before);
 	c.value = newValue;
 	commands.push_back(c);
 	++baselineCommandCount;
@@ -510,7 +510,7 @@ inline void AutoDeltaVector<ValueType, ObjectType>::set(const unsigned int eleme
 
 	Command c;
 	c.cmd = Command::SET;
-	c.index = static_cast<unsigned short>(element);
+	c.index = static_cast<uint16_t>(element);
 	c.value = newValue;
 	commands.push_back(c);
 	++baselineCommandCount;
@@ -533,7 +533,7 @@ inline void AutoDeltaVector<ValueType, ObjectType>::set(const VectorType & newVa
 {
 	Command c;
 	c.cmd = Command::SETALL;
-	c.index = static_cast<unsigned short>(newValue.size());
+	c.index = static_cast<uint16_t>(newValue.size());
 	commands.push_back(c);
 	++baselineCommandCount;
 
@@ -542,7 +542,7 @@ inline void AutoDeltaVector<ValueType, ObjectType>::set(const VectorType & newVa
 	for (unsigned int i = 0; i < newValue.size(); ++i)
 	{
 		c.cmd = Command::SET;
-		c.index = static_cast<unsigned short>(i);
+		c.index = static_cast<uint16_t>(i);
 		c.value = v[i];
 		commands.push_back(c);
 		++baselineCommandCount;
@@ -654,7 +654,7 @@ inline void AutoDeltaVector<ValueType, ObjectType>::unpack(ReadIterator & source
 	for (size_t i = 0; i < commandCount; ++i)
 	{
 		get(source,c.value);
-		c.index = static_cast<unsigned short int>(i);
+		c.index = static_cast<uint16_t>(i);
 		c.cmd = Command::INSERT;
 
 		data.push_back(c);

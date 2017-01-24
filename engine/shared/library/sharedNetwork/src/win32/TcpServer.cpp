@@ -15,7 +15,7 @@
 
 //-----------------------------------------------------------------------
 
-TcpServer::TcpServer(Service * service, const std::string & bindAddress, const unsigned short bindPort) :
+TcpServer::TcpServer(Service * service, const std::string & bindAddress, const uint16_t bindPort) :
 m_handle(),
 m_localIOCP(),
 m_pendingConnections(),
@@ -70,7 +70,7 @@ TcpClient * TcpServer::accept()
 
 //-----------------------------------------------------------------------
 
-const unsigned short TcpServer::getBindPort() const
+const uint16_t TcpServer::getBindPort() const
 {
 	return m_bindPort;
 }

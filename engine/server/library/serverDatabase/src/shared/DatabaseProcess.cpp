@@ -353,8 +353,8 @@ void DatabaseProcess::connectToGameServer(const char *address, uint16 port, uint
 {
 	DEBUG_REPORT_LOG(true,("connectToGameServer is still getting invoked.\n"));
 	
-	std::pair<std::string, unsigned short> a(std::make_pair(std::string(address), port));
-	std::set<std::pair<std::string, unsigned short> >::const_iterator i = pendingGameServerConnections.find(a);
+	std::pair<std::string, uint16_t> a(std::make_pair(std::string(address), port));
+	std::set<std::pair<std::string, uint16_t> >::const_iterator i = pendingGameServerConnections.find(a);
 	if(i == pendingGameServerConnections.end())
 	{		
 		// check to see if there is already a connection active

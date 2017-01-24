@@ -37,7 +37,7 @@ hostAddress("0.0.0.0")
 	@todo Add a static resolver cache to Address to reduce potential
 	calls to gethostbyname()
 */
-Address::Address(const std::string & newHostAddress, const unsigned short newHostPort) :
+Address::Address(const std::string & newHostAddress, const uint16_t newHostPort) :
 addr4(new struct sockaddr_in),
 hostAddress(newHostAddress)
 {
@@ -220,7 +220,7 @@ const std::string & Address::getHostAddress() const
 
 	@author Justin Randall
 */
-const unsigned short Address::getHostPort() const
+const uint16_t Address::getHostPort() const
 {
 	return ntohs(addr4->sin_port);
 }

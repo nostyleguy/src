@@ -237,7 +237,7 @@ struct UdpParams
             // to be kept alive, or at least kept alive very often (like for a chat server perhaps where nobody is talking much).
             // For some people, it may be necessary to send data more frequently in order to keep their NAT mapping fresh, or their
             // firewall software happy.  However, we don't want to be in a situation where our server is receiving a lot more data
-            // than it needs to just so these people can keep their port open.  I have seen NAT's that lose mappings in as short
+            // than it needs to just so these people can keep their port open.  I have seen NAT's that lose mappings in as int16_t
             // as 20 seconds.  What this feature does is a bit tricky.  It changes the time-to-live (TTL) for a special keep-alive
             // packet to some small value (4) which is enough for the packet to get past firewalls and NAT's, but not make it all
             // the way to our server.  In this manner, the port gets kept alive, but we don't waste bandwidth with these packets.
@@ -285,7 +285,7 @@ struct UdpParams
             // them and terminate the connection.  When a packet is successfully received into the connection in question, the
             // retry period is reset, such that the next time an ICMP error comes in, it has another period of time for it
             // to resolve the issue.  This servers a couple purpose, 1) it can allow for momentary outages that can be recovered
-            // from in short order, and 2) it is necessary for the port-remapping feature to work properly in situations where
+            // from in int16_t order, and 2) it is necessary for the port-remapping feature to work properly in situations where
             // the server may send data to the old-port before the remapping negotiations are completed.  In order for the
             // remapping feature to work properly, this value should be set to larger than the longest time a connection typically
             // goes without receiving data from the other side. (0=no grace period)
@@ -574,7 +574,7 @@ class UdpManager : public UdpGuardedRefCount
         ErrorCondition GetErrorCondition() const;
 
             // previous UdpMisc stuff that now needs driver
-        udp_ushort LocalSyncStampShort();                        // gets a local-clock based sync-stamp. (only good for timings up to 32 seconds)
+        uint16_t LocalSyncStampShort();                        // gets a local-clock based sync-stamp. (only good for timings up to 32 seconds)
         udp_uint LocalSyncStampLong();                            // gets a local-clock based sync-stamp. (good for timings up to 23 days)
         int ClockElapsed(UdpClockStamp stamp);                    // returns a elapsed time since stamp in milliseconds (if elapsed is over 23 days, it returns 23 days)
         UdpClockStamp Clock();
@@ -991,9 +991,9 @@ inline int UdpManager::ClockElapsed(UdpClockStamp stamp)
     return(UdpMisc::ClockDiff(stamp, Clock()));
 }
 
-inline udp_ushort UdpManager::LocalSyncStampShort()
+inline uint16_t UdpManager::LocalSyncStampShort()
 {
-    return((udp_ushort)(Clock() & 0xffff));
+    return((uint16_t)(Clock() & 0xffff));
 }
 
 inline udp_uint UdpManager::LocalSyncStampLong()

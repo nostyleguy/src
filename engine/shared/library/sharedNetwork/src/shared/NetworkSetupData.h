@@ -44,7 +44,7 @@ public:
 	int             reliableOverflowBytes;
 	int             icmpErrorRetryPeriod;
 	int             maxDataHoldSize;
-	unsigned short  port;
+	uint16_t  port;
 	std::string     bindInterface;
 	bool            compress;
 	bool            allowPortRemapping;

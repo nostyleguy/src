@@ -15,13 +15,13 @@ class AuctionTransferAPI;
 class AuctionTransferAPICore : public GenericAPICore
 {
 public:
-	AuctionTransferAPICore(const char *hostName[], const short port[], int count, AuctionTransferAPI *api, const char *identifier[], unsigned identifierCount, unsigned timeout = 60, unsigned maxRecvMessageSizeInKB = 16000);
+	AuctionTransferAPICore(const char *hostName[], const int16_t port[], int count, AuctionTransferAPI *api, const char *identifier[], unsigned identifierCount, unsigned timeout = 60, unsigned maxRecvMessageSizeInKB = 16000);
 	virtual ~AuctionTransferAPICore();
 
 	void OnConnect(GenericConnection *connection);
 	void OnDisconnect(GenericConnection *connection);
 	void responseCallback(GenericResponse *response);
-	void responseCallback(short type, Base::ByteStream::ReadIterator &iter, GenericConnection *connection);
+	void responseCallback(int16_t type, Base::ByteStream::ReadIterator &iter, GenericConnection *connection);
 
 private:
 	AuctionTransferAPI *m_api;

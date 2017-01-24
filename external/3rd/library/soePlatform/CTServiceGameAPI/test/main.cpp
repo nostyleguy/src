@@ -12,8 +12,8 @@ namespace CTService
 			Client(const char *hostList, const char *game);
 			virtual ~Client();
 
-			virtual void onConnect(const char *host, const short port, const short current, const short max);
-			virtual void onDisconnect(const char *host, const short port, const short current, const short max);
+			virtual void onConnect(const char *host, const int16_t port, const int16_t current, const int16_t max);
+			virtual void onDisconnect(const char *host, const int16_t port, const int16_t current, const int16_t max);
 
 			virtual void onTest(const unsigned track, const int resultCode, const unsigned value, void *user);
 			virtual void onReplyTest(const unsigned track, const int resultCode, void *user);
@@ -59,17 +59,17 @@ namespace CTService
 	}
 
 	void Client::onConnect(const char *host, 
-		const short port, 
-		const short current, 
-		const short max)
+		const int16_t port, 
+		const int16_t current, 
+		const int16_t max)
 	{
 		printf("onConnect(%s, %u, %d, %d)\n",host,port,current,max);
 	}
 
 	void Client::onDisconnect(const char *host, 
-		const short port, 
-		const short current, 
-		const short max)
+		const int16_t port, 
+		const int16_t current, 
+		const int16_t max)
 	{
 		printf("onDisconnect(%s, %u, %d, %d)\n",host,port,current,max);
 	}
@@ -145,7 +145,7 @@ namespace CTService
 	{
 		unsigned status;
 		unsigned result;
-		unsigned short * reason = L"makes me horny it does";
+		uint16_t * reason = L"makes me horny it does";
 
 		printf("#%x onRequestMoveStatus(%s, #%u)\n", 
 			server_track,
@@ -190,8 +190,8 @@ namespace CTService
 			withItems ? "/w items" : "/wo items");
 
 		int result = resultArray[(resultIndex++)%4];
-		unsigned short * reason = L"makes me horny it does";
-		unsigned short * suggested = L"yoda";
+		uint16_t * reason = L"makes me horny it does";
+		uint16_t * suggested = L"yoda";
 
 		replyValidateMove(server_track, result, reason, suggested, 0);
 	}
@@ -222,8 +222,8 @@ namespace CTService
 			withItems ? "/w items" : "/wo items");
 
 		int result = resultArray[(resultIndex++)%4];
-		unsigned short * reason = L"makes me horny it does";
-		unsigned short * suggested = L"yoda";
+		uint16_t * reason = L"makes me horny it does";
+		uint16_t * suggested = L"yoda";
 		mTransactionMap[transactionID] = result;
 		replyMove(server_track, result, reason, 0);
 	}

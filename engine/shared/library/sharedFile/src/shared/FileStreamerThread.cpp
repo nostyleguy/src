@@ -166,7 +166,7 @@ void FileStreamerThread::processRead(volatile Request *request)
 {
 	NOT_NULL(request);
 
-	// shortcut to the file
+	// int16_tcut to the file
 	OsFile *osFile = request->osFile;
 
 	// seek to the requested offset

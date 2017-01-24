@@ -22,7 +22,7 @@
 class CommoditiesServerConnection : public ServerConnection
 {
 public:
-	CommoditiesServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	CommoditiesServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	~CommoditiesServerConnection();
 
 	void  onConnectionClosed();

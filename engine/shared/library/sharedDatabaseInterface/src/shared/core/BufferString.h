@@ -26,7 +26,7 @@ namespace DB
 /**
  * A nullable string class similar to DB::BindableString, but uses std::string
  * internally.  Unlike DB::BindableString, it does not allocate the maximum
- * size for the buffer if the data is shorter.  This class will save memory
+ * size for the buffer if the data is int16_ter.  This class will save memory
  * over DB::BindableString if used in a buffer that stores a lot of rows.
  * However, it cannot be bound directly in a query.  It must be copied
  * to a varray or a DB::BindableString first.

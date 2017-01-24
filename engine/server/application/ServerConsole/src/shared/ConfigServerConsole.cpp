@@ -45,9 +45,9 @@ const char * const ConfigServerConsole::getServerAddress()
 
 //-----------------------------------------------------------------------
 
-unsigned short ConfigServerConsole::getServerPort()
+uint16_t ConfigServerConsole::getServerPort()
 {
-	return static_cast<unsigned short>(serverPort);
+	return static_cast<uint16_t>(serverPort);
 }
 
 //-----------------------------------------------------------------------

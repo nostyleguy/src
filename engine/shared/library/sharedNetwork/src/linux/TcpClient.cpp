@@ -73,7 +73,7 @@ m_rawTCP( false )
 
 // ----------------------------------------------------------------------
 
-TcpClient::TcpClient (const std::string & a, const unsigned short port) :
+TcpClient::TcpClient (const std::string & a, const uint16_t port) :
 m_socket(-1),
 m_tcpServer(0),
 m_connection(0),
@@ -124,7 +124,7 @@ std::string const &TcpClient::getRemoteAddress() const
 
 //---------------------------------------------------------------------
 
-unsigned short TcpClient::getRemotePort() const
+uint16_t TcpClient::getRemotePort() const
 {
 	return m_remoteAddress.getHostPort();
 }
@@ -268,7 +268,7 @@ void TcpClient::flushPendingWrites()
 
 //---------------------------------------------------------------------
 
-unsigned short TcpClient::getBindPort() const
+uint16_t TcpClient::getBindPort() const
 {
 	return m_bindPort;
 }

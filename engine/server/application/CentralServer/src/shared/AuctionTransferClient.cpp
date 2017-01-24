@@ -3,7 +3,7 @@
 #include "sharedLog/Log.h"
 
 
-AuctionTransferClient::AuctionTransferClient(const char *hostName[], const short port[], int count, const char *identifier[], unsigned identifierCount) :
+AuctionTransferClient::AuctionTransferClient(const char *hostName[], int16_t port[], int count, const char *identifier[], unsigned identifierCount) :
 	AuctionTransferAPI( hostName, port, count, identifier, identifierCount )
 {
 }
@@ -14,12 +14,12 @@ AuctionTransferClient::~AuctionTransferClient()
 
 
 // Connection status callbacks
-void AuctionTransferClient::onConnect(const char* host, unsigned short port, const short current, const short max)
+void AuctionTransferClient::onConnect(const char* host, uint16_t port, int16_t current, int16_t max)
 {
     LOG("AuctionTransferClient", ("onConnect"));
 }
 
-void AuctionTransferClient::onDisconnect(const char *host, const short port, const short current, const short max)
+void AuctionTransferClient::onDisconnect(const char *host, int16_t port, int16_t current, int16_t max)
 {
     LOG("AuctionTransferClient", ("onDisconnect"));
 }

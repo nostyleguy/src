@@ -22,11 +22,11 @@ class GenericRequest
 //-------------------------------------------
 {
 public:
-	GenericRequest(short type, unsigned server_track = 0);
+	GenericRequest(int16_t type, unsigned server_track = 0);
 	virtual ~GenericRequest() {};
 
 	virtual void			pack(Base::ByteStream &msg) = 0;
-	short					getType() const					{ return m_type; }
+	int16_t					getType() const					{ return m_type; }
 	void					setTimeout(time_t t)			{ m_timeout = t; }
 	time_t					getTimeout()					{ return m_timeout; }
 	void					setTrack(unsigned t)			{ m_track = t; }
@@ -35,7 +35,7 @@ public:
 	inline void				setServerTrack(unsigned track)	{ m_server_track = track; }
 
 protected:
-	short		m_type;
+	int16_t		m_type;
 	unsigned	m_track;
 	time_t		m_timeout;
 	unsigned	m_server_track;
@@ -49,11 +49,11 @@ class GenericResponse
 //-------------------------------------------
 {
 public:
-	GenericResponse(short type, unsigned result, void *user);
+	GenericResponse(int16_t type, unsigned result, void *user);
 	virtual ~GenericResponse() {};
 	virtual void unpack(Base::ByteStream::ReadIterator &iter);
 
-	short		getType() const			{ return m_type; }
+	int16_t		getType() const			{ return m_type; }
 	void		setTimeout(time_t t)	{ m_timeout = t; }
 	time_t		getTimeout()			{ return m_timeout; }
 	void		setTrack(unsigned t)	{ m_track = t; }
@@ -62,7 +62,7 @@ public:
 	void		setResult(unsigned res) { m_result = res; }
 	void *		getUser() const			{ return m_user; }
 protected:
-	short		m_type;
+	int16_t		m_type;
 	unsigned	m_track;
 	unsigned	m_result;
 	void		*m_user;

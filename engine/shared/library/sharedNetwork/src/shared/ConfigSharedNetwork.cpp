@@ -76,7 +76,7 @@ namespace ConfigSharedNetworkNamespace
 	bool  logConnectionOpenedClosed;
 	int   logConnectionDeferredMessagesWarningInterval;
 
-	typedef unsigned short ReservedPortInt;
+	typedef uint16_t ReservedPortInt;
 	typedef std::set<ReservedPortInt> ReservedPortSet;
 	ReservedPortSet reservedPorts;
 
@@ -473,7 +473,7 @@ int ConfigSharedNetwork::getMaxTCPRetries()
 
 //-----------------------------------------------------------------------
 
-bool ConfigSharedNetwork::getIsPortReserved(unsigned short p)
+bool ConfigSharedNetwork::getIsPortReserved(uint16_t p)
 {
 	ReservedPortSet::const_iterator f = reservedPorts.find(p);
 	return (f != reservedPorts.end());

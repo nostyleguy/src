@@ -946,7 +946,7 @@ namespace CSAssist
 				}
 
 	//-------------------------------------------------------------
-	Response *CSAssistGameAPIcore::createServerResponse(short msgtype)
+	Response *CSAssistGameAPIcore::createServerResponse(int16_t msgtype)
 		//-------------------------------------------------------------
 	{
 		Response *res = nullptr;
@@ -988,7 +988,7 @@ namespace CSAssist
 	int	CSAssistGameAPIcore::GetConnectedPort()
 	{
 		return m_connectedPort;
-		/*	short port(0);
+		/*	int16_t port(0);
 		#ifdef USE_UDP_LIBRARY
 		#else
 			port = m_connection->GetDestinationPort();

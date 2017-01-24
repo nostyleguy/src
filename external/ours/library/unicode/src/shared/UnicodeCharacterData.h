@@ -17,11 +17,13 @@
 #pragma warning (disable:4786)
 #endif
 
+#include <stdint.h>
+
 // ======================================================================
 
 namespace Unicode
 {
-	typedef unsigned short unicode_char_t; //lint !e761 redundant typedef
+	typedef uint16_t unicode_char_t; //lint !e761 redundant typedef
 
 	struct CharData;
 	

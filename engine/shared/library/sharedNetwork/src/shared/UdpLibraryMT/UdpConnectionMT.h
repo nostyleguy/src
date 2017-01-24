@@ -38,7 +38,7 @@ public:
 	void *GetPassThroughData() const;
 	UdpConnection::Status GetStatus() const;
 	int TotalPendingBytes() const;
-	unsigned short ServerSyncStampShort() const;
+	uint16_t ServerSyncStampShort() const;
 	unsigned long ServerSyncStampLong() const;
 	UdpIpAddress GetDestinationIp() const;
 	int GetDestinationPort() const;

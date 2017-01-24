@@ -387,7 +387,7 @@ int UdpReliableChannel::GiveTime()
                 bufPtr = buf;
                 *bufPtr++ = 0;
                 *bufPtr++ = (udp_uchar)(((fragment) ? UdpConnection::cUdpPacketFragment1 : UdpConnection::cUdpPacketReliable1) + mChannelNumber);    // mark us as a fragment if we are one
-                bufPtr += UdpMisc::PutValue16(bufPtr, (udp_ushort)(reliableId & 0xffff));
+                bufPtr += UdpMisc::PutValue16(bufPtr, (uint16_t)(reliableId & 0xffff));
                 if (fragment && entry->mDataPtr == parentBase)
                     bufPtr += UdpMisc::PutValue32(bufPtr, entry->mParent->GetDataLen());        // first fragment has a total-length byte after the reliable header
                 mUdpConnection->BufferedSend(buf, (int)(bufPtr - buf), entry->mDataPtr, entry->mDataLen, false);
@@ -570,7 +570,7 @@ void UdpReliableChannel::ReliablePacket(const udp_uchar *data, int dataLen)
     }
 
     int packetType = data[1];
-    udp_ushort reliableStamp = UdpMisc::GetValue16(data + 2);
+    uint16_t reliableStamp = UdpMisc::GetValue16(data + 2);
     udp_int64 reliableId = GetReliableIncomingId(reliableStamp);
 
     if (reliableId >= mReliableIncomingId + mConfig.maxInstandingPackets)
@@ -641,14 +641,14 @@ void UdpReliableChannel::ReliablePacket(const udp_uchar *data, int dataLen)
     {
             // ack everything up to the current head of our chain (minus one since the stamp represents the next one we want to get)
         *bufPtr++ = (udp_uchar)(UdpConnection::cUdpPacketAckAll1 + mChannelNumber);
-        bufPtr += UdpMisc::PutValue16(bufPtr, (udp_ushort)((mReliableIncomingId - 1) & 0xffff));
+        bufPtr += UdpMisc::PutValue16(bufPtr, (uint16_t)((mReliableIncomingId - 1) & 0xffff));
         ackAll = true;
     }
     else
     {
             // a simple ack for us only
         *bufPtr++ = (udp_uchar)(UdpConnection::cUdpPacketAck1 + mChannelNumber);
-        bufPtr += UdpMisc::PutValue16(bufPtr, (udp_ushort)(reliableId & 0xffff));
+        bufPtr += UdpMisc::PutValue16(bufPtr, (uint16_t)(reliableId & 0xffff));
     }
 
     if (mBufferedAckPtr != nullptr && mConfig.ackDeduping && ackAll)
@@ -742,7 +742,7 @@ void UdpReliableChannel::AckAllPacket(const udp_uchar *data, int dataLen)
         return;
     }
 
-    udp_int64 reliableId = GetReliableOutgoingId((udp_ushort)UdpMisc::GetValue16(data + 2));
+    udp_int64 reliableId = GetReliableOutgoingId((uint16_t)UdpMisc::GetValue16(data + 2));
 
     if (mReliableOutgoingPendingId > reliableId)
     {
@@ -818,7 +818,7 @@ void UdpReliableChannel::Ack(udp_int64 reliableId)
                 // harm done is that the we may not resend some of the earlier sent packets quite as quickly.  This will only
                 // happen in situations where a packet that was truely lost gets acked on it's second attempt...we just
                 // won't be using that ack for the purposes of accelerating other resends...since odds are a non-lost packet
-                // will accelerate those other resends shortly anyhow, there really is no loss
+                // will accelerate those other resends int16_tly anyhow, there really is no loss
                 // (note: we used to only set this value forward for packets that were never lost (one time sends); however, if this stamp
                 // ever got set way high for some reason (in theory it can't happen), then we would get into a situation where it would
                 // rapidly resend and possibly never get reset, causing infinite rapid resends, so we now set it every time to the first-stamp)

@@ -10,7 +10,7 @@ namespace CTService
 class CTServiceCustomer
 //--------------------------------------------------------
 {
-	inline void copy_wide_string(unsigned short * target, const unsigned short * source, int length)
+	inline void copy_wide_string(uint16_t * target, const uint16_t * source, int length)
 	{
 		if (!target)
 			return;
@@ -58,68 +58,68 @@ class CTServiceCustomer
 			  mCardExpirationYear[0]= 0; }
 
 
-		void			SetFirstName(const unsigned short * value)			{ copy_wide_string(mFirstName, value, SHORT_NAME_BUFFER); }
-		unsigned short	*GetFirstName()										{ return mFirstName; }
+		void			SetFirstName(const uint16_t * value)			{ copy_wide_string(mFirstName, value, SHORT_NAME_BUFFER); }
+		uint16_t	*GetFirstName()										{ return mFirstName; }
 
-		void			SetLastName(const unsigned short * value)			{ copy_wide_string(mLastName, value, SHORT_NAME_BUFFER); }
-		unsigned short	*GetLastName()										{ return mLastName; }
+		void			SetLastName(const uint16_t * value)			{ copy_wide_string(mLastName, value, SHORT_NAME_BUFFER); }
+		uint16_t	*GetLastName()										{ return mLastName; }
 
-		void			SetPhone(const unsigned short * value)				{ copy_wide_string(mPhone, value, PHONE_BUFFER); }
-		unsigned short	*GetPhone()											{ return mPhone; }
+		void			SetPhone(const uint16_t * value)				{ copy_wide_string(mPhone, value, PHONE_BUFFER); }
+		uint16_t	*GetPhone()											{ return mPhone; }
 
-		void			SetEmail(const unsigned short * value)				{ copy_wide_string(mEmail, value, EMAIL_BUFFER); }
-		unsigned short	*GetEmail()											{ return mEmail; }
+		void			SetEmail(const uint16_t * value)				{ copy_wide_string(mEmail, value, EMAIL_BUFFER); }
+		uint16_t	*GetEmail()											{ return mEmail; }
 
 		void			SetStationID(const unsigned value)					{ mStationID = value; }
 		unsigned		GetStationID()										{ return mStationID; }
 
-		void			SetCardName(const unsigned short * value)			{ copy_wide_string(mCardName, value, CARD_NAME_BUFFER); }
-		unsigned short	*GetCardName()										{ return mCardName; }
+		void			SetCardName(const uint16_t * value)			{ copy_wide_string(mCardName, value, CARD_NAME_BUFFER); }
+		uint16_t	*GetCardName()										{ return mCardName; }
 
-		void			SetCardAddress1(const unsigned short * value)		{ copy_wide_string(mCardAddress1, value, CARD_ADDRESS1_BUFFER); }
-		unsigned short	*GetCardAddress1()									{ return mCardAddress1; }
+		void			SetCardAddress1(const uint16_t * value)		{ copy_wide_string(mCardAddress1, value, CARD_ADDRESS1_BUFFER); }
+		uint16_t	*GetCardAddress1()									{ return mCardAddress1; }
 
-		void			SetCardAddress2(const unsigned short * value)		{ copy_wide_string(mCardAddress2, value, CARD_ADDRESS2_BUFFER); }
-		unsigned short	*GetCardAddress2()									{ return mCardAddress2; }
+		void			SetCardAddress2(const uint16_t * value)		{ copy_wide_string(mCardAddress2, value, CARD_ADDRESS2_BUFFER); }
+		uint16_t	*GetCardAddress2()									{ return mCardAddress2; }
 
-		void			SetCardCity(const unsigned short * value)			{ copy_wide_string(mCardCity, value, CARD_CITY_BUFFER); }
-		unsigned short	*GetCardCity()										{ return mCardCity; }
+		void			SetCardCity(const uint16_t * value)			{ copy_wide_string(mCardCity, value, CARD_CITY_BUFFER); }
+		uint16_t	*GetCardCity()										{ return mCardCity; }
 
-		void			SetCardState(const unsigned short * value)			{ copy_wide_string(mCardState, value, CARD_STATE_BUFFER); }
-		unsigned short	*GetCardState()										{ return mCardState; }
+		void			SetCardState(const uint16_t * value)			{ copy_wide_string(mCardState, value, CARD_STATE_BUFFER); }
+		uint16_t	*GetCardState()										{ return mCardState; }
 
-		void			SetCardZip(const unsigned short * value)			{ copy_wide_string(mCardZip, value, CARD_ZIP_BUFFER); }
-		unsigned short	*GetCardZip()										{ return mCardZip; }
+		void			SetCardZip(const uint16_t * value)			{ copy_wide_string(mCardZip, value, CARD_ZIP_BUFFER); }
+		uint16_t	*GetCardZip()										{ return mCardZip; }
 
-		void			SetCountry(const unsigned short * value)			{ copy_wide_string(mCountry, value, CARD_COUNTRY_BUFFER); }
-		unsigned short	*GetCountry()										{ return mCountry; }
+		void			SetCountry(const uint16_t * value)			{ copy_wide_string(mCountry, value, CARD_COUNTRY_BUFFER); }
+		uint16_t	*GetCountry()										{ return mCountry; }
 
-		void			SetCardNumber(const unsigned short * value)			{ copy_wide_string(mCardNumber, value, CARD_NUMBER_BUFFER); }
-		unsigned short	*GetCardNumber()									{ return mCardNumber; }
+		void			SetCardNumber(const uint16_t * value)			{ copy_wide_string(mCardNumber, value, CARD_NUMBER_BUFFER); }
+		uint16_t	*GetCardNumber()									{ return mCardNumber; }
 
-		void			SetCardExpirationMonth(const unsigned short * value){ copy_wide_string(mCardExpirationMonth, value, CARD_EXPIRATION_MONTH_BUFFER); }
-		unsigned short	*GetCardExpirationMonth()							{ return mCardExpirationMonth; }
+		void			SetCardExpirationMonth(const uint16_t * value){ copy_wide_string(mCardExpirationMonth, value, CARD_EXPIRATION_MONTH_BUFFER); }
+		uint16_t	*GetCardExpirationMonth()							{ return mCardExpirationMonth; }
 
-		void			SetCardExpirationYear(const unsigned short * value)	{ copy_wide_string(mCardExpirationYear, value, CARD_EXPIRATION_YEAR_BUFFER); }
-		unsigned short	*GetCardExpirationYear()							{ return mCardExpirationYear; }
+		void			SetCardExpirationYear(const uint16_t * value)	{ copy_wide_string(mCardExpirationYear, value, CARD_EXPIRATION_YEAR_BUFFER); }
+		uint16_t	*GetCardExpirationYear()							{ return mCardExpirationYear; }
 
 
 	private:
-		unsigned short	mFirstName[SHORT_NAME_BUFFER];
-		unsigned short	mLastName[SHORT_NAME_BUFFER];
-		unsigned short	mPhone[PHONE_BUFFER];
-		unsigned short	mEmail[EMAIL_BUFFER];
+		uint16_t	mFirstName[SHORT_NAME_BUFFER];
+		uint16_t	mLastName[SHORT_NAME_BUFFER];
+		uint16_t	mPhone[PHONE_BUFFER];
+		uint16_t	mEmail[EMAIL_BUFFER];
 		unsigned		mStationID;
-		unsigned short	mCardName[CARD_NAME_BUFFER];
-		unsigned short	mCardAddress1[CARD_ADDRESS1_BUFFER];
-		unsigned short	mCardAddress2[CARD_ADDRESS2_BUFFER];
-		unsigned short	mCardCity[CARD_CITY_BUFFER];
-		unsigned short	mCardState[CARD_STATE_BUFFER];
-		unsigned short	mCardZip[CARD_ZIP_BUFFER];
-		unsigned short	mCountry[CARD_COUNTRY_BUFFER];
-		unsigned short	mCardNumber[CARD_NUMBER_BUFFER];
-		unsigned short	mCardExpirationMonth[CARD_EXPIRATION_MONTH_BUFFER];
-		unsigned short	mCardExpirationYear[CARD_EXPIRATION_YEAR_BUFFER];
+		uint16_t	mCardName[CARD_NAME_BUFFER];
+		uint16_t	mCardAddress1[CARD_ADDRESS1_BUFFER];
+		uint16_t	mCardAddress2[CARD_ADDRESS2_BUFFER];
+		uint16_t	mCardCity[CARD_CITY_BUFFER];
+		uint16_t	mCardState[CARD_STATE_BUFFER];
+		uint16_t	mCardZip[CARD_ZIP_BUFFER];
+		uint16_t	mCountry[CARD_COUNTRY_BUFFER];
+		uint16_t	mCardNumber[CARD_NUMBER_BUFFER];
+		uint16_t	mCardExpirationMonth[CARD_EXPIRATION_MONTH_BUFFER];
+		uint16_t	mCardExpirationYear[CARD_EXPIRATION_YEAR_BUFFER];
 	};
 
 }; // namespace

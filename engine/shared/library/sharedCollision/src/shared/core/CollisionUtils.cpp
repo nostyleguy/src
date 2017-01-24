@@ -405,7 +405,7 @@ inline bool vectorLess ( Vector const & A, Vector const & B )
 }
 
 
-// This is the original version of the test. It's short, simple, and wrong.
+// This is the original version of the test. It's int16_t, simple, and wrong.
 // It doesn't handle degenerate cases and can return inconsistent results if 
 // the lines are swapped or the line directions are negated.
 

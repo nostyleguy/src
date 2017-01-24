@@ -70,7 +70,7 @@ namespace Base
 	    //  return (uint64(byteReverse(uint32(value))) << 32) | byteReverse(uint32(value>>32));
     }
 
-    inline uint32 strlen(const unsigned short * string)
+    inline uint32 strlen(const uint16_t * string)
     {
 		if (string == 0)
 			return 0;

@@ -1,6 +1,8 @@
 #ifndef UDPLIBRARY_HPP
 #define UDPLIBRARY_HPP
 
+
+#include <stdint.h>
 #include <stdio.h>
 #include "UdpHandler.hpp"
 #include "Base/priority.hpp"
@@ -130,7 +132,7 @@ class UdpMisc
 		static int Random(int *seed);								// random number generator
 		static void Sleep(int milliseconds);
 
-		static ushort LocalSyncStampShort();						// gets a local-clock based sync-stamp. (only good for timings up to 32 seconds)
+		static uint16_t LocalSyncStampShort();						// gets a local-clock based sync-stamp. (only good for timings up to 32 seconds)
 		static uint LocalSyncStampLong();							// gets a local-clock based sync-stamp. (good for timings up to 23 days)
 
 				// returns the time difference between two sync-stamps that are based on the same clock
@@ -139,7 +141,7 @@ class UdpMisc
 				// you a sync-stamp that you can compare with ServerSyncStampShort values generated on other 
 				// machines that are synchronized against the same server.  This ServerSyncStampShort function and
 				// this delta time function serve as the basis for calculating one-way travel times for packets.
-		static int SyncStampShortDeltaTime(ushort stamp1, ushort stamp2);
+		static int SyncStampShortDeltaTime(uint16_t stamp1, uint16_t stamp2);
 		static int SyncStampLongDeltaTime(uint stamp1, uint stamp2);	// same as Short version only no limit
 
 			// used to alloc/resize/free an allocation previously created with this function
@@ -163,12 +165,12 @@ class UdpMisc
 		static int PutValue64(void *buffer, udp_int64 value);	// puts a 64-bit value into the buffer in big-endian format, returns number of bytes used(8)
 		static int PutValue32(void *buffer, uint value);		// puts a 32-bit value into the buffer in big-endian format, returns number of bytes used(4)
 		static int PutValue24(void *buffer, uint value);		// puts a 24-bit value into the buffer in big-endian format, returns number of bytes used(4)
-		static int PutValue16(void *buffer, ushort value);		// puts a 16-bit value into the buffer in big-endian format, returns number of bytes used(2)
+		static int PutValue16(void *buffer, uint16_t value);		// puts a 16-bit value into the buffer in big-endian format, returns number of bytes used(2)
 
 		static udp_int64 GetValue64(const void *buffer);		// gets a 64-bit value from the buffer in big-endian format
 		static uint GetValue32(const void *buffer);				// gets a 32-bit value from the buffer in big-endian format
 		static uint GetValue24(const void *buffer);				// gets a 24-bit value from the buffer in big-endian format
-		static ushort GetValue16(const void *buffer);			// gets a 16-bit value from the buffer in big-endian format
+		static uint16_t GetValue16(const void *buffer);			// gets a 16-bit value from the buffer in big-endian format
 
 		static LogicalPacket *CreateQuickLogicalPacket(const void *data, int dataLen, const void *data2 = nullptr, int dataLen2 = 0);
 
@@ -535,7 +537,7 @@ class UdpManager
 					// to be kept alive, or at least kept alive very often (like for a chat server perhaps where nobody is talking much).
 					// For some people, it may be necessary to send data more frequently in order to keep their NAT mapping fresh, or their
 					// firewall software happy.  However, we don't want to be in a situation where our server is receiving a lot more data
-					// than it needs to just so these people can keep their port open.  I have seen NAT's that lose mappings in as short
+					// than it needs to just so these people can keep their port open.  I have seen NAT's that lose mappings in as int16_t
 					// as 20 seconds.  What this feature does is a bit tricky.  It changes the time-to-live (TTL) for a special keep-alive
 					// packet to some small value (4) which is enough for the packet to get past firewalls and NAT's, but not make it all
 					// the way to our server.  In this manner, the port gets kept alive, but we don't waste bandwidth with these packets.
@@ -583,7 +585,7 @@ class UdpManager
 					// them and terminate the connection.  When a packet is successfully received into the connection in question, the
 					// retry period is reset, such that the next time an ICMP error comes in, it has another period of time for it
 					// to resolve the issue.  This servers a couple purpose, 1) it can allow for momentary outages that can be recovered
-					// from in short order, and 2) it is necessary for the port-remapping feature to work properly in situations where
+					// from in int16_t order, and 2) it is necessary for the port-remapping feature to work properly in situations where
 					// the server may send data to the old-port before the remapping negotiations are completed.  In order for the
 					// remapping feature to work properly, this value should be set to larger than the longest time a connection typically
 					// goes without receiving data from the other side. (0=no grace period)
@@ -1189,9 +1191,9 @@ class UdpConnection : public PriorityQueueMember, public AddressHashTableMember,
 			// packet travel times under 32 seconds, would should be completely safe.  You must use the
 			// UdpManager::SyncStampDeltaTime function in order to calculate the elapsed time between
 			// the two stamps.
-		ushort ServerSyncStampShort() const;
+		uint16_t ServerSyncStampShort() const;
 		uint ServerSyncStampLong() const;
-		int ServerSyncStampShortElapsed(ushort syncStamp) const;
+		int ServerSyncStampShortElapsed(uint16_t syncStamp) const;
 		int ServerSyncStampLongElapsed(uint syncStamp) const;
 
 			// returns the IP address/port this connection is linked to
@@ -1355,8 +1357,8 @@ class UdpConnection : public PriorityQueueMember, public AddressHashTableMember,
 
 		int mOrderedCountOutgoing;
 		int mOrderedCountOutgoing2;
-		ushort mOrderedStampLast;
-		ushort mOrderedStampLast2;
+		uint16_t mOrderedStampLast;
+		uint16_t mOrderedStampLast2;
 
 		typedef int (UdpConnection::* IEncryptFunction)(uchar *destData, const uchar *sourceData, int sourceLen);
 		typedef int (UdpConnection::* IDecryptFunction)(uchar *destData, const uchar *sourceData, int sourceLen);
@@ -1461,7 +1463,7 @@ class UdpConnection : public PriorityQueueMember, public AddressHashTableMember,
 		{
 			uchar zeroByte;
 			uchar packetType;
-			ushort timeStamp;
+			uint16_t timeStamp;
 			int masterPingTime;
 			int averagePingTime;
 			int lowPingTime;
@@ -1475,7 +1477,7 @@ class UdpConnection : public PriorityQueueMember, public AddressHashTableMember,
 		{
 			uchar zeroByte;
 			uchar packetType;
-			ushort timeStamp;
+			uint16_t timeStamp;
 			uint serverSyncStampLong;
 			udp_int64 yourSent;
 			udp_int64 yourReceived;
@@ -1487,7 +1489,7 @@ class UdpConnection : public PriorityQueueMember, public AddressHashTableMember,
 		{
 			uchar zeroByte;
 			uchar packetType;
-			ushort reliableStamp;
+			uint16_t reliableStamp;
 		};
 
 		struct UdpPacketReliableFragmentStart
@@ -1500,14 +1502,14 @@ class UdpConnection : public PriorityQueueMember, public AddressHashTableMember,
 		{
 			uchar zeroByte;
 			uchar packetType;
-			ushort reliableStamp;
+			uint16_t reliableStamp;
 		};
 
 		struct UdpPacketOrdered
 		{
 			uchar zeroByte;
 			uchar packetType;
-			ushort orderStamp;
+			uint16_t orderStamp;
 		};
 
 
@@ -1702,9 +1704,9 @@ inline int UdpMisc::ClockDiff(ClockStamp start, ClockStamp stop)
 	return((int)t);
 }
 
-inline ushort UdpMisc::LocalSyncStampShort()
+inline uint16_t UdpMisc::LocalSyncStampShort()
 {
-	return((ushort)(Clock() & 0xffff));
+	return((uint16_t)(Clock() & 0xffff));
 }
 
 inline uint UdpMisc::LocalSyncStampLong()
@@ -1764,7 +1766,7 @@ inline uint UdpMisc::GetValue24(const void *buffer)
 	return((*bufptr << 16) | (*(bufptr + 1) << 8) | *(bufptr + 2));
 }
 
-inline int UdpMisc::PutValue16(void *buffer, ushort value)
+inline int UdpMisc::PutValue16(void *buffer, uint16_t value)
 {
 	uchar *bufptr = (uchar *)buffer;
 	*bufptr++ = (uchar)((value >> 8) & 0xff);
@@ -1772,10 +1774,10 @@ inline int UdpMisc::PutValue16(void *buffer, ushort value)
 	return(2);
 }
 
-inline ushort UdpMisc::GetValue16(const void *buffer)
+inline uint16_t UdpMisc::GetValue16(const void *buffer)
 {
 	const uchar *bufptr = (const uchar *)buffer;
-	return((ushort)((*bufptr << 8) | *(bufptr + 1)));
+	return((uint16_t)((*bufptr << 8) | *(bufptr + 1)));
 }
 
 		// UdpManager
@@ -1874,7 +1876,7 @@ inline void UdpConnection::ScheduleTimeNow()
 {
 		// if we are current in our GiveTime function getting time, then there is no need to reprioritize to 0 when we send a raw packet, since
 		// the last thing we do in out GiveTime is do a scheduling calculation based on the last time a packet was sent.  This little check
-		// prevents us from reprioritizing to 0, only to shortly thereafter be reprioritized to where we actually belong.
+		// prevents us from reprioritizing to 0, only to int16_tly thereafter be reprioritized to where we actually belong.
 	if (!mGettingTime)
 	{
 		if (mUdpManager != nullptr)
@@ -1950,9 +1952,9 @@ inline int UdpConnection::LastSend() const
 	return(UdpMisc::ClockElapsed(mLastSendTime));
 }
 
-inline ushort UdpConnection::ServerSyncStampShort() const
+inline uint16_t UdpConnection::ServerSyncStampShort() const
 {
-	return((ushort)(UdpMisc::LocalSyncStampShort() + (mSyncTimeDelta & 0xffff)));
+	return((uint16_t)(UdpMisc::LocalSyncStampShort() + (mSyncTimeDelta & 0xffff)));
 }
 
 inline uint UdpConnection::ServerSyncStampLong() const
@@ -1960,7 +1962,7 @@ inline uint UdpConnection::ServerSyncStampLong() const
 	return(UdpMisc::LocalSyncStampLong() + mSyncTimeDelta);
 }
 
-inline int UdpConnection::ServerSyncStampShortElapsed(ushort syncStamp) const
+inline int UdpConnection::ServerSyncStampShortElapsed(uint16_t syncStamp) const
 {
 	return(UdpMisc::SyncStampShortDeltaTime(syncStamp, ServerSyncStampShort()));
 }
@@ -2051,7 +2053,7 @@ inline int UdpConnection::GetKeepAliveDelay() const
 		// UdpReliableChannel
 inline void UdpReliableChannel::AckPacket(const uchar *data, int /*dataLen*/)
 {
-	Ack(GetReliableOutgoingId((ushort)UdpMisc::GetValue16(data + 2)));
+	Ack(GetReliableOutgoingId((uint16_t)UdpMisc::GetValue16(data + 2)));
 }
 
 inline int UdpReliableChannel::GetAveragePing() const

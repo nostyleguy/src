@@ -21,7 +21,7 @@ namespace ChatSystem
 
 		const Plat_Unicode::String &getName() const { return m_name; }
 		const Plat_Unicode::String &getAddress() const { return m_address; }
-		short getStatus() const { return m_status; }
+		int16_t getStatus() const { return m_status; }
 
 		void load(Base::ByteStream::ReadIterator &iter, ChatFriendStatus *inf);
 
@@ -31,7 +31,7 @@ namespace ChatSystem
 		Plat_Unicode::String m_address;
 		Plat_Unicode::String m_comment;
 
-		short m_status;
+		int16_t m_status;
 	};
 
 };

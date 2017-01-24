@@ -20,7 +20,7 @@ namespace ChatSystem
 	public:
 		ChatAvatarCore();
 		ChatAvatarCore(Base::ByteStream::ReadIterator &iter);
-		ChatAvatarCore(unsigned avatarID, unsigned userID, const unsigned short *name, const unsigned short *address, const unsigned short *gateway, const unsigned short *server, unsigned gatewayID, unsigned serverID, const unsigned short *loginLocation, unsigned attributes);
+		ChatAvatarCore(unsigned avatarID, unsigned userID, const uint16_t *name, const uint16_t *address, const uint16_t *gateway, const uint16_t *server, unsigned gatewayID, unsigned serverID, const uint16_t *loginLocation, unsigned attributes);
 		ChatAvatarCore(unsigned avatarID, unsigned userID, const ChatUnicodeString &name, const ChatUnicodeString &address, const ChatUnicodeString &gateway, const ChatUnicodeString &server, unsigned gatewayID, unsigned serverID, const ChatUnicodeString &loginLocation, unsigned attributes);
 		ChatAvatarCore(unsigned avatarID, unsigned userID, const Plat_Unicode::String &name, const Plat_Unicode::String &address, const Plat_Unicode::String &gateway, const Plat_Unicode::String &server, unsigned gatewayID, unsigned serverID, const Plat_Unicode::String &loginLocation, unsigned attributes);
 

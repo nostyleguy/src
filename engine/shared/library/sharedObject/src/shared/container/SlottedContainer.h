@@ -69,7 +69,7 @@ private:
 
 private:
 
-	/** shortened find on the map.  Returns -1 if not found.
+	/** int16_tened find on the map.  Returns -1 if not found.
 	*/
 	int  find(const SlotId &slot) const;
 

@@ -11,12 +11,12 @@ NAMESPACE_BEGIN(CryptoPP)
 
 const std::string BufferedTransformation::NULL_CHANNEL;
 
-unsigned int RandomNumberGenerator::GenerateBit()
+uint32_t RandomNumberGenerator::GenerateBit()
 {
 	return Parity(GetByte());
 }
 
-void RandomNumberGenerator::GenerateBlock(byte *output, unsigned int size)
+void RandomNumberGenerator::GenerateBlock(byte *output, uint32_t size)
 {
 	while (size--)
 		*output++ = GetByte();
@@ -42,13 +42,13 @@ word32 RandomNumberGenerator::GenerateWord32(word32 min, word32 max)
 	return value+min;
 }
 
-void StreamCipher::ProcessString(byte *outString, const byte *inString, unsigned int length)
+void StreamCipher::ProcessString(byte *outString, const byte *inString, uint32_t length)
 {
 	while(length--)
 		*outString++ = ProcessByte(*inString++);
 }
 
-void StreamCipher::ProcessString(byte *inoutString, unsigned int length)
+void StreamCipher::ProcessString(byte *inoutString, uint32_t length)
 {
 	while(length--) {
 		(*inoutString)++;
@@ -98,7 +98,7 @@ void BufferedTransformation::Put(byte b)
 		AttachedTransformation()->Put(b);
 }
 
-void BufferedTransformation::Put(const byte *inString, unsigned int length)
+void BufferedTransformation::Put(const byte *inString, uint32_t length)
 {
 	if (AttachedTransformation())
 		AttachedTransformation()->Put(inString, length);
@@ -122,7 +122,7 @@ void BufferedTransformation::MessageSeriesEnd(int propagation)
 		AttachedTransformation()->MessageSeriesEnd(propagation-1);
 }
 
-void BufferedTransformation::PutMessageEnd(const byte *inString, unsigned int length, int propagation)
+void BufferedTransformation::PutMessageEnd(const byte *inString, uint32_t length, int propagation)
 {
 	Put(inString, length);
 	MessageEnd(propagation);
@@ -152,7 +152,7 @@ void BufferedTransformation::ChannelMessageSeriesEnd(const std::string &channel,
 		AttachedTransformation()->ChannelMessageSeriesEnd(channel, propagation-1);
 }
 
-void BufferedTransformation::ChannelPutMessageEnd(const std::string &channel, const byte *inString, unsigned int length, int propagation)
+void BufferedTransformation::ChannelPutMessageEnd(const std::string &channel, const byte *inString, uint32_t length, int propagation)
 {
 	if (channel.empty())
 		PutMessageEnd(inString, length, propagation);
@@ -163,7 +163,7 @@ void BufferedTransformation::ChannelPutMessageEnd(const std::string &channel, co
 	}
 }
 
-unsigned long BufferedTransformation::MaxRetrievable() const
+uint32_t BufferedTransformation::MaxRetrievable() const
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->MaxRetrievable();
@@ -182,7 +182,7 @@ bool BufferedTransformation::AnyRetrievable() const
 	}
 }
 
-unsigned int BufferedTransformation::Get(byte &outByte)
+uint32_t BufferedTransformation::Get(byte &outByte)
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->Get(outByte);
@@ -190,7 +190,7 @@ unsigned int BufferedTransformation::Get(byte &outByte)
 		return Get(&outByte, 1);
 }
 
-unsigned int BufferedTransformation::Get(byte *outString, unsigned int getMax)
+uint32_t BufferedTransformation::Get(byte *outString, uint32_t getMax)
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->Get(outString, getMax);
@@ -201,7 +201,7 @@ unsigned int BufferedTransformation::Get(byte *outString, unsigned int getMax)
 	}
 }
 
-unsigned int BufferedTransformation::Peek(byte &outByte) const
+uint32_t BufferedTransformation::Peek(byte &outByte) const
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->Peek(outByte);
@@ -209,7 +209,7 @@ unsigned int BufferedTransformation::Peek(byte &outByte) const
 		return Peek(&outByte, 1);
 }
 
-unsigned int BufferedTransformation::Peek(byte *outString, unsigned int peekMax) const
+uint32_t BufferedTransformation::Peek(byte *outString, uint32_t peekMax) const
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->Peek(outString, peekMax);
@@ -220,7 +220,7 @@ unsigned int BufferedTransformation::Peek(byte *outString, unsigned int peekMax)
 	}
 }
 
-unsigned long BufferedTransformation::Skip(unsigned long skipMax)
+uint32_t BufferedTransformation::Skip(uint32_t skipMax)
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->Skip(skipMax);
@@ -228,7 +228,7 @@ unsigned long BufferedTransformation::Skip(unsigned long skipMax)
 		return TransferTo(g_bitBucket, skipMax);
 }
 
-unsigned long BufferedTransformation::CopyTo(BufferedTransformation &target, unsigned long copyMax) const
+uint32_t BufferedTransformation::CopyTo(BufferedTransformation &target, uint32_t copyMax) const
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->CopyTo(target, copyMax);
@@ -236,7 +236,7 @@ unsigned long BufferedTransformation::CopyTo(BufferedTransformation &target, uns
 		return 0;
 }
 
-unsigned long BufferedTransformation::TransferTo(BufferedTransformation &target, unsigned long size)
+uint32_t BufferedTransformation::TransferTo(BufferedTransformation &target, uint32_t size)
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->TransferTo(target, size);
@@ -244,7 +244,7 @@ unsigned long BufferedTransformation::TransferTo(BufferedTransformation &target,
 		return 0;
 }
 
-unsigned long BufferedTransformation::TotalBytesRetrievable() const
+uint32_t BufferedTransformation::TotalBytesRetrievable() const
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->TotalBytesRetrievable();
@@ -252,7 +252,7 @@ unsigned long BufferedTransformation::TotalBytesRetrievable() const
 		return MaxRetrievable();
 }
 
-unsigned int BufferedTransformation::NumberOfMessages() const
+uint32_t BufferedTransformation::NumberOfMessages() const
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->NumberOfMessages();
@@ -276,7 +276,7 @@ bool BufferedTransformation::GetNextMessage()
 		return false;
 }
 
-unsigned int BufferedTransformation::SkipMessages(unsigned int count)
+uint32_t BufferedTransformation::SkipMessages(uint32_t count)
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->SkipMessages(count);
@@ -284,13 +284,13 @@ unsigned int BufferedTransformation::SkipMessages(unsigned int count)
 		return TransferMessagesTo(g_bitBucket, count);
 }
 
-unsigned int BufferedTransformation::TransferMessagesTo(BufferedTransformation &target, unsigned int count)
+uint32_t BufferedTransformation::TransferMessagesTo(BufferedTransformation &target, uint32_t count)
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->TransferMessagesTo(target, count);
 	else
 	{
-		unsigned int i;
+		uint32_t i;
 		for (i=0; i<count && AnyMessages(); i++)
 		{
 			while (TransferTo(target)) {}
@@ -303,7 +303,7 @@ unsigned int BufferedTransformation::TransferMessagesTo(BufferedTransformation &
 	}
 }
 
-unsigned int BufferedTransformation::CopyMessagesTo(BufferedTransformation &target, unsigned int count) const
+uint32_t BufferedTransformation::CopyMessagesTo(BufferedTransformation &target, uint32_t count) const
 {
 	if (AttachedTransformation())
 		return AttachedTransformation()->CopyMessagesTo(target, count);
@@ -356,7 +356,7 @@ void BufferedTransformation::ChannelPut(const std::string &channel, byte inByte)
 		Put(inByte);
 }
 
-void BufferedTransformation::ChannelPut(const std::string &channel, const byte *inString, unsigned int length)
+void BufferedTransformation::ChannelPut(const std::string &channel, const byte *inString, uint32_t length)
 {
 	if (channel.empty())
 		Put(inString, length);
@@ -400,10 +400,10 @@ void BufferedTransformation::PutWord32(word32 value, bool highFirst)
 	ChannelPutWord32(NULL_CHANNEL, value, highFirst);
 }
 
-unsigned int BufferedTransformation::PeekWord16(word16 &value, bool highFirst)
+uint32_t BufferedTransformation::PeekWord16(word16 &value, bool highFirst)
 {
 	byte buf[2] = {0, 0};
-	unsigned int len = Peek(buf, 2);
+	uint32_t len = Peek(buf, 2);
 
 	if (highFirst)
 		value = (buf[0] << 8) | buf[1];
@@ -413,10 +413,10 @@ unsigned int BufferedTransformation::PeekWord16(word16 &value, bool highFirst)
 	return len;
 }
 
-unsigned int BufferedTransformation::PeekWord32(word32 &value, bool highFirst)
+uint32_t BufferedTransformation::PeekWord32(word32 &value, bool highFirst)
 {
 	byte buf[4] = {0, 0, 0, 0};
-	unsigned int len = Peek(buf, 4);
+	uint32_t len = Peek(buf, 4);
 
 	if (highFirst)
 		value = (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf [3];
@@ -426,12 +426,12 @@ unsigned int BufferedTransformation::PeekWord32(word32 &value, bool highFirst)
 	return len;
 }
 
-unsigned int BufferedTransformation::GetWord16(word16 &value, bool highFirst)
+uint32_t BufferedTransformation::GetWord16(word16 &value, bool highFirst)
 {
 	return Skip(PeekWord16(value, highFirst));
 }
 
-unsigned int BufferedTransformation::GetWord32(word32 &value, bool highFirst)
+uint32_t BufferedTransformation::GetWord32(word32 &value, bool highFirst)
 {
 	return Skip(PeekWord32(value, highFirst));
 }
@@ -447,7 +447,7 @@ void BufferedTransformation::Attach(BufferedTransformation *newOut)
 		Detach(newOut);
 }
 
-unsigned int PK_FixedLengthCryptoSystem::MaxPlainTextLength(unsigned int cipherTextLength) const
+uint32_t PK_FixedLengthCryptoSystem::MaxPlainTextLength(uint32_t cipherTextLength) const
 {
 	if (cipherTextLength == CipherTextLength())
 		return MaxPlainTextLength();
@@ -455,7 +455,7 @@ unsigned int PK_FixedLengthCryptoSystem::MaxPlainTextLength(unsigned int cipherT
 		return 0;
 }
 
-unsigned int PK_FixedLengthCryptoSystem::CipherTextLength(unsigned int plainTextLength) const
+uint32_t PK_FixedLengthCryptoSystem::CipherTextLength(uint32_t plainTextLength) const
 {
 	if (plainTextLength <= MaxPlainTextLength())
 		return CipherTextLength();
@@ -463,7 +463,7 @@ unsigned int PK_FixedLengthCryptoSystem::CipherTextLength(unsigned int plainText
 		return 0;
 }
 
-unsigned int PK_FixedLengthDecryptor::Decrypt(const byte *cipherText, unsigned int cipherTextLength, byte *plainText)
+uint32_t PK_FixedLengthDecryptor::Decrypt(const byte *cipherText, uint32_t cipherTextLength, byte *plainText)
 {
 	if (cipherTextLength != CipherTextLength())
 		return 0;
@@ -471,14 +471,14 @@ unsigned int PK_FixedLengthDecryptor::Decrypt(const byte *cipherText, unsigned i
 	return Decrypt(cipherText, plainText);
 }
 
-void PK_Signer::SignMessage(RandomNumberGenerator &rng, const byte *message, unsigned int messageLen, byte *signature) const
+void PK_Signer::SignMessage(RandomNumberGenerator &rng, const byte *message, uint32_t messageLen, byte *signature) const
 {
 	std::unique_ptr<HashModule> accumulator(NewMessageAccumulator());
 	accumulator->Update(message, messageLen);
 	Sign(rng, accumulator.release(), signature);
 }
 
-bool PK_Verifier::VerifyMessage(const byte *message, unsigned int messageLen, const byte *sig) const
+bool PK_Verifier::VerifyMessage(const byte *message, uint32_t messageLen, const byte *sig) const
 {
 	std::unique_ptr<HashModule> accumulator(NewMessageAccumulator());
 	accumulator->Update(message, messageLen);

@@ -18,7 +18,7 @@
 
 //-----------------------------------------------------------------------
 
-CentralConnection::CentralConnection(const std::string & address, const unsigned short port) :
+CentralConnection::CentralConnection(const std::string & address, const uint16_t port) :
 ServerConnection(address, port, NetworkSetupData())
 {
 }

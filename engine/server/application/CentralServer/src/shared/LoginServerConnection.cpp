@@ -40,7 +40,7 @@
 
 //-----------------------------------------------------------------------
 
-LoginServerConnection::LoginServerConnection(const std::string & a, const unsigned short p) :
+LoginServerConnection::LoginServerConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData())
 {
 }
@@ -112,7 +112,7 @@ void LoginServerConnection::onReceive(const Archive::ByteStream & message)
 			// see if we need to send to transfer or connection server.
 			if(reply.getValue().getCSToolId() > 0)  
 			{
-				// for CS admin login.  send to DB.  This just shortcuts what would normally
+				// for CS admin login.  send to DB.  This just int16_tcuts what would normally
 				// happen at the transfer server.
 				GenericValueTypeMessage<TransferCharacterData> login("TransferGetLoginLocationData", reply.getValue());
 				CentralServer::getInstance().sendToDBProcess(login, true);

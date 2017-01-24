@@ -8,7 +8,7 @@
 #include "sharedNetwork/NetworkSetupData.h"
 
 //-----------------------------------------------------------------------
-CentralServerConnection::CentralServerConnection(const std::string & address, const unsigned short port) :
+CentralServerConnection::CentralServerConnection(const std::string & address, const uint16_t port) :
 ServerConnection(address, port, NetworkSetupData())
 {
 }

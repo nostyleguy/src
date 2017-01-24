@@ -23,7 +23,7 @@ namespace MessageDispatch
 class TaskConnection : public ServerConnection
 {
 public:
-	TaskConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	TaskConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	TaskConnection(UdpConnectionMT * u, TcpClient *);
 	~TaskConnection();
 

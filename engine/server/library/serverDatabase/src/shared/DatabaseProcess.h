@@ -89,7 +89,7 @@ class DatabaseProcess : public MessageDispatch::Receiver
 	DatabaseMetricsData *         m_metricsData;
 	
 	std::unordered_map<uint32, GameServerConnection *>     gameServerConnections;
-	std::set<std::pair<std::string, unsigned short> > pendingGameServerConnections;
+	std::set<std::pair<std::string, uint16_t> > pendingGameServerConnections;
 
 	int m_queryExecCount;
 	int m_queryFetchCount;

@@ -44,7 +44,7 @@ bugstatus(BUG_STATUS_NONE), isRead(0)
 	Plat_Unicode::String lang = narrowToWide("en");
 	copy_c_str(lang, language);
 	location[0]		= 0;
-	for (short i=0; i < CSASSIST_NUM_CATEGORIES; i++)
+	for (int16_t i=0; i < CSASSIST_NUM_CATEGORIES; i++)
 		category[i] = 0;
 }
 
@@ -128,7 +128,7 @@ CSAssistGameAPIResult CSAssistGameAPITicket::setLocation(const CSAssistUnicodeCh
 CSAssistGameAPIResult CSAssistGameAPITicket::setCategory(int index, unsigned value)
 //-----------------------------------------------------------
 {
-	if (index < 0 || index >= (short)CSASSIST_NUM_CATEGORIES)
+	if (index < 0 || index >= (int16_t)CSASSIST_NUM_CATEGORIES)
 		return CSASSIST_RESULT_BADPARAMS;
 	category[index] = value;
 	return CSASSIST_RESULT_SUCCESS;

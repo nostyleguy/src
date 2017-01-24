@@ -17,6 +17,8 @@
 #pragma warning (disable:4786)
 #endif
 
+#include <stdint.h>
+
 // ======================================================================
 
 #ifdef EXTERNAL_DISTRO
@@ -26,7 +28,7 @@ namespace NAMESPACE
 
 namespace Plat_Unicode 
 {
-	typedef unsigned short unicode_char_t; //lint !e761 redundant typedef
+	typedef uint16_t unicode_char_t; //lint !e761 redundant typedef
 
 	struct CharData;
 	

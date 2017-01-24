@@ -28,7 +28,7 @@ udp(new UdpSock)
 
 //-----------------------------------------------------------------------
 
-const bool BroadcastSock::bind(const unsigned short port)
+const bool BroadcastSock::bind(const uint16_t port)
 {
 	return udp->bind(Address("", port));
 }
@@ -54,7 +54,7 @@ const unsigned int BroadcastSock::recvFrom(Address & a, void * targetBuffer, con
 
 //-----------------------------------------------------------------------
 
-const unsigned int BroadcastSock::sendTo(const std::string & a, const unsigned short p, const void * b, const unsigned int l) const
+const unsigned int BroadcastSock::sendTo(const std::string & a, const uint16_t p, const void * b, const unsigned int l) const
 {
 	return udp->sendTo(Address(a, p), b, l);
 }

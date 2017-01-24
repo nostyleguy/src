@@ -17,13 +17,13 @@ class CTServiceAPICore : public GenericAPICore
 //---------------------------------------------------
 {
 public:
-	CTServiceAPICore(const char *hostName[], const short port[], int count, CTServiceAPI *api, const char *game);
+	CTServiceAPICore(const char *hostName[], const int16_t port[], int count, CTServiceAPI *api, const char *game);
 	virtual ~CTServiceAPICore();
 
 	void OnConnect(GenericConnection *con);
 	void OnDisconnect(GenericConnection *con);
     void responseCallback(GenericResponse *res);
-    void responseCallback(short type, Base::ByteStream::ReadIterator &iter, GenericConnection *con);
+    void responseCallback(int16_t type, Base::ByteStream::ReadIterator &iter, GenericConnection *con);
 
 
 private:

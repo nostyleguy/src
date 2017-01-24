@@ -17,31 +17,31 @@ class IteratedHashBase : public virtual HashModule
 public:
 	typedef T HashWordType;
 
-	IteratedHashBase(unsigned int blockSize, unsigned int digestSize);
-	unsigned int DigestSize() const {return digest.size * sizeof(T);};
-	void Update(const byte *input, unsigned int length);
+	IteratedHashBase(uint32_t blockSize, uint32_t digestSize);
+	uint32_t DigestSize() const {return digest.size * sizeof(T);};
+	void Update(const byte *input, uint32_t length);
 
 protected:
-	virtual unsigned int HashMultipleBlocks(const T *input, unsigned int length);
-	void PadLastBlock(unsigned int lastBlockSize, byte padFirst=0x80);
+	virtual uint32_t HashMultipleBlocks(const T *input, uint32_t length);
+	void PadLastBlock(uint32_t lastBlockSize, byte padFirst=0x80);
 	void Reinit();
 	virtual void Init() =0;
 	virtual void HashBlock(const T *input) =0;
 
-	unsigned int blockSize;
+	uint32_t blockSize;
 	word32 countLo, countHi;	// 64-bit bit count
 	SecBlock<T> data;			// Data buffer
 	SecBlock<T> digest;			// Message digest
 };
 
 template <class T>
-IteratedHashBase<T>::IteratedHashBase(unsigned int blockSize, unsigned int digestSize)
+IteratedHashBase<T>::IteratedHashBase(uint32_t blockSize, uint32_t digestSize)
 	: blockSize(blockSize), countLo(0), countHi(0)
 	, data(blockSize/sizeof(T)), digest(digestSize/sizeof(T))
 {
 }
 
-template <class T> void IteratedHashBase<T>::Update(const byte *input, unsigned int len)
+template <class T> void IteratedHashBase<T>::Update(const byte *input, uint32_t len)
 {
 	HashWordType tmp = countLo;
 	if ((countLo = tmp + ((word32)len << 3)) < tmp)
@@ -54,7 +54,7 @@ template <class T> void IteratedHashBase<T>::Update(const byte *input, unsigned 
    }
 
 	assert((blockSize & (blockSize-1)) == 0);	// blockSize is a power of 2
-	unsigned int num = (unsigned int)(tmp >> 3) & (blockSize-1);
+	uint32_t num = (uint32_t)(tmp >> 3) & (blockSize-1);
 
 	if (num != 0)
 	{
@@ -80,7 +80,7 @@ template <class T> void IteratedHashBase<T>::Update(const byte *input, unsigned 
 	{
 		if (IsAligned<T>(input))
 		{
-			unsigned int leftOver = HashMultipleBlocks((T *)input, len);
+			uint32_t leftOver = HashMultipleBlocks((T *)input, len);
 			input += (len - leftOver);
 			len = leftOver;
 		}
@@ -97,7 +97,7 @@ template <class T> void IteratedHashBase<T>::Update(const byte *input, unsigned 
 	memcpy(data, input, len);
 }
 
-template <class T> unsigned int IteratedHashBase<T>::HashMultipleBlocks(const T *input, unsigned int length)
+template <class T> uint32_t IteratedHashBase<T>::HashMultipleBlocks(const T *input, uint32_t length)
 {
 	do
 	{
@@ -109,9 +109,9 @@ template <class T> unsigned int IteratedHashBase<T>::HashMultipleBlocks(const T 
 	return length;
 }
 
-template <class T> void IteratedHashBase<T>::PadLastBlock(unsigned int lastBlockSize, byte padFirst)
+template <class T> void IteratedHashBase<T>::PadLastBlock(uint32_t lastBlockSize, byte padFirst)
 {
-	unsigned int num = (unsigned int)(countLo >> 3) & (blockSize-1);
+	uint32_t num = (uint32_t)(countLo >> 3) & (blockSize-1);
 	assert(num < blockSize);
 	((byte *)data.ptr)[num++]=padFirst;
 	if (num <= lastBlockSize)
@@ -135,16 +135,16 @@ template <class T> void IteratedHashBase<T>::Init() {}
 template <class T> void IteratedHashBase<T>::HashBlock(const T *input) {}
 
 //! .
-template <class T, bool H, unsigned int S>
+template <class T, bool H, uint32_t S>
 class IteratedHash : public IteratedHashBase<T>
 {
 public:
 	typedef T HashWordType;
 	enum {HIGHFIRST = H, BLOCKSIZE = S};
 
-	IteratedHash(unsigned int digestSize) : IteratedHashBase<T>(BLOCKSIZE, digestSize) {}
+	IteratedHash(uint32_t digestSize) : IteratedHashBase<T>(BLOCKSIZE, digestSize) {}
 
-	inline static void CorrectEndianess(HashWordType *out, const HashWordType *in, unsigned int byteCount)
+	inline static void CorrectEndianess(HashWordType *out, const HashWordType *in, uint32_t byteCount)
 	{
 		if (!CheckEndianess(HIGHFIRST))
 			byteReverse(out, in, byteCount);
@@ -174,7 +174,7 @@ protected:
 			vTransform(input);
 		else
 		{
-			byteReverse(this->data.ptr, input, (unsigned int)BLOCKSIZE);
+			byteReverse(this->data.ptr, input, (uint32_t)BLOCKSIZE);
 			vTransform(this->data);
 		}
 	}

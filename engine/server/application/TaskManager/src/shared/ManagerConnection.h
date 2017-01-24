@@ -19,7 +19,7 @@ class TaskConnection;
 class ManagerConnection : public Connection
 {
 public:
-	ManagerConnection(const std::string & remoteAddres, const unsigned short remotePort);
+	ManagerConnection(const std::string & remoteAddres, const uint16_t remotePort);
 	ManagerConnection(UdpConnectionMT*, TcpClient *);
 	~ManagerConnection();
 

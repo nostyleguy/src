@@ -54,7 +54,7 @@ const ChatUnicodeString &ChatFriendStatus::getComment() const
 	return m_comment;
 }
 
-short ChatFriendStatus::getStatus() const
+int16_t ChatFriendStatus::getStatus() const
 {
 	return m_core->getStatus();
 }

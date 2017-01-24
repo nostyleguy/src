@@ -582,10 +582,10 @@ void DataLint::addFilePath(char const *filePath)
 		++longPath;
 		++longPath;
 		++longPath;
-		char *shortPath = &text[0];
+		char *int16_tPath = &text[0];
 		*seperator = '\0';
 
-		m_assetList->push_back(std::make_pair(shortPath, longPath));
+		m_assetList->push_back(std::make_pair(int16_tPath, longPath));
 	}
 }
 

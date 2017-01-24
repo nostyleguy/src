@@ -45,8 +45,8 @@ class BroadcastSock
 public:
 	BroadcastSock();
 	virtual ~BroadcastSock();
-	const bool  bind(const unsigned short port);
-	const unsigned int sendTo(const std::string & address, const unsigned short port, const void * sourceBuffer, const unsigned int sourceBufferLength) const;
+	const bool  bind(const uint16_t port);
+	const unsigned int sendTo(const std::string & address, const uint16_t port, const void * sourceBuffer, const unsigned int sourceBufferLength) const;
 	const bool canRecv() const;
 	const unsigned int recvFrom(Address & outAddress, void * targetBuffer, const unsigned int targetBufferSize) const;
 

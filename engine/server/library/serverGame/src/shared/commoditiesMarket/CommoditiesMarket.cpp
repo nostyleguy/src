@@ -1058,7 +1058,7 @@ void CommoditiesMarket::getCommoditiesServerConnection()
 	// will FATAL()
 	if (ObjectIdManager::hasAvailableObjectId())
 	{
-		s_market = new CommoditiesServerConnection(ConfigServerGame::getCommoditiesServerServiceBindInterface(), static_cast<unsigned short>(ConfigServerGame::getCommoditiesServerServiceBindPort()));
+		s_market = new CommoditiesServerConnection(ConfigServerGame::getCommoditiesServerServiceBindInterface(), static_cast<uint16_t>(ConfigServerGame::getCommoditiesServerServiceBindPort()));
 		s_timeMarketConnectionCreated = ::time(nullptr);
 	}
 }

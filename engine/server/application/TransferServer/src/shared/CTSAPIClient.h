@@ -18,8 +18,8 @@ public:
 	CTSAPIClient(const std::string & hostName, const std::string & game);
 	virtual ~CTSAPIClient();
 
-	virtual void onConnect(const char *host, const short port, const short current, const short max);
-	virtual void onDisconnect(const char *host, const short port, const short current, const short max);
+	virtual void onConnect(const char *host, const int16_t port, const int16_t current, const int16_t max);
+	virtual void onDisconnect(const char *host, const int16_t port, const int16_t current, const int16_t max);
 	
 	// ----- Normal Callbacks as a response to requests sent -----
 

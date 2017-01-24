@@ -95,19 +95,19 @@ class CConnectionManager
 class apiTrackedRequest
 {
     public:
-        apiTrackedRequest(apiTrackingNumber trackingNumber, const unsigned short messageId, const void * userData, unsigned duration = 20);
+        apiTrackedRequest(apiTrackingNumber trackingNumber, const uint16_t messageId, const void * userData, unsigned duration = 20);
         apiTrackedRequest(const apiTrackedRequest & copy);
         ~apiTrackedRequest();
 
         apiTrackingNumber       GetTrackingNumber();
-        unsigned short          GetMessageId();
+        uint16_t          GetMessageId();
         const void *            GetUserData();
 
         bool                    Expired();
 
     private:
         apiTrackingNumber       mTrackingNumber;
-        unsigned short          mMessageId;
+        uint16_t          mMessageId;
         const void *            mUserData;
         unsigned                mTimeout;
         unsigned                mDuration;
@@ -131,8 +131,8 @@ class apiCore
 
         void Process();
 
-        void RegisterTrackedMessage(const unsigned short messageId);
-        bool IsTrackedMessage(const unsigned short messageId);
+        void RegisterTrackedMessage(const uint16_t messageId);
+        bool IsTrackedMessage(const uint16_t messageId);
 
         virtual int         GetKeepAliveDelay();
         virtual int         GetPortAliveDelay();
@@ -147,7 +147,7 @@ class apiCore
         apiTrackingNumber   SubmitRequest(Message::Tracked & input, Message::TrackedReply & output, const void * userData, unsigned timeout=0);
         
         virtual bool        Callback(Base::ByteStream & stream, void * userData) = 0;
-        virtual void        Timeout(unsigned short messageId, apiTrackingNumber trackingNumber, void * userData) = 0;
+        virtual void        Timeout(uint16_t messageId, apiTrackingNumber trackingNumber, void * userData) = 0;
 
     private:
         void                OnConnectionOpened(const std::string & address, unsigned connectionCount);
@@ -178,7 +178,7 @@ class apiCore
 
         apiTrackingNumber               mTrackingIndex;
     
-        std::set<unsigned short>        mTrackedMessages;
+        std::set<uint16_t>        mTrackedMessages;
         std::map<unsigned,apiTrackedRequest> mRequestMap;
 
         std::list<Base::ByteStream>     mCallbackQueue;

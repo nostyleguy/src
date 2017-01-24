@@ -1033,7 +1033,7 @@ PortalPropertyTemplate::PortalPropertyTemplate(const CrcString &name)
 :
 	m_referenceCount(0),
 	m_name(name),
-	m_shortName(),
+	m_int16_tName(),
 	m_portalGeometryList(new PortalGeometryList),
 	m_portalOwnersList(new PortalOwnersList),
 	m_cellList(new CellList),
@@ -1042,9 +1042,9 @@ PortalPropertyTemplate::PortalPropertyTemplate(const CrcString &name)
 	m_pathGraph(nullptr),
 	m_radarPortalGeometry(0)
 {
-	FileName shortName(name.getString());
-	shortName.stripPathAndExt();
-	m_shortName.set(shortName, true);
+	FileName int16_tName(name.getString());
+	int16_tName.stripPathAndExt();
+	m_int16_tName.set(int16_tName, true);
 
 	Iff iff(m_name.getString());
 	load(iff);
@@ -1761,7 +1761,7 @@ void PortalPropertyTemplate::buildRadarPortalGeometry()
 
 const CrcString &PortalPropertyTemplate::getShortName() const
 {
-	return m_shortName;
+	return m_int16_tName;
 }
 
 // ----------------------------------------------------------------------

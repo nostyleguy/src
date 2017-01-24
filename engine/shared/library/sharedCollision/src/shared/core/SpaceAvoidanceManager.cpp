@@ -141,7 +141,7 @@ bool SpaceAvoidanceManager::getAvoidancePosition(Transform const & objectTransfo
 						const Vector & avoidancePositionOption1_w = collisionSphereCenter_w + (perpendiculara * collisionOffset);
 						const Vector & avoidancePositionOption2_w = collisionSphereCenter_w + (perpendicularb * collisionOffset);
 						
-					 	// Make sure the ship takes the shortest path around the sphere
+					 	// Make sure the ship takes the int16_test path around the sphere
 						float const distance1 = avoidancePositionOption1_w.magnitudeBetweenSquared(targetPosition_w);
 						float const distance2 = avoidancePositionOption2_w.magnitudeBetweenSquared(targetPosition_w);
 						if (distance1 < distance2)
@@ -172,7 +172,7 @@ bool SpaceAvoidanceManager::getAvoidancePosition(Transform const & objectTransfo
 						Vector const & avoidancePositionOption1_w = collisionPosition_w + (perpendiculara * collisionOffset);
 						Vector const & avoidancePositionOption2_w = collisionPosition_w + (perpendicularb * collisionOffset);
 						
-						// Ensure the ship takes the shortest path around the sphere.
+						// Ensure the ship takes the int16_test path around the sphere.
 						float const distance1 = avoidancePositionOption1_w.magnitudeBetweenSquared(targetPosition_w);
 						float const distance2 = avoidancePositionOption2_w.magnitudeBetweenSquared(targetPosition_w);
 						avoidancePosition_w = (distance1 < distance2) ? avoidancePositionOption1_w : avoidancePositionOption2_w;

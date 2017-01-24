@@ -164,7 +164,7 @@ namespace ConsoleCommandParserObjectNamespace
 		// decrement the string index so it starts at 0
 		--stringIndex;
 
-		// if no shortcut number was entered, return the original string
+		// if no int16_tcut number was entered, return the original string
 		if (stringIndex < 0)
 			return tmpString;
 
@@ -579,7 +579,7 @@ bool ConsoleCommandParserObject::performParsing (const NetworkId & userId, const
 
 		Unicode::String tmpString = Unicode::narrowToWide("create ");
 
-		// append the creature name which may be a shortcut
+		// append the creature name which may be a int16_tcut
 		std::string creatureName = getCreatureNameShortcut(userId, Unicode::wideToNarrow(argv[1]));
 		tmpString.append(Unicode::narrowToWide(creatureName));
 

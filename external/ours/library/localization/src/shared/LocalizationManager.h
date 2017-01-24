@@ -112,7 +112,7 @@ private:
 //-----------------------------------------------------------------
 
 /**
-* Get the short name of the locale.  E.g. "english", "japanese", etc.
+* Get the int16_t name of the locale.  E.g. "english", "japanese", etc.
 * The locale name affects the path the LocalizationManager searches in,
 * and should represent the paths present in the AbstractFileFactory
 */
@@ -125,7 +125,7 @@ inline const Unicode::NarrowString & LocalizationManager::getLocaleName ()
 //-----------------------------------------------------------------
 
 /**
-* Set the short name of the locale.  E.g. "english", "japanese", etc.
+* Set the int16_t name of the locale.  E.g. "english", "japanese", etc.
 * The locale name affects the path the LocalizationManager searches in,
 * and should represent the paths present in the AbstractFileFactory
 */

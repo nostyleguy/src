@@ -12,7 +12,7 @@ namespace CTService
 class CTServiceWebAPITransaction
 //--------------------------------------------------------
 {
-	inline void copy_wide_string(unsigned short * target, const unsigned short * source, int length)
+	inline void copy_wide_string(uint16_t * target, const uint16_t * source, int length)
 	{
 		if (!target)
 			return;
@@ -28,7 +28,7 @@ class CTServiceWebAPITransaction
 			offset++;
 		}
 	}
-	typedef unsigned short uchar_t;
+	typedef uint16_t uchar_t;
 
 	public:
 		enum {	CHARACTER_SIZE=64, CHARACTER_BUFFER, 
@@ -51,25 +51,25 @@ class CTServiceWebAPITransaction
 	//	void			SetGameCode(const char * value)						{ strncpy(mGameCode, value, GAMECODE_BUFFER);  }
 		const char *	GetGameCode() const									{ return mGameCode; }
 
-		void			SetSourceServerName(const unsigned short * value)	{ copy_wide_string(mSourceServerName, value, SERVER_BUFFER); }
+		void			SetSourceServerName(const uint16_t * value)	{ copy_wide_string(mSourceServerName, value, SERVER_BUFFER); }
 		const uchar_t * GetSourceServerName() const							{ return mSourceServerName; }
 
-		void			SetDestServerName(const unsigned short * value)		{ copy_wide_string(mDestServerName, value, SERVER_BUFFER); }
+		void			SetDestServerName(const uint16_t * value)		{ copy_wide_string(mDestServerName, value, SERVER_BUFFER); }
 		const uchar_t * GetDestServerName() const							{ return mDestServerName; }
 
-		void			SetSourceCharacterName(const unsigned short * value){ copy_wide_string(mSourceCharacterName, value, CHARACTER_BUFFER); }
+		void			SetSourceCharacterName(const uint16_t * value){ copy_wide_string(mSourceCharacterName, value, CHARACTER_BUFFER); }
 		const uchar_t * GetSourceCharacterName() const						{ return mSourceCharacterName; }
 
-		void			SetDestCharacterName(const unsigned short * value)	{ copy_wide_string(mDestCharacterName, value, CHARACTER_BUFFER); }
+		void			SetDestCharacterName(const uint16_t * value)	{ copy_wide_string(mDestCharacterName, value, CHARACTER_BUFFER); }
 		const uchar_t * GetDestCharacterName() const							{ return mDestCharacterName; }
 
 		void			SetSourceUID(const unsigned value)					{ mSourceUID = value; }
 		unsigned		GetSourceUID()										{ return mSourceUID; }
 
-		void			SetDestStationName(const unsigned short * value)	{ copy_wide_string(mDestStationName, value, STATION_NAME_BUFFER); }
+		void			SetDestStationName(const uint16_t * value)	{ copy_wide_string(mDestStationName, value, STATION_NAME_BUFFER); }
 		const uchar_t * GetDestStationName() const							{ return mDestStationName; }
 
-		void			SetDestStationPassword(const unsigned short * value){ copy_wide_string(mDestStationPassword, value, STATION_PASSWORD_BUFFER); }
+		void			SetDestStationPassword(const uint16_t * value){ copy_wide_string(mDestStationPassword, value, STATION_PASSWORD_BUFFER); }
 		const uchar_t * GetDestStationPassword() const						{ return mDestStationPassword; }
 
 		void			SetWithItems(const bool value)						{ mWithItems = value; }

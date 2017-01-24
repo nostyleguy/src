@@ -14,16 +14,16 @@ public:
 	static void			  remove();
 
 	static const char *   getCustomerServiceServerAddress();
-	static unsigned short getCustomerServiceServerPort();
+	static uint16_t getCustomerServiceServerPort();
 	static const char *   getCentralServerAddress();
-	static unsigned short getCentralServerPort();
+	static uint16_t getCentralServerPort();
 	static const char *	  getClusterName();
 	static const char *   getGameCode();
 	static int            getMaxPacketsPerSecond();
 	static unsigned int   getRequestTimeoutSeconds();
 	static int            getMaxAllowedNumberOfTickets();
-	static unsigned short getGameServicePort();
-	static unsigned short getChatServicePort();
+	static uint16_t getGameServicePort();
+	static uint16_t getChatServicePort();
 	static const char*    getChatServiceBindInterface();
 	static const char*    getGameServiceBindInterface();
 	static bool           getWriteTicketToBugLog();

@@ -107,7 +107,7 @@ public:
 
 	CSAssistUnicodeChar	title[CSASSIST_KBSEARCH_LENGTH_TITLE+1];
 	CSAssistUnicodeChar	idstring[CSASSIST_KBSEARCH_LENGTH_ID+1];
-	short				matchPercent;
+	int16_t				matchPercent;
 };
 
 } // namespace CSAssist

@@ -14,7 +14,7 @@
 class DatabaseServerConnection : public ServerConnection
 {
 public:
-	DatabaseServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	DatabaseServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	~DatabaseServerConnection();
 
 	void  onConnectionClosed();

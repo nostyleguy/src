@@ -16,7 +16,7 @@ class FloatingPointUnit
 {
 public:
 
-	typedef unsigned short WORD;
+	typedef uint16_t WORD;
 
 	enum Precision
 	{

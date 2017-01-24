@@ -15,7 +15,7 @@
 class ServerConsoleConnection : public Connection
 {
 public:
-	ServerConsoleConnection(const std::string & address, const unsigned short port);
+	ServerConsoleConnection(const std::string & address, const uint16_t port);
 	~ServerConsoleConnection();
 
 	void  onConnectionClosed  ();

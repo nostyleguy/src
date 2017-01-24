@@ -21,7 +21,7 @@ hostAddress("0.0.0.0")
 
 //---------------------------------------------------------------------
 
-Address::Address(const std::string & newHostAddress, unsigned short newHostPort) :
+Address::Address(const std::string & newHostAddress, uint16_t newHostPort) :
 addr4(new struct sockaddr_in),
 hostAddress(newHostAddress)
 {
@@ -179,7 +179,7 @@ const std::string & Address::getHostAddress() const
 
 	@author Justin Randall
 */
-const unsigned short Address::getHostPort() const
+const uint16_t Address::getHostPort() const
 {
 	return ntohs(addr4->sin_port);
 }

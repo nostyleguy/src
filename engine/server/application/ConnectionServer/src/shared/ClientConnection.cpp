@@ -925,7 +925,7 @@ void ClientConnection::onReceive(const Archive::ByteStream &message) {
                 default : {
                     //Forward on to Game Server
                     DEBUG_REPORT_LOG((!m_client ||
-                                      !m_client->getGameConnection()), ("Warn, received game message with no game connection.  This may happen for a short time after a GameServer crashes.  If it continues to happen, it indicates a bug.\n"));
+                                      !m_client->getGameConnection()), ("Warn, received game message with no game connection.  This may happen for a int16_t time after a GameServer crashes.  If it continues to happen, it indicates a bug.\n"));
 
                     if (m_client && m_client->getGameConnection()) {
                         static std::vector <NetworkId> v;
@@ -992,7 +992,7 @@ void ClientConnection::onReceive(const Archive::ByteStream &message) {
                             Unicode::String biography(clientCreate.getBiography());
                             if (biography.length() > 1024) {
                                 IGNORE_RETURN(biography.erase(1024));
-                                DEBUG_REPORT_LOG(true, ("Biography shortened to 1024 characters.\n"));
+                                DEBUG_REPORT_LOG(true, ("Biography int16_tened to 1024 characters.\n"));
                             }
 
                             if (m_isAdminAccount) {

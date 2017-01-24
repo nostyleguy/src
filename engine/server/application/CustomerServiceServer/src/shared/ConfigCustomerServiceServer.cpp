@@ -89,9 +89,9 @@ const char * ConfigCustomerServiceServer::getCustomerServiceServerAddress()
 
 //-----------------------------------------------------------------------
 
-unsigned short ConfigCustomerServiceServer::getCustomerServiceServerPort()
+uint16_t ConfigCustomerServiceServer::getCustomerServiceServerPort()
 {
-	return static_cast<unsigned short>(s_csServerPort);
+	return static_cast<uint16_t>(s_csServerPort);
 }
 
 //-----------------------------------------------------------------------
@@ -103,9 +103,9 @@ const char * ConfigCustomerServiceServer::getCentralServerAddress()
 
 //-----------------------------------------------------------------------
 
-unsigned short ConfigCustomerServiceServer::getCentralServerPort()
+uint16_t ConfigCustomerServiceServer::getCentralServerPort()
 {
-	return static_cast<unsigned short>(s_centralServerPort);
+	return static_cast<uint16_t>(s_centralServerPort);
 }
 
 //-----------------------------------------------------------------------
@@ -131,16 +131,16 @@ int ConfigCustomerServiceServer::getMaxAllowedNumberOfTickets()
 
 //-----------------------------------------------------------------------
 
-unsigned short ConfigCustomerServiceServer::getGameServicePort()
+uint16_t ConfigCustomerServiceServer::getGameServicePort()
 {
-	return static_cast<unsigned short>(s_gameServicePort);
+	return static_cast<uint16_t>(s_gameServicePort);
 }
 
 //-----------------------------------------------------------------------
 
-unsigned short ConfigCustomerServiceServer::getChatServicePort()
+uint16_t ConfigCustomerServiceServer::getChatServicePort()
 {
-	return static_cast<unsigned short>(s_chatServicePort);
+	return static_cast<uint16_t>(s_chatServicePort);
 }
 
 //-----------------------------------------------------------------------

@@ -4323,7 +4323,7 @@ void static decodeOOB(const std::string & UTF8String, Unicode::String & UniStrin
 {
 	std::string::const_iterator c = UTF8String.begin();
 	std::string tempstring;
-	unsigned short unicharvalue;
+	uint16_t unicharvalue;
 	char * pEnd;
 
 	while (c != UTF8String.end())
@@ -4331,10 +4331,10 @@ void static decodeOOB(const std::string & UTF8String, Unicode::String & UniStrin
 		tempstring.push_back(*c);
 		if (tempstring.length() == 4)
 		{
-			unicharvalue = static_cast<unsigned short>(strtoul(tempstring.c_str(), &pEnd, 16));
+			unicharvalue = static_cast<uint16_t>(strtoul(tempstring.c_str(), &pEnd, 16));
 			if (pEnd)
 			{
-				// WARNING(true, ("[Commodities Server ] : Conversion of string hex values to unsigned short failed in: TaskGetAuctionList::decodeOOB.\n"));
+				// WARNING(true, ("[Commodities Server ] : Conversion of string hex values to uint16_t failed in: TaskGetAuctionList::decodeOOB.\n"));
 			}
 			UniString.push_back(unicharvalue);
 			tempstring.clear();

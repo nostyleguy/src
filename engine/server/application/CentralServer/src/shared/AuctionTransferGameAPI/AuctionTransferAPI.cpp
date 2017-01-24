@@ -12,7 +12,7 @@ namespace AuctionTransfer
 {
 
 //////////////////////////////////////////////////////////////////////////////////////
-AuctionTransferAPI::AuctionTransferAPI(const char *hostName[], const short port[], int count, const char *identifier[], unsigned identifierCount, unsigned reqTimeout, unsigned maxRecvMessageSizeInKB)
+AuctionTransferAPI::AuctionTransferAPI(const char *hostName[], const int16_t port[], int count, const char *identifier[], unsigned identifierCount, unsigned reqTimeout, unsigned maxRecvMessageSizeInKB)
 {
 	m_apiCore = new AuctionTransferAPICore(hostName, port, count, this, identifier, identifierCount, reqTimeout, maxRecvMessageSizeInKB);
 }
@@ -22,7 +22,7 @@ AuctionTransferAPI::AuctionTransferAPI(const char *hostNames, const char *identi
 {
 	std::vector<const char *> hostArray;
 	std::vector<const char *> identifierArray;
-	std::vector<short> portArray;
+	std::vector<int16_t> portArray;
 	char hostConfig[4096];
 	char identifierConfig[4096];
 	if (hostNames == nullptr) 
@@ -39,11 +39,11 @@ AuctionTransferAPI::AuctionTransferAPI(const char *hostNames, const char *identi
 		{
 			char * host = ptr;
 			char * portStr = strchr(host, ':');
-			unsigned short port = DEFAULT_PORT;
+			uint16_t port = DEFAULT_PORT;
 			if (portStr)
 			{
 				*portStr++ = 0;
-				port = (short)atoi(portStr);
+				port = (int16_t)atoi(portStr);
 			}
 
 			if (::strlen(host) && port)

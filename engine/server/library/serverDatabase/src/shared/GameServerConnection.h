@@ -14,7 +14,7 @@
 class GameServerConnection : public ServerConnection
 {
 public:
-	          GameServerConnection   (const std::string & remoteAddress, const unsigned short remotePort);
+	          GameServerConnection   (const std::string & remoteAddress, const uint16_t remotePort);
 	explicit  GameServerConnection   (UdpConnectionMT *, TcpClient *);
 	virtual   ~GameServerConnection  ();
 

@@ -626,19 +626,19 @@ bool DebugHelp::writeMiniDump(char const *miniDumpFileName, PEXCEPTION_POINTERS 
 			return false;
 
 		// get the file name without the path
-		const char *shortProgramName = strrchr(programName, '\\');
-		if (shortProgramName)
-			++shortProgramName;
+		const char *int16_tProgramName = strrchr(programName, '\\');
+		if (int16_tProgramName)
+			++int16_tProgramName;
 		else
-			shortProgramName = programName;
+			int16_tProgramName = programName;
 
 		// lop off the extension
-		char *dot = const_cast<char *>(strchr(shortProgramName, '.'));
+		char *dot = const_cast<char *>(strchr(int16_tProgramName, '.'));
 		if (dot)
 			*dot = '\0';
 
 		// create a reasonable minidump filename
-		snprintf(buffer, sizeof(buffer), "%s_%d.mdmp", shortProgramName, static_cast<int>(GetCurrentProcessId()));
+		snprintf(buffer, sizeof(buffer), "%s_%d.mdmp", int16_tProgramName, static_cast<int>(GetCurrentProcessId()));
 		miniDumpFileName = buffer;
 	}
 

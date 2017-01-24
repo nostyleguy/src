@@ -1438,7 +1438,7 @@ namespace ChatSystem
 		put(msg, m_userID);
 	}
 
-	RRegistrarGetChatServer::RRegistrarGetChatServer(std::string &hostname, unsigned short port)
+	RRegistrarGetChatServer::RRegistrarGetChatServer(std::string &hostname, uint16_t port)
 		: GenericRequest(REQUEST_REGISTRAR_GETCHATSERVER),
 		m_hostname(narrowToWide(hostname)),
 		m_port(port)

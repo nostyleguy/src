@@ -17,7 +17,7 @@
 class TestClient : public TcpConnectionHandler
 {
 public:
-    TestClient(const std::string &serverAddress, unsigned short serverPort);
+    TestClient(const std::string &serverAddress, uint16_t serverPort);
     virtual ~TestClient();
 
     void process();
@@ -35,7 +35,7 @@ private:
     TcpManager *m_manager;
     TcpConnection *m_con;
     std::string m_serverAddress;
-    unsigned short m_serverPort;
+    uint16_t m_serverPort;
     time_t m_conTimeout;
 };
 

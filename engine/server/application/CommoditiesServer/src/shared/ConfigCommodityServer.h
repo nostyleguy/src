@@ -88,14 +88,14 @@ class ConfigCommodityServer
 
 //-----------------------------------------------------------------------
 
-inline unsigned short ConfigCommodityServer::getCMServerServiceBindPort()
+inline uint16_t ConfigCommodityServer::getCMServerServiceBindPort()
 {
 	return data->cmServerServiceBindPort;
 }
 
 //-----------------------------------------------------------------------
 
-inline unsigned short ConfigCommodityServer::getDatabaseServerPort()
+inline uint16_t ConfigCommodityServer::getDatabaseServerPort()
 {
 	return data->databaseServerPort;
 }
@@ -144,7 +144,7 @@ inline const char * ConfigCommodityServer::getDatabaseSchema()
 
 //-----------------------------------------------------------------------
 
-inline unsigned short ConfigCommodityServer::getSecondsBetweenDBReconnect()
+inline uint16_t ConfigCommodityServer::getSecondsBetweenDBReconnect()
 {
 	return data->secondsBetweenDBReconnect;
 }
@@ -228,7 +228,7 @@ inline bool ConfigCommodityServer::getShowAllDebugInfo()
 
 //-----------------------------------------------------------------------
 
-inline unsigned short ConfigCommodityServer::getCentralServerPort()
+inline uint16_t ConfigCommodityServer::getCentralServerPort()
 {
 	return data->centralServerPort;
 }

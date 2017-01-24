@@ -505,7 +505,7 @@ int TreeFile::getFileSize(const char *fileName)
 // ----------------------------------------------------------------------
 /**
  * This function assumes the output buffer is large enough.
- * The output path will be the same length or shorter than the input path.
+ * The output path will be the same length or int16_ter than the input path.
  */
 
 void TreeFile::fixUpFileName(char *output, const char *fileName, bool warning)
@@ -800,7 +800,7 @@ const char *TreeFile::getSearchPath(int index)
 
 //-----------------------------------------------------------------
 /**
- * This function will return the shortest trailing path of its input that
+ * This function will return the int16_test trailing path of its input that
  * can be loaded by the TreeFile.  If no files can be loaded, this routine
  * will return nullptr.
  */

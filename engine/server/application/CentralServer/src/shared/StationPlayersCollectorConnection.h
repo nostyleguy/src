@@ -14,7 +14,7 @@
 class StationPlayersCollectorConnection : public ServerConnection
 {
 public:
-	StationPlayersCollectorConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	StationPlayersCollectorConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	~StationPlayersCollectorConnection();
 
 	void  onConnectionClosed();

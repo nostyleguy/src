@@ -229,7 +229,7 @@ namespace LoginAPI
 
 
             virtual bool        Callback(Base::ByteStream & stream, void * userData);
-            virtual void        Timeout(unsigned short messageId, apiTrackingNumber trackingNumber, void * userData);
+            virtual void        Timeout(uint16_t messageId, apiTrackingNumber trackingNumber, void * userData);
     };
 
 

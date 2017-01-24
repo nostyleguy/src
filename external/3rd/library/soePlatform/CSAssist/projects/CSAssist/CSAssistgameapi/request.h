@@ -68,7 +68,7 @@ class Request
 //----------------------------------------------
 {
 	public:
-		Request(short type, unsigned track);
+		Request(int16_t type, unsigned track);
 		virtual ~Request()					{ }
 		unsigned getType()					{ return (unsigned)mType; }
 		unsigned getTrack()					{ return mTrack; }
@@ -77,7 +77,7 @@ class Request
 		virtual void pack(Base::ByteStream &msg);
 
 	protected:
-		short mType;
+		int16_t mType;
 		unsigned mTrack;
 
 	private:

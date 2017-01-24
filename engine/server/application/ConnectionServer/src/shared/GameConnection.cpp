@@ -35,7 +35,7 @@
 
 //-----------------------------------------------------------------------
 
-GameConnection::GameConnection(const std::string & a, const unsigned short p) :
+GameConnection::GameConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData()),
 gameServerId(0),
 sceneName()

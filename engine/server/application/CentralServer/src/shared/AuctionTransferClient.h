@@ -4,58 +4,56 @@
 
 #ifndef _WIN32
 #include "AuctionTransferGameAPI/AuctionTransferAPI.h"
+#include <stdint.h>
 #else
-
 namespace AuctionTransfer
 {
 	class AuctionTransferAPI
 	{
 	public:
-		AuctionTransferAPI( const char *[], const short [], int , const char *[], unsigned )
+		AuctionTransferAPI( const char *[], int16_t [], int , const char *[], unsigned )
 		{};
 		virtual void process() {};
 	};
 
 };
-
 #endif
-
 
 class AuctionTransferClient : public AuctionTransfer::AuctionTransferAPI
 {
 public:
-    AuctionTransferClient(const char *hostName[], const short port[], int count, const char *identifier[], unsigned identifierCount);
+    AuctionTransferClient(const char *hostName[], int16_t port[], int count, const char *identifier[], unsigned identifierCount);
     virtual ~AuctionTransferClient();
 
 
     // Connection status callbacks
-    virtual void onConnect(const char* host, unsigned short port, const short current, const short max);
-    virtual void onDisconnect(const char *host, const short port, const short current, const short max);
+    virtual void onConnect(const char* host, uint16_t port, int16_t current, int16_t max);
+    virtual void onDisconnect(const char *host, int16_t port, int16_t current, int16_t max);
 
 
     // Callbacks that are responses
-    void onSendPrepareTransaction(unsigned int, unsigned int, void *) {};
-    void onSendPrepareTransactionCompressed(unsigned int, unsigned int, void *) {};
-    void onSendCommitTransaction(unsigned int, unsigned int, void *) {};
-    void onSendAbortTransaction(unsigned int, unsigned int, void *) {};
-    void onSendAuditAssetTransfer(unsigned int, unsigned int, void *) {};
+    void onSendPrepareTransaction(uint32_t, uint32_t, void *) {};
+    void onSendPrepareTransactionCompressed(uint32_t, uint32_t, void *) {};
+    void onSendCommitTransaction(uint32_t, uint32_t, void *) {};
+    void onSendAbortTransaction(uint32_t, uint32_t, void *) {};
+    void onSendAuditAssetTransfer(uint32_t, uint32_t, void *) {};
 
-    void onGetNewTransactionID(unsigned int, unsigned int, int64, void *) {};
+    void onGetNewTransactionID(uint32_t, uint32_t, int64, void *) {};
 
     // Responses to reply requests
-    void onReplyReceivePrepareTransaction(unsigned int, unsigned int, void *) {};
-    void onReplyReceiveCommitTransaction(unsigned int, unsigned int, void *) {};
-    void onReplyReceiveAbortTransaction(unsigned int, unsigned int, void *) {};
-    void onReplyReceiveGetCharacterList(unsigned int, unsigned int, void *) {};
+    void onReplyReceivePrepareTransaction(uint32_t, uint32_t, void *) {};
+    void onReplyReceiveCommitTransaction(uint32_t, uint32_t, void *) {};
+    void onReplyReceiveAbortTransaction(uint32_t, uint32_t, void *) {};
+    void onReplyReceiveGetCharacterList(uint32_t, uint32_t, void *) {};
 
     // house keeping
-    void onIdentifyHost(unsigned int, unsigned int, void *) {};
+    void onIdentifyHost(uint32_t, uint32_t, void *) {};
 
     // callbacks initiated by auction
-    void onReceivePrepareTransaction(unsigned int, int64, unsigned int, unsigned int, int64, const char *) {};
-    void onReceiveCommitTransaction(unsigned int, int64) {};
-    void onReceiveAbortTransaction(unsigned int, int64) {};
-    void onReceiveGetCharacterList(unsigned int, unsigned int, const char *) {};
+    void onReceivePrepareTransaction(uint32_t, int64, uint32_t, uint32_t, int64, const char *) {};
+    void onReceiveCommitTransaction(uint32_t, int64) {};
+    void onReceiveAbortTransaction(uint32_t, int64) {};
+    void onReceiveGetCharacterList(uint32_t, uint32_t, const char *) {};
 
 private:
 

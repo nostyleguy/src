@@ -32,10 +32,10 @@ int yycost;		/*  If yyerror is set to a nonzero value by a	*/
 #endif
 
 
-short	yyss[YYMAXDEPTH];	/*  the state stack			*/
+int16_t	yyss[YYMAXDEPTH];	/*  the state stack			*/
 YYSTYPE	yyvs[YYMAXDEPTH];	/*  the semantic value stack		*/
 YYLTYPE yyls[YYMAXDEPTH];	/*  the location stack			*/
-short	yyrq[YYMAXRULES];	/*  the rule queue			*/
+int16_t	yyrq[YYMAXRULES];	/*  the rule queue			*/
 int	yychar;			/*  the lookahead symbol		*/
 
 YYSTYPE	yylval;			/*  the semantic value of the		*/
@@ -56,11 +56,11 @@ YYLTYPE yytloc;		/*  location data for the state at the	*/
 
 
 int	yynunlexed;
-short	yyunchar[YYMAXBACKUP];
+int16_t	yyunchar[YYMAXBACKUP];
 YYSTYPE	yyunval[YYMAXBACKUP];
 YYLTYPE yyunloc[YYMAXBACKUP];
 
-short *yygssp;			/*  a pointer to the top of the state	*/
+int16_t *yygssp;			/*  a pointer to the top of the state	*/
 				/*  stack; only set during error	*/
 				/*  recovery.				*/
 
@@ -113,11 +113,11 @@ YYLTYPE loc;
 
 
 yyrestore(first, last)
-register short *first;
-register short *last;
+register int16_t *first;
+register int16_t *last;
 {
-  register short *ssp;
-  register short *rp;
+  register int16_t *ssp;
+  register int16_t *rp;
   register int symbol;
   register int state;
   register int tvalsaved;
@@ -177,15 +177,15 @@ yyparse()
 {
   register int yystate;
   register int yyn;
-  register short *yyssp;
-  register short *yyrq0;
-  register short *yyptr;
+  register int16_t *yyssp;
+  register int16_t *yyrq0;
+  register int16_t *yyptr;
   register YYSTYPE *yyvsp;
 
   int yylen;
   YYLTYPE *yylsp;
-  short *yyrq1;
-  short *yyrq2;
+  int16_t *yyrq1;
+  int16_t *yyrq2;
 
   yystate = 0;
   yyssp = yyss - 1;

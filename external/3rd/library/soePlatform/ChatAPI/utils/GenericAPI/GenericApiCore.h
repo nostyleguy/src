@@ -30,7 +30,7 @@ public:
 	friend class GenericAPI;
 
 	GenericAPICore(const char *host,
-								   short port,
+								   int16_t port,
 								   unsigned reqTimeout,
 								   unsigned reconnectTimeout,
 								   unsigned noDataTimeoutSecs = 5,
@@ -45,7 +45,7 @@ public:
      *   ALSO: cannot specify a 0 array size.
      */
     GenericAPICore(const char *hosts[],
-								   const short port[],
+								   const int16_t port[],
                                    unsigned arraySize,
 								   unsigned reqTimeout,
 								   unsigned reconnectTimeout,
@@ -60,21 +60,21 @@ public:
 
 	void process();
 #ifdef USE_SERIALIZE_LIB
-    virtual void responseCallback(short type, const unsigned char *data, unsigned dataLen) = 0;
+    virtual void responseCallback(int16_t type, const unsigned char *data, unsigned dataLen) = 0;
 #else
-	virtual void responseCallback(short type, Base::ByteStream::ReadIterator &iter) = 0;
+	virtual void responseCallback(int16_t type, Base::ByteStream::ReadIterator &iter) = 0;
 #endif
 	virtual void responseCallback(GenericResponse *R) = 0;
 
-	virtual void OnDisconnect(const char *host, short port) = 0;
-	virtual void OnConnect(const char *host, short port) = 0;
+	virtual void OnDisconnect(const char *host, int16_t port) = 0;
+	virtual void OnConnect(const char *host, int16_t port) = 0;
 
 	void suspendProcessing() { m_suspended = true; }
 	void resumeProcessing() { m_suspended = false; }
 
 	// change the host and port for a connection object, will take effect
 	// on connection's next CON_DISCONNECT state.
-	void changeHostPort(unsigned connectionIndex, const char *host, short port);
+	void changeHostPort(unsigned connectionIndex, const char *host, int16_t port);
 
 	unsigned submitRequest(GenericRequest *req, GenericResponse *res);
 	unsigned submitRequest(GenericRequest *req, GenericResponse *res, unsigned reqTimeout);

@@ -31,11 +31,11 @@ CommandLine::Option::Option(
 	const char     *newLongName,
 	ArgumentPolicy  newArgumentPolicy
 	) :
-	shortName(newShortName),
+	int16_tName(newShortName),
 	longName(0),
 	argumentPolicy(newArgumentPolicy)
 {
-	DEBUG_FATAL(shortName && !(isalnum(shortName) || (shortName == OP_SNAME_UNTAGGED)), ("specified shortname must satisfy isalnum() test or be special untagged character"));
+	DEBUG_FATAL(int16_tName && !(isalnum(int16_tName) || (int16_tName == OP_SNAME_UNTAGGED)), ("specified int16_tname must satisfy isalnum() test or be special untagged character"));
 
 	if (newLongName)
 	{
@@ -125,8 +125,8 @@ CommandLine::Option *CommandLine::Option::createOption(
 
 CommandLine::MatchCode CommandLine::Option::match(void)
 {
-	// we match if we find an unmatched short or long command line option
-	// matching this short or long name.  If the arg specs don't match, we've
+	// we match if we find an unmatched int16_t or long command line option
+	// matching this int16_t or long name.  If the arg specs don't match, we've
 	// got an argument matching error.
 
 	DEBUG_FATAL(!optionTable, ("internal error: nullptr option table"));
@@ -134,10 +134,10 @@ CommandLine::MatchCode CommandLine::Option::match(void)
 	OptionTable::Record *record = 0;
 
 	// get the option info record for this option
-	if (shortName)
+	if (int16_tName)
 	{
-		record = optionTable->findOptionRecord(shortName);
-		DEBUG_FATAL(!record, ("failed to find option info record for option -%c", shortName));
+		record = optionTable->findOptionRecord(int16_tName);
+		DEBUG_FATAL(!record, ("failed to find option info record for option -%c", int16_tName));
 	}
 	else if (longName)
 	{
@@ -145,7 +145,7 @@ CommandLine::MatchCode CommandLine::Option::match(void)
 		DEBUG_FATAL(!record, ("failed to find option info record for option --%s", longName));
 	}
 	else
-		DEBUG_FATAL(true, ("corrupted option?  both short and long name are nullptr"));
+		DEBUG_FATAL(true, ("corrupted option?  both int16_t and long name are nullptr"));
 
 
 	// attempt to match against this option against commandline-specified options
@@ -788,7 +788,7 @@ CommandLine::OptionTable::Record::Record(
 	const char     *newLongName,
 	ArgumentPolicy  newArgumentPolicy
 	) :
-	shortName(newShortName),
+	int16_tName(newShortName),
 	longName(0),
 	writeCount(0),
 	matchCount(0),
@@ -865,15 +865,15 @@ CommandLine::OptionTable::~OptionTable(void)
 // ----------------------------------------------------------------------
 
 CommandLine::OptionTable::Record *CommandLine::OptionTable::createOptionRecord(
-	char            shortName,
+	char            int16_tName,
 	const char     *longName,
 	ArgumentPolicy  newArgumentPolicy
 	)
 {
-	DEBUG_FATAL(shortName && findOptionRecord(shortName), ("short name %c already exists in list", shortName));
+	DEBUG_FATAL(int16_tName && findOptionRecord(int16_tName), ("int16_t name %c already exists in list", int16_tName));
 	DEBUG_FATAL(longName && findOptionRecord(longName), ("long name \"%s\" already exists in list", longName));
 
-	Record *record = new Record(shortName, longName, newArgumentPolicy);
+	Record *record = new Record(int16_tName, longName, newArgumentPolicy);
 	record->setNext(firstRecord);
 	firstRecord = record;
 
@@ -883,15 +883,15 @@ CommandLine::OptionTable::Record *CommandLine::OptionTable::createOptionRecord(
 // ----------------------------------------------------------------------
 
 CommandLine::OptionTable::Record *CommandLine::OptionTable::findOptionRecord(
-	char shortName
+	char int16_tName
 	) const
 {
-	DEBUG_FATAL(!shortName, ("nullptr shortName arg"));
+	DEBUG_FATAL(!int16_tName, ("nullptr int16_tName arg"));
 
 	// walk the list
 	for (Record *record = firstRecord; record; record = record->getNext())
 	{
-		if (record->getShortName() == shortName)
+		if (record->getShortName() == int16_tName)
 			return record;
 	}
 
@@ -1245,7 +1245,7 @@ CommandLine::MatchCode CommandLine::parseCommandLineBuffer(void)
 			return MC_MATCH;
 
 		case Lexer::TT_ShortOption:
-			// we've found a short option, make sure specified short option exists
+			// we've found a int16_t option, make sure specified int16_t option exists
 			{
 				DEBUG_FATAL(!optionTable, ("internal error: nullptr optionTable"));
 				OptionTable::Record *record = optionTable->findOptionRecord(token.getShortName());
@@ -1516,7 +1516,7 @@ const char *CommandLine::getPostCommandLineString(void)
  *
  * Short options are formed by a hyphen followed immediately by an alphanumeric
  * character (e.g. -c, -h, -i).  If an argument is associated with the
- * short option, it follows the short option with optional whitespace
+ * int16_t option, it follows the int16_t option with optional whitespace
  * separating them.
  *
  * Long options are formed by two hyphens followed immediately by a text
@@ -1590,23 +1590,23 @@ CommandLine::MatchCode CommandLine::parseOptions(const OptionSpec *optionTree, i
  * To check if a second occurrence of the "-i" was specified, use
  * CommandLine::getOptionExists('i', 1)
  *
- * The client may use either the short or long name version of this
+ * The client may use either the int16_t or long name version of this
  * command.  They will return the same value regardless of the form
  * of the option specified by the user on the command line.
  *
- * @param shortName  [IN] short name of the option
+ * @param int16_tName  [IN] int16_t name of the option
  * @param occurrenceIndex  [IN] zero-based occurrence number to check
  * @return true if the option with the given was specified on the command line.
  * false if the option was not specified on the command line.
  */
 
-bool CommandLine::getOptionExists(char shortName, int occurrenceIndex)
+bool CommandLine::getOptionExists(char int16_tName, int occurrenceIndex)
 {
 	DEBUG_FATAL(!installed, ("CommandLine not installed"));
 	DEBUG_FATAL(!wasParsed, ("commandline not parsed successfully"));
-	DEBUG_FATAL(!shortName, ("invalid shortName arg"));
+	DEBUG_FATAL(!int16_tName, ("invalid int16_tName arg"));
 
-	OptionTable::Record *record = optionTable->findOptionRecord(shortName);
+	OptionTable::Record *record = optionTable->findOptionRecord(int16_tName);
 	if (!record)
 		return false;
 	else
@@ -1620,7 +1620,7 @@ bool CommandLine::getOptionExists(char shortName, int occurrenceIndex)
  * To check if an occurrence of the "-inputfile" was specified, use
  * CommandLine::getOptionExists("inputfile", 0)
  *
- * The client may use either the short or long name version of this
+ * The client may use either the int16_t or long name version of this
  * command.  They will return the same value regardless of the form
  * of the option specified by the user on the command line.
  *
@@ -1647,21 +1647,21 @@ bool CommandLine::getOptionExists(const char *longName, int occurrenceIndex)
 /**
  * Retrieve the number of times a given option occurred on the command line.
  *
- * The client may use either the short or long name version of this
+ * The client may use either the int16_t or long name version of this
  * command.  They will return the same value regardless of the form
  * of the option specified by the user on the command line.
  *
- * @param shortName  [IN] short name of the option to check
+ * @param int16_tName  [IN] int16_t name of the option to check
  * @return The number of times the specified option appeared on the command line.
  */
 
-int CommandLine::getOccurrenceCount(char shortName)
+int CommandLine::getOccurrenceCount(char int16_tName)
 {
 	DEBUG_FATAL(!installed, ("CommandLine not installed"));
 	DEBUG_FATAL(!wasParsed, ("commandline not parsed successfully"));
-	DEBUG_FATAL(!shortName, ("invalid shortName arg"));
+	DEBUG_FATAL(!int16_tName, ("invalid int16_tName arg"));
 
-	OptionTable::Record *record = optionTable->findOptionRecord(shortName);
+	OptionTable::Record *record = optionTable->findOptionRecord(int16_tName);
 	if (!record)
 		return 0;
 	else
@@ -1672,7 +1672,7 @@ int CommandLine::getOccurrenceCount(char shortName)
 /**
  * Retrieve the number of times a given option occurred on the command line.
  *
- * The client may use either the short or long name version of this
+ * The client may use either the int16_t or long name version of this
  * command.  They will return the same value regardless of the form
  * of the option specified by the user on the command line.
  *
@@ -1697,24 +1697,24 @@ int CommandLine::getOccurrenceCount(const char *longName)
 /**
  * Retrieve the argument associated with the given option occurrence.
  *
- * The client may use either the short or long name version of this
+ * The client may use either the int16_t or long name version of this
  * command.  They will return the same value regardless of the form
  * of the option specified by the user on the command line.
  *
- * @param shortName  [IN] short name of the option
+ * @param int16_tName  [IN] int16_t name of the option
  * @param occurrenceIndex  [IN] zero-based occurrence number
  * @return The read-only argument string associated with the specified option occurrence.
  * May be nullptr if no argument was associated with the specified option.
  */
 
-const char *CommandLine::getOptionString(char shortName, int occurrenceIndex)
+const char *CommandLine::getOptionString(char int16_tName, int occurrenceIndex)
 {
 	DEBUG_FATAL(!installed, ("CommandLine not installed"));
 	DEBUG_FATAL(!wasParsed, ("commandline not parsed successfully"));
-	DEBUG_FATAL(!shortName, ("invalid shortName arg"));
+	DEBUG_FATAL(!int16_tName, ("invalid int16_tName arg"));
 
-	OptionTable::Record *record = optionTable->findOptionRecord(shortName);
-	DEBUG_FATAL(!record, ("requested option string for non-existant option '%c'", shortName));
+	OptionTable::Record *record = optionTable->findOptionRecord(int16_tName);
+	DEBUG_FATAL(!record, ("requested option string for non-existant option '%c'", int16_tName));
 
 	return record->getString(occurrenceIndex);
 }
@@ -1723,7 +1723,7 @@ const char *CommandLine::getOptionString(char shortName, int occurrenceIndex)
 /**
  * Retrieve the argument associated with the given option occurrence.
  *
- * The client may use either the short or long name version of this
+ * The client may use either the int16_t or long name version of this
  * command.  They will return the same value regardless of the form
  * of the option specified by the user on the command line.
  *
@@ -1749,24 +1749,24 @@ const char *CommandLine::getOptionString(const char *longName, int occurrenceInd
 /**
  * Retrieve the argument associated with the given option occurrence.
  *
- * The client may use either the short or long name version of this
+ * The client may use either the int16_t or long name version of this
  * command.  They will return the same value regardless of the form
  * of the option specified by the user on the command line.
  *
- * @param shortName  [IN] short name of the option
+ * @param int16_tName  [IN] int16_t name of the option
  * @param occurrenceIndex  [IN] zero-based occurrence number
  * @return An integerized version of the option string associated with the specified option occurrence.
  * Will return zero if the argument string could not be converted to an integer.
  */
 
-int CommandLine::getOptionInt(char shortName, int occurrenceIndex)
+int CommandLine::getOptionInt(char int16_tName, int occurrenceIndex)
 {
 	DEBUG_FATAL(!installed, ("CommandLine not installed"));
 	DEBUG_FATAL(!wasParsed, ("commandline not parsed successfully"));
-	DEBUG_FATAL(!shortName, ("invalid shortName arg"));
+	DEBUG_FATAL(!int16_tName, ("invalid int16_tName arg"));
 
-	OptionTable::Record *record = optionTable->findOptionRecord(shortName);
-	DEBUG_FATAL(!record, ("requested option string for non-existant option '%c'", shortName));
+	OptionTable::Record *record = optionTable->findOptionRecord(int16_tName);
+	DEBUG_FATAL(!record, ("requested option string for non-existant option '%c'", int16_tName));
 
 	return atoi(record->getString(occurrenceIndex));
 }
@@ -1775,7 +1775,7 @@ int CommandLine::getOptionInt(char shortName, int occurrenceIndex)
 /**
  * Retrieve the argument associated with the given option occurrence.
  *
- * The client may use either the short or long name version of this
+ * The client may use either the int16_t or long name version of this
  * command.  They will return the same value regardless of the form
  * of the option specified by the user on the command line.
  *

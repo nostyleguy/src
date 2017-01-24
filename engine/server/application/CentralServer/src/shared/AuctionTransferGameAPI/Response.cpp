@@ -3,7 +3,7 @@
 namespace AuctionTransfer
 {
 	GetIDResponse::GetIDResponse(RequestTypes type, void *user) 
-	: GenericResponse( (short)type, TRANSFER_SERVER_TIME_OUT, user), m_transactionID(-1)
+	: GenericResponse( (int16_t)type, TRANSFER_SERVER_TIME_OUT, user), m_transactionID(-1)
 	{
 	}
 

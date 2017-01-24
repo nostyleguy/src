@@ -23,7 +23,7 @@ ConnectionAllocatorBase::~ConnectionAllocatorBase()
 
 //-----------------------------------------------------------------------
 
-//Service::Service(const ConnectionAllocatorBase & c, const unsigned short port, const int m, const int keepAliveDelay, const std::string & interfaceAddress, const bool compress) :
+//Service::Service(const ConnectionAllocatorBase & c, const uint16_t port, const int m, const int keepAliveDelay, const std::string & interfaceAddress, const bool compress) :
 Service::Service(const ConnectionAllocatorBase & c, const NetworkSetupData & setup) :
 connectionAllocator(c.clone()),
 m_callback(new MessageDispatch::Callback),
@@ -130,7 +130,7 @@ m_tcpServer(0)
 				}
 				
 				m_udpManager = m;
-				setBindPort(static_cast<unsigned short>(m_udpManager->GetLocalPort()));
+				setBindPort(static_cast<uint16_t>(m_udpManager->GetLocalPort()));
 				if(isPortReserved(getBindPort()))
 				{
 					m = new UdpManagerMT(&p);
@@ -142,7 +142,7 @@ m_tcpServer(0)
 		else
 		{
 			m_udpManager = new UdpManagerMT(&p);
-			setBindPort(static_cast<unsigned short>(m_udpManager->GetLocalPort()));
+			setBindPort(static_cast<uint16_t>(m_udpManager->GetLocalPort()));
 		}
 		
 		newManager(m_udpManager);

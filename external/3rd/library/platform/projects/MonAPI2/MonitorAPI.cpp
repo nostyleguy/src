@@ -187,10 +187,10 @@ bool MonitorObject::processAuthRequest(const unsigned char * data, int /* dataLe
 	memset(sendBuf, 0, sizeof(sendBuf));
 
 	len = 0;
-	packShort(sendBuf + len, len, (short)MON_MSG_AUTHREPLY);
+	packShort(sendBuf + len, len, (int16_t)MON_MSG_AUTHREPLY);
 	packShort(sendBuf + len, len, mSequence);
-	packShort(sendBuf + len, len, (short)3);
-	packShort(sendBuf + len, len, (short)CURRENT_API_VERSION);
+	packShort(sendBuf + len, len, (int16_t)3);
+	packShort(sendBuf + len, len, (int16_t)CURRENT_API_VERSION);
 	packByte(sendBuf + len, len, reply);
 
 	mConnection->Send(cUdpChannelReliable1, sendBuf, 9);
@@ -202,7 +202,7 @@ void MonitorObject::DescriptionMark(int x, int mode)
 	if (mode == 0) set_bit(mMark, x); else unset_bit(mMark, x);
 }
 
-char * getErrorString(unsigned short errorCode)
+char * getErrorString(uint16_t errorCode)
 {
 	if (errorCode == 0)
 	{
@@ -242,7 +242,7 @@ char * getErrorString(unsigned short errorCode)
 bool MonitorObject::processError(const unsigned char * data)
 {
 	stringMessage strMsg(data);
-	unsigned short errCode = (unsigned short)atoi(strMsg.getData());
+	uint16_t errCode = (uint16_t)atoi(strMsg.getData());
 	fprintf(stderr, "MONITOR API Error: %s\n", getErrorString(errCode));
 	return true;
 }
@@ -390,7 +390,7 @@ bool MonitorManager::loadAuthData(const char * filename)
 // ******************************************************************************************************
 // ******************************************************************************************************
 
-CMonitorAPI::CMonitorAPI(const char *configFile, unsigned short Port, bool _bprint, char *address, UdpManager * mang)
+CMonitorAPI::CMonitorAPI(const char *configFile, uint16_t Port, bool _bprint, char *address, UdpManager * mang)
 {
 	mbprint = _bprint;
 	mPort = Port;
@@ -476,7 +476,7 @@ void CMonitorAPI::dump() { mMonitorData->dump(); }
 monMessage::monMessage() :command(0), sequence(0), size(0) {}
 
 //----------------------------------------------------------------
-monMessage::monMessage(short cmd, short seq, short s) : command(cmd), sequence(seq), size(s) {}
+monMessage::monMessage(int16_t cmd, int16_t seq, int16_t s) : command(cmd), sequence(seq), size(s) {}
 
 //----------------------------------------------------------------
 monMessage::monMessage(const unsigned char * source) : command(0), sequence(0), size(0)
@@ -503,7 +503,7 @@ stringMessage::stringMessage(const unsigned char *  source) :monMessage(source)
 }
 
 //----------------------------------------------------------------
-stringMessage::stringMessage(const unsigned short command, const unsigned short sequence, const unsigned short size, char * newData) :
+stringMessage::stringMessage(const uint16_t command, const uint16_t sequence, const uint16_t size, char * newData) :
 	monMessage(command, sequence, size)
 {
 	data = new char[strlen(newData) + 1];
@@ -527,9 +527,9 @@ authReplyMessage::authReplyMessage(const unsigned char *  source) :
 }
 
 //----------------------------------------------------------------
-authReplyMessage::authReplyMessage(const unsigned short command,
-	const unsigned short sequence,
-	const unsigned short size,
+authReplyMessage::authReplyMessage(const uint16_t command,
+	const uint16_t sequence,
+	const uint16_t size,
 	unsigned char newData) :
 	monMessage(command, sequence, size), data(newData), version() {}
 
@@ -544,9 +544,9 @@ dataReplyMessage::dataReplyMessage(const unsigned char * source) :
 }
 
 //----------------------------------------------------------------
-dataReplyMessage::dataReplyMessage(const unsigned short command,
-	const unsigned short sequence,
-	const unsigned short size,
+dataReplyMessage::dataReplyMessage(const uint16_t command,
+	const uint16_t sequence,
+	const uint16_t size,
 	unsigned char * newData,
 	int newDataLen) :
 	monMessage(command, sequence, size)
@@ -565,9 +565,9 @@ dataReplyMessage::~dataReplyMessage()
 //----------------------------------------------------------------
 simpleMessage::simpleMessage(const unsigned char * source) :monMessage(source) {}
 //----------------------------------------------------------------
-simpleMessage::simpleMessage(const unsigned short command,
-	const unsigned short sequence,
-	const unsigned short size) :
+simpleMessage::simpleMessage(const uint16_t command,
+	const uint16_t sequence,
+	const uint16_t size) :
 	monMessage(command, sequence, size) {}
 //----------------------------------------------------------------
 simpleMessage::~simpleMessage() {}
@@ -589,7 +589,7 @@ dataBlockReplyMessage::dataBlockReplyMessage(const unsigned char * source) :
 	if (Z_OK != err) { free(p); return; }
 	data = new unsigned char[S + 1];
 	memcpy(data, p, S);
-	setSize((unsigned short)S);
+	setSize((uint16_t)S);
 	free(p);
 }
 //----------------------------------------------------------------

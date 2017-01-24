@@ -16,14 +16,14 @@ namespace NAMESPACE
 	using namespace Base;
 
 	//-------------------------------------------
-	GenericRequest::GenericRequest(short type, unsigned server_track)
+	GenericRequest::GenericRequest(int16_t type, unsigned server_track)
 		: m_type(type), m_server_track(server_track), m_track(0), m_timeout(100)
 		//-------------------------------------------
 	{
 	}
 
 	//-------------------------------------------
-	GenericResponse::GenericResponse(short type, unsigned result, void *user)
+	GenericResponse::GenericResponse(int16_t type, unsigned result, void *user)
 		: m_type(type), m_result(result), m_user(user), m_track(0), m_timeout(100)
 		//-------------------------------------------
 	{

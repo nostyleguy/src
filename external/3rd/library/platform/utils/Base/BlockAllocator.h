@@ -1,8 +1,15 @@
 #if !defined (BLOCKALLOCATOR_H_)
 #define BLOCKALLOCATOR_H_
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#if __x86_64__
+typedef long unsigned int baType;
+#else
+typedef uint baType;
+#endif
 
 #ifdef EXTERNAL_DISTRO
 namespace NAMESPACE 
@@ -16,11 +23,11 @@ namespace Base
 	public:
 		BlockAllocator();
 		~BlockAllocator();
-		void *getBlock(unsigned accum);
-		void returnBlock(unsigned *handle);
+		void *getBlock(baType accum);
+		void returnBlock(baType *handle);
 
 	private:
-		uintptr_t  *m_blocks[31];
+		uintptr_t *m_blocks[31];
 	};
 };
 #ifdef EXTERNAL_DISTRO

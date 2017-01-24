@@ -58,7 +58,7 @@ struct ConnectionAllocator : public ConnectionAllocatorBase
 class Service : public NetworkHandler
 {
 public:
-	//Service(const ConnectionAllocatorBase & connectionAllocator, const unsigned short listenPort, const int maxConnections, const int keepAliveDelay = 1000, const std::string & interfaceAddress = std::string(""), const bool compress=false);
+	//Service(const ConnectionAllocatorBase & connectionAllocator, const uint16_t listenPort, const int maxConnections, const int keepAliveDelay = 1000, const std::string & interfaceAddress = std::string(""), const bool compress=false);
 	Service(const ConnectionAllocatorBase & connectionAllocator, const NetworkSetupData & setupData);
 	virtual ~Service();
 

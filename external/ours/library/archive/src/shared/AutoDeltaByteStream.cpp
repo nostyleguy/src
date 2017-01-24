@@ -88,7 +88,7 @@ void AutoDeltaByteStream::addToDirtyList(AutoDeltaVariableBase * var)
 */
 void AutoDeltaByteStream::addVariable(AutoDeltaVariableBase & var)
 {
-	var.setIndex(static_cast<unsigned short int>(members.size()));
+	var.setIndex(static_cast<uint16_t>(members.size()));
 	var.setOwner(this);
 	AutoByteStream::addVariable(var);
 }
@@ -97,7 +97,7 @@ void AutoDeltaByteStream::addVariable(AutoDeltaVariableBase & var)
 
 const unsigned int AutoDeltaByteStream::getItemCount() const
 {
-	unsigned short int count = 0;
+	uint16_t count = 0;
 
 	if (!dirtyList.empty())
 	{
@@ -121,7 +121,7 @@ const unsigned int AutoDeltaByteStream::getItemCount() const
 */
 void AutoDeltaByteStream::packDeltas(ByteStream & target) const
 {
-	unsigned short int const count = static_cast<unsigned short int>(getItemCount());
+	uint16_t const count = static_cast<uint16_t>(getItemCount());
 
 	// place count in archive
 	Archive::put(target, count);
@@ -175,8 +175,8 @@ void AutoDeltaByteStream::removeOnDirtyCallback()
 */
 void AutoDeltaByteStream::unpackDeltas(ReadIterator & source)
 {
-	unsigned short int index;
-	unsigned short int count;
+	uint16_t index;
+	uint16_t count;
 	Archive::get(source, count);
 
 	while (source.getSize())

@@ -1,6 +1,7 @@
 #ifndef UTF8_H
 #define UTF8_H
 
+#include <stdint.h>
 #include <stdio.h>
 //#include "Unicode.h"
 
@@ -8,7 +9,7 @@ namespace soe
 {
 
 typedef char UTF8;
-typedef unsigned short int UTF16;
+typedef uint16_t UTF16;
 
 size_t UTF8_charSize( char * );
 

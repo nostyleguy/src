@@ -5254,7 +5254,7 @@ void ServerObject::handleCMessageTo(const MessageToPayload &message)
 		if (splitPos)
 		{
 			*splitPos = 0;
-			NetworkId recipient(atoll(params));
+			NetworkId recipient((int64)atoll(params));
 			int amount = atoi(splitPos+1);
 			transferCashTo(recipient, amount);
 		}
@@ -5269,7 +5269,7 @@ void ServerObject::handleCMessageTo(const MessageToPayload &message)
 		if (splitPos)
 		{
 			*splitPos = 0;
-			NetworkId recipient(atoll(params));
+			NetworkId recipient((int64)atoll(params));
 			int amount = atoi(splitPos+1);
 			transferBankCreditsTo(recipient, amount);
 		}

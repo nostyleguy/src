@@ -17,7 +17,7 @@
 class MonitorObject : public UdpConnectionHandler
 {
 	CMonitorData  *mMonitorData;
-	short mSequence;
+	int16_t mSequence;
 	char *mPasswd;
 	char **mAddressList;
 	unsigned char *mMark;
@@ -72,7 +72,7 @@ class CMonitorAPI {
 
 public:
 
-	CMonitorAPI( char *configFile, unsigned short Port, bool _bprint = false , char * address = nullptr, UdpManager * mang = nullptr );
+	CMonitorAPI( char *configFile, uint16_t Port, bool _bprint = false , char * address = nullptr, UdpManager * mang = nullptr );
 	
 	~CMonitorAPI();
 
@@ -96,7 +96,7 @@ private:
 	UdpManager			*mManager;
 	MonitorManager		*mObjectManager;
 	char				*mAddress;
-	unsigned short		mPort;
+	uint16_t		mPort;
 
 };
 

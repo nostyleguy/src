@@ -10,7 +10,7 @@ namespace Base
 {
 	BlockAllocator::BlockAllocator()
 	{
-		for(unsigned i = 0; i < 31; i++)
+		for(baType i = 0; i < 31; i++)
 		{
 			m_blocks[i] = nullptr;
 		}
@@ -19,12 +19,12 @@ namespace Base
 	BlockAllocator::~BlockAllocator()
 	{
 		// free all allocated memory blocks
-		for(unsigned i = 0; i < 31; i++)
+		for(baType i = 0; i < 31; i++)
 		{
 			while(m_blocks[i] != nullptr)
 			{
-				unsigned *tmp = m_blocks[i];
-				m_blocks[i] = (unsigned *)*m_blocks[i];
+				baType *tmp = m_blocks[i];
+				m_blocks[i] = (baType *)*m_blocks[i];
 				free(tmp);
 			}
 		}
@@ -33,10 +33,10 @@ namespace Base
 // Allocate a block that is the next power of two greater than the # of bytes passed.
 // 33 bytes yields a 64 byte block of memory and so forth.
 
-	void *BlockAllocator::getBlock(unsigned bytes)
+	void *BlockAllocator::getBlock(baType bytes)
 	{
-		unsigned accum = 16, bits = 16;
-		unsigned *handle = nullptr;
+		baType accum = 16, bits = 16;
+		baType *handle = nullptr;
 
 		// Perform a binary search looking for the highest bit.
 
@@ -44,14 +44,14 @@ namespace Base
 		{
 			// If bytes is less than the bit we're testing for, subtract half
 			// from the bit value and repeat
-			if(bytes < (unsigned)(1 << accum))
+			if(bytes < (baType)(1 << accum))
 			{
 				bits /= 2;
 				accum -= bits;
 			}
 			// If bytes is greater than the bit we're testing for, add half
 			// from the but value and repeat
-			else if(bytes > (unsigned)(1 << accum))
+			else if(bytes > (baType)(1 << accum))
 			{
 				bits /= 2;
 				accum += bits;
@@ -79,7 +79,7 @@ namespace Base
 		if(m_blocks[accum] == 0)
 		{
 			// remove the pre allocated block from the linked list
-			handle = (unsigned *)calloc(((1 << accum) / 4) + 2, sizeof(unsigned));
+			handle = (baType *)calloc(((1 << accum) / 4) + 2, sizeof(baType));
 			handle[1] = accum;
 			handle[0] = 0;
 		}
@@ -87,20 +87,20 @@ namespace Base
 		{
 			// Allocate a new block 
 			handle = m_blocks[accum];
-			m_blocks[accum] = (unsigned *)handle[0];
+			m_blocks[accum] = (baType *)handle[0];
 			handle[0] = 0;
 		}
 		// return a pointer that skips over the header used for the allocator's purposes
 		return(handle + 2);
 	}
 
-	void BlockAllocator::returnBlock(unsigned *handle)
+	void BlockAllocator::returnBlock(baType *handle)
 	{
 		// C++ allows for safe deletion of a nullptr pointer
 		if(handle)
 		{
 			// Update the allocator linked list, insert this entry at the head
-			*(handle - 2) = (unsigned)m_blocks[*(handle - 1)];
+			*(handle - 2) = (baType)m_blocks[*(handle - 1)];
 			// Add this entry to the proper linked list node
 			m_blocks[*(handle - 1)] = (handle - 2);
 		}

@@ -22,7 +22,7 @@ class TcpClient
 {
 public:
 	TcpClient(int sock, TcpServer *);
-	TcpClient(const std::string & address, const unsigned short port);
+	TcpClient(const std::string & address, const uint16_t port);
 
 	void         addRef();
 	static void  install();
@@ -30,9 +30,9 @@ public:
 	static void  remove();
 	void         send(const unsigned char * const buffer, const int length);
 
-	unsigned short getBindPort() const;
+	uint16_t getBindPort() const;
 	std::string const &getRemoteAddress() const;
-	unsigned short getRemotePort() const;
+	uint16_t getRemotePort() const;
 	void setPendingSendAllocatedSizeLimit(unsigned int limit);
 
 	// only used by clients
@@ -72,7 +72,7 @@ private:
 	int                  m_refCount;
 	bool                 m_connected;
 	unsigned long        m_lastSendTime;
-	unsigned short       m_bindPort;
+	uint16_t       m_bindPort;
 	bool		     m_rawTCP;
 };
 

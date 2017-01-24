@@ -76,18 +76,18 @@ public:
 		int	      webUpdateIntervalSeconds;
 	};
 
-	static const unsigned short  getChatServicePort     ();
-	static const unsigned short  getConnectionServicePort();
+	static const uint16_t  getChatServicePort     ();
+	static const uint16_t  getConnectionServicePort();
 	static const char *          getConsoleServiceBindInterface();
-	static const unsigned short  getConsoleServicePort();
-	static const unsigned short  getCustomerServicePort     ();
+	static const uint16_t  getConsoleServicePort();
+	static const uint16_t  getCustomerServicePort     ();
 	static const char *          getClusterName         ();
-	static const unsigned short  getGameServicePort     ();
+	static const uint16_t  getGameServicePort     ();
 	static const char *          getLoginServerAddress  ();
-	static const unsigned short  getLoginServerPort     ();
+	static const uint16_t  getLoginServerPort     ();
 	static const char *          getStartPlanet         ();
-	static const unsigned short  getTaskManagerPort     ();
-	static const unsigned short  getPlanetServicePort   ();
+	static const uint16_t  getTaskManagerPort     ();
+	static const uint16_t  getPlanetServicePort   ();
 	static const unsigned int    getPlanetServerRestartDelayTimeSeconds();
 	static const unsigned int    getConnectionServerRestartDelayTimeSeconds();
 	static const unsigned int    getChatServerRestartDelayTimeSeconds();
@@ -99,7 +99,7 @@ public:
 	static const char *          getGameServiceBindInterface        ();
 	static const char *          getLoginServiceBindInterface      ();
 	static const char *          getPlanetServiceBindInterface      ();
-	static const unsigned short  getLoginServicePort    ();
+	static const uint16_t  getLoginServicePort    ();
 	static void                  install                ();
 	static void                  remove                 ();
 	static uint16                getFirstPlanetWatcherPort();
@@ -115,13 +115,13 @@ public:
 	static const int             getCharacterCreationRateLimitSeconds();
 	static const int             getCharacterCtsCreationRateLimitSeconds();
 	static const char *          getTransferServerAddress();
-	static unsigned short        getTransferServerPort();
+	static uint16_t        getTransferServerPort();
 	static const char *          getStationPlayersCollectorAddress();
-	static unsigned short        getStationPlayersCollectorPort();
+	static uint16_t        getStationPlayersCollectorPort();
 	static bool                  getAllowZeroConnectionServerPort();
 	static int                   getClusterWideDataLockTimeout();
 	static const char *          getCommodityServerServiceBindInterface();
-	static const unsigned short  getCommodityServerServicePort();
+	static const uint16_t  getCommodityServerServicePort();
 
 	static int getNumberOfStartPlanets();
 	static char const * getStartPlanet(int index);
@@ -152,9 +152,9 @@ private:
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConfigCentralServer::getChatServicePort() 
+inline const uint16_t ConfigCentralServer::getChatServicePort() 
 {
-	return static_cast<unsigned short>(data->chatServicePort);
+	return static_cast<uint16_t>(data->chatServicePort);
 }
 
 //-----------------------------------------------------------------------
@@ -166,16 +166,16 @@ inline bool ConfigCentralServer::getShouldSleep()
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConfigCentralServer::getConnectionServicePort()
+inline const uint16_t ConfigCentralServer::getConnectionServicePort()
 {
-	return static_cast<unsigned short>(data->connectionServicePort);
+	return static_cast<uint16_t>(data->connectionServicePort);
 }
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConfigCentralServer::getCustomerServicePort() 
+inline const uint16_t ConfigCentralServer::getCustomerServicePort() 
 {
-	return static_cast<unsigned short>(data->customerServicePort);
+	return static_cast<uint16_t>(data->customerServicePort);
 }
 
 //-----------------------------------------------------------------------
@@ -314,9 +314,9 @@ inline uint16 ConfigCentralServer::getFirstPlanetWatcherPort()
 
 // ----------------------------------------------------------------------
 
-inline const unsigned short ConfigCentralServer::getLoginServicePort()
+inline const uint16_t ConfigCentralServer::getLoginServicePort()
 {
-	return static_cast<unsigned short>(data->loginServicePort);
+	return static_cast<uint16_t>(data->loginServicePort);
 }
 
 // ----------------------------------------------------------------------
@@ -342,9 +342,9 @@ inline const char * ConfigCentralServer::getConsoleServiceBindInterface()
 
 //-----------------------------------------------------------------------
 
-inline const unsigned short ConfigCentralServer::getConsoleServicePort()
+inline const uint16_t ConfigCentralServer::getConsoleServicePort()
 {
-	return static_cast<unsigned short>(data->consoleServicePort);
+	return static_cast<uint16_t>(data->consoleServicePort);
 }
 
 // ----------------------------------------------------------------------
@@ -405,9 +405,9 @@ inline const char * ConfigCentralServer::getTransferServerAddress()
 
 // ----------------------------------------------------------------------
 
-inline unsigned short ConfigCentralServer::getTransferServerPort()
+inline uint16_t ConfigCentralServer::getTransferServerPort()
 {
-	return static_cast<unsigned short>(data->transferServerPort);
+	return static_cast<uint16_t>(data->transferServerPort);
 }
 
 // ----------------------------------------------------------------------
@@ -419,9 +419,9 @@ inline const char * ConfigCentralServer::getStationPlayersCollectorAddress()
 
 // ----------------------------------------------------------------------
 
-inline unsigned short ConfigCentralServer::getStationPlayersCollectorPort()
+inline uint16_t ConfigCentralServer::getStationPlayersCollectorPort()
 {
-	return static_cast<unsigned short>(data->stationPlayersCollectorPort);
+	return static_cast<uint16_t>(data->stationPlayersCollectorPort);
 }
 
 // ----------------------------------------------------------------------
@@ -447,9 +447,9 @@ inline const char * ConfigCentralServer::getCommodityServerServiceBindInterface(
 
 // ----------------------------------------------------------------------
 
-inline const unsigned short ConfigCentralServer::getCommodityServerServicePort()
+inline const uint16_t ConfigCentralServer::getCommodityServerServicePort()
 {
-	return static_cast<unsigned short>(data->commodityServerServicePort);
+	return static_cast<uint16_t>(data->commodityServerServicePort);
 }
 
 // ----------------------------------------------------------------------

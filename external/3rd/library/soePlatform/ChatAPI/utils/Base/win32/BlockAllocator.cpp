@@ -10,7 +10,7 @@ namespace Base
 
 	BlockAllocator::BlockAllocator()
 	{
-		for(unsigned i = 0; i < 31; i++)
+		for(long unsigned int i = 0; i < 31; i++)
 		{
 			m_blocks[i] = NULL;
 		}
@@ -19,11 +19,11 @@ namespace Base
 	BlockAllocator::~BlockAllocator()
 	{
 		// free all allocated memory blocks
-		for(unsigned i = 0; i < 31; i++)
+		for(long unsigned int i = 0; i < 31; i++)
 		{
 			while(m_blocks[i] != NULL)
 			{
-				unsigned *tmp = m_blocks[i];
+				long unsigned int *tmp = m_blocks[i];
 				m_blocks[i] = (uintptr_t *)*m_blocks[i];
 				free(tmp);
 			}
@@ -33,10 +33,10 @@ namespace Base
 // Allocate a block that is the next power of two greater than the # of bytes passed.
 // 33 bytes yields a 64 byte block of memory and so forth.
 
-	void *BlockAllocator::getBlock(unsigned bytes)
+	void *BlockAllocator::getBlock(long unsigned int bytes)
 	{
-		unsigned accum = 16, bits = 16;
-		unsigned *handle = NULL;
+		long unsigned int accum = 16, bits = 16;
+		long unsigned int *handle = NULL;
 
 		// Perform a binary search looking for the highest bit.
 
@@ -44,14 +44,14 @@ namespace Base
 		{
 			// If bytes is less than the bit we're testing for, subtract half
 			// from the bit value and repeat
-			if(bytes < (unsigned)(1 << accum))
+			if(bytes < (long unsigned int)(1 << accum))
 			{
 				bits /= 2;
 				accum -= bits;
 			}
 			// If bytes is greater than the bit we're testing for, add half
 			// from the but value and repeat
-			else if(bytes > (unsigned)(1 << accum))
+			else if(bytes > (long unsigned int)(1 << accum))
 			{
 				bits /= 2;
 				accum += bits;
@@ -79,7 +79,7 @@ namespace Base
 		if(m_blocks[accum] == 0)
 		{
 			// remove the pre allocated block from the linked list
-			handle = (unsigned *)calloc(((1 << accum) / 4) + 2, sizeof(unsigned));
+			handle = (long unsigned int *)calloc(((1 << accum) / 4) + 2, sizeof(long unsigned int));
 			handle[1] = accum;
 			handle[0] = 0;
 		}

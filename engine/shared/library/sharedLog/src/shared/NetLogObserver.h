@@ -29,7 +29,7 @@ public:
 	static void install();
 	static LogObserver *create(std::string const &spec);
 
-	NetLogObserver(std::string const &remoteAddress, unsigned short remotePort);
+	NetLogObserver(std::string const &remoteAddress, uint16_t remotePort);
 	virtual ~NetLogObserver();
 
 	virtual void log(LogMessage const &msg);
@@ -40,7 +40,7 @@ public:
 	virtual void update();
 	
 	std::string const &getRemoteAddress() const;
-	unsigned short getRemotePort() const;
+	uint16_t getRemotePort() const;
 
 private:
 	NetLogObserver();
@@ -52,7 +52,7 @@ private:
 
 	Mutex                      m_mutex;
 	std::string                m_remoteAddress;
-	unsigned short             m_remotePort;
+	uint16_t             m_remotePort;
 	NetLogConnection *         m_connection;
 	bool                       m_connectionOpen;
 	unsigned long              m_connectTime;
@@ -69,7 +69,7 @@ inline std::string const &NetLogObserver::getRemoteAddress() const
 
 // ----------------------------------------------------------------------
 
-inline unsigned short NetLogObserver::getRemotePort() const
+inline uint16_t NetLogObserver::getRemotePort() const
 {
 	return m_remotePort;
 }

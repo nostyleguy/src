@@ -143,7 +143,7 @@ const unsigned int ServerConnection::MessageConnectionOverflowing::getBytesPendi
 
 // ----------------------------------------------------------------------
 
-ServerConnection::ServerConnection(const std::string & a, const unsigned short p, const NetworkSetupData & setup) :
+ServerConnection::ServerConnection(const std::string & a, const uint16_t p, const NetworkSetupData & setup) :
 Connection(a, p, setup),
 MessageDispatch::Emitter(),
 processId(0),

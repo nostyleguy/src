@@ -5338,7 +5338,7 @@ int TangibleObject::getNumberOfLots() const
 
 bool TangibleObject::isOnAdminList(const CreatureObject& player) const
 {
-	//shortcut for owners
+	//int16_tcut for owners
 	if (getOwnerId() == player.getNetworkId())
 		return true;
 

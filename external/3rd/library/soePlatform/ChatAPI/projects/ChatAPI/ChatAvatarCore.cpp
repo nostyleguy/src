@@ -17,7 +17,7 @@ namespace ChatSystem
 	{
 	}
 
-	ChatAvatarCore::ChatAvatarCore(unsigned avatarID, unsigned userID, const unsigned short *name, const unsigned short *address, const unsigned short *gateway, const unsigned short *server, unsigned gatewayID, unsigned serverID, const unsigned short *loginLocation, unsigned attributes)
+	ChatAvatarCore::ChatAvatarCore(unsigned avatarID, unsigned userID, const uint16_t *name, const uint16_t *address, const uint16_t *gateway, const uint16_t *server, unsigned gatewayID, unsigned serverID, const uint16_t *loginLocation, unsigned attributes)
 		: m_name(name),
 		m_address(address),
 		m_server(server),

@@ -13,9 +13,9 @@ NAMESPACE_BEGIN(CryptoPP)
 class Twofish : public FixedBlockSize<16>, public VariableKeyLength<16, 0, 32>
 {
 protected:
-	Twofish(const byte *userKey, unsigned int keylength);
-	static word32 h0(word32 x, const word32 *key, unsigned int kLen);
-	static word32 h(word32 x, const word32 *key, unsigned int kLen);
+	Twofish(const byte *userKey, uint32_t keylength);
+	static word32 h0(word32 x, const word32 *key, uint32_t kLen);
+	static word32 h(word32 x, const word32 *key, uint32_t kLen);
 
 	static const byte q[2][256];
 	static const word32 mds[4][256];
@@ -28,7 +28,7 @@ protected:
 class TwofishEncryption : public Twofish
 {
 public:
-	TwofishEncryption(const byte *userKey, unsigned int keylength=DEFAULT_KEYLENGTH)
+	TwofishEncryption(const byte *userKey, uint32_t keylength=DEFAULT_KEYLENGTH)
 		: Twofish(userKey, keylength) {}
 
 	void ProcessBlock(const byte *inBlock, byte * outBlock) const;
@@ -40,7 +40,7 @@ public:
 class TwofishDecryption : public Twofish
 {
 public:
-	TwofishDecryption(const byte *userKey, unsigned int keylength=DEFAULT_KEYLENGTH)
+	TwofishDecryption(const byte *userKey, uint32_t keylength=DEFAULT_KEYLENGTH)
 		: Twofish(userKey, keylength) {}
 
 	void ProcessBlock(const byte *inBlock, byte * outBlock) const;

@@ -76,7 +76,7 @@ m_rawTCP( false )
 
 //-----------------------------------------------------------------------
 
-TcpClient::TcpClient(const std::string & remoteAddress, const unsigned short remotePort) :
+TcpClient::TcpClient(const std::string & remoteAddress, const uint16_t remotePort) :
 m_connectEvent(INVALID_HANDLE_VALUE),
 m_socket(),
 m_localIOCP(INVALID_HANDLE_VALUE),
@@ -146,7 +146,7 @@ void TcpClient::addRef()
 
 //-----------------------------------------------------------------------
 
-unsigned short TcpClient::getBindPort() const
+uint16_t TcpClient::getBindPort() const
 {
 	return m_bindPort;
 }
@@ -162,7 +162,7 @@ std::string const &TcpClient::getRemoteAddress() const
 
 //-----------------------------------------------------------------------
 
-unsigned short TcpClient::getRemotePort() const
+uint16_t TcpClient::getRemotePort() const
 {
 	// TODO: implement this
 	return 0;

@@ -253,7 +253,7 @@ void BitFile::outputBits(uint32 code, uint32 count)
 
 		if (!mask)
 		{
-			uint32 bytesWritten;
+			long unsigned int bytesWritten;
 			if (!WriteFile(hFile, &rack, sizeof(rack), &bytesWritten, nullptr))
 			{
 				DEBUG_FATAL(true,("BitFile::outputBits error %d.", GetLastError()));
@@ -276,7 +276,7 @@ void BitFile::outputBits(uint32 code, uint32 count)
 
 void BitFile::outputRack(void)
 {
-	uint32 bytesWritten;
+	long unsigned int bytesWritten;
 
 	if (mask != INITIAL_MASK_VALUE)
 	{
@@ -310,7 +310,7 @@ uint32 BitFile::inputBits(uint32 count)
 	{
 		if (mask == INITIAL_MASK_VALUE )
 		{
-			uint32 bytesRead;
+			long unsigned int bytesRead;
 
 			const BOOL result = ReadFile(hFile, &rack, sizeof(rack), &bytesRead, nullptr);
 
@@ -495,7 +495,7 @@ void ByteFile::output(byte b)
 	DEBUG_FATAL(isInput,("ByteFile::output called on input stream."));
 
 	byte	out = b;
-	uint32  bytesWritten;
+	long unsigned int bytesWritten;
 
 	if (!WriteFile(hFile, &out, sizeof(byte), &bytesWritten, nullptr))
 	{
@@ -517,7 +517,7 @@ bool ByteFile::input(byte *b)
 {
 	DEBUG_FATAL(!isInput,("ByteFile::input called on output stream."));
 
-	uint32 bytesRead;
+	long unsigned int bytesRead;
 	BOOL result = ReadFile(hFile, b, sizeof(byte), &bytesRead, nullptr);
 
 	// check for EOS

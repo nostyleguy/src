@@ -475,7 +475,7 @@ void CollisionProperty::addToCollisionWorld ( void )
 	modifyFlags(F_inCollisionWorld, true);
 
 	setIdle(false);
-	m_idleCounter = -10; // Make AI collision not be flagged as idle for a short while after being added to the world.
+	m_idleCounter = -10; // Make AI collision not be flagged as idle for a int16_t while after being added to the world.
 
 	storePosition();
 

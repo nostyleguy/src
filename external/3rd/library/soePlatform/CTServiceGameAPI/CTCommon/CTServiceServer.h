@@ -1,6 +1,8 @@
 #ifndef CTSERVICESERVER_H
 #define CTSERVICESERVER_H
 
+#include <stdint.h>
+
 namespace CTService 
 {
 
@@ -8,7 +10,7 @@ namespace CTService
 class CTServiceServer
 //--------------------------------------------------------
 {
-	inline void copy_wide_string(unsigned short * target, const unsigned short * source, int length)
+	inline void copy_wide_string(uint16_t * target, const uint16_t * source, int length)
 	{
 		if (!target)
 			return;
@@ -33,14 +35,14 @@ class CTServiceServer
 			  mMoveReason[0]	= 0;
 			  mTransferReason[0]= 0; }
 
-		CTServiceServer(const unsigned short *server) : mServer(), mCanRename(true), mCanMove(true), mCanTransfer(true), mRenameReason(), mMoveReason(), mTransferReason() 
+		CTServiceServer(const uint16_t *server) : mServer(), mCanRename(true), mCanMove(true), mCanTransfer(true), mRenameReason(), mMoveReason(), mTransferReason() 
 			{ copy_wide_string(mServer, server, SERVER_BUFFER);
 			  mRenameReason[0]	= 0;
 			  mMoveReason[0]	= 0;
 			  mTransferReason[0]= 0; }
 
-		void			SetServer(const unsigned short * value)				{ copy_wide_string(mServer, value, SERVER_BUFFER); }
-		unsigned short	*GetServer()										{ return mServer; }
+		void			SetServer(const uint16_t * value)				{ copy_wide_string(mServer, value, SERVER_BUFFER); }
+		uint16_t	*GetServer()										{ return mServer; }
 
 		void			SetCanRename(const bool value)						{ mCanRename = value; }
 		const bool		GetCanRename() const								{ return mCanRename; }
@@ -49,21 +51,21 @@ class CTServiceServer
 		void			SetCanTransfer(const bool value)					{ mCanTransfer = value; }
 		const bool		GetCanTransfer() const								{ return mCanTransfer; }
 
-		void			SetRenameReason(const unsigned short * value)		{ copy_wide_string(mRenameReason, value, REASON_BUFFER);  }
-		const unsigned short * GetRenameReason() const						{ return mRenameReason; }
-		void			SetMoveReason(const unsigned short * value)			{ copy_wide_string(mMoveReason, value, REASON_BUFFER);  }
-		const unsigned short * GetMoveReason() const						{ return mMoveReason; }
-		void			SetTransferReason(const unsigned short * value)		{ copy_wide_string(mTransferReason, value, REASON_BUFFER);  }
-		const unsigned short * GetTransferReason() const					{ return mTransferReason; }
+		void			SetRenameReason(const uint16_t * value)		{ copy_wide_string(mRenameReason, value, REASON_BUFFER);  }
+		const uint16_t * GetRenameReason() const						{ return mRenameReason; }
+		void			SetMoveReason(const uint16_t * value)			{ copy_wide_string(mMoveReason, value, REASON_BUFFER);  }
+		const uint16_t * GetMoveReason() const						{ return mMoveReason; }
+		void			SetTransferReason(const uint16_t * value)		{ copy_wide_string(mTransferReason, value, REASON_BUFFER);  }
+		const uint16_t * GetTransferReason() const					{ return mTransferReason; }
 
 	private:
-		unsigned short	mServer[SERVER_BUFFER];
+		uint16_t	mServer[SERVER_BUFFER];
 		bool			mCanRename;
 		bool			mCanMove;
 		bool			mCanTransfer;
-		unsigned short	mRenameReason[REASON_BUFFER];
-		unsigned short	mMoveReason[REASON_BUFFER];
-		unsigned short	mTransferReason[REASON_BUFFER];
+		uint16_t	mRenameReason[REASON_BUFFER];
+		uint16_t	mMoveReason[REASON_BUFFER];
+		uint16_t	mTransferReason[REASON_BUFFER];
 	};
 
 }; // namespace

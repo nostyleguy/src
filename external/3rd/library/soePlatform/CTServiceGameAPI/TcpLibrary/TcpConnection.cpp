@@ -10,7 +10,7 @@ namespace NAMESPACE
 
 
 //used when want to open new connection with this socket
-TcpConnection::TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAlloc, TcpManager::TcpParams &params, const IPAddress &destIP, short destPort, unsigned timeout)
+TcpConnection::TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAlloc, TcpManager::TcpParams &params, const IPAddress &destIP, int16_t destPort, unsigned timeout)
 : m_nextConnection(nullptr),
   m_prevConnection(nullptr),
   m_socket(INVALID_SOCKET),
@@ -93,7 +93,7 @@ TcpConnection::TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAllo
 }
 
 //used when server mode creates new connection object representing a connect request
-TcpConnection::TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAlloc, TcpManager::TcpParams &params, SOCKET socket, const IPAddress &destIP, short destPort)
+TcpConnection::TcpConnection(TcpManager *tcpManager, TcpBlockAllocator *sendAlloc, TcpManager::TcpParams &params, SOCKET socket, const IPAddress &destIP, int16_t destPort)
 : m_nextConnection(nullptr),
   m_prevConnection(nullptr),
   m_socket(socket),

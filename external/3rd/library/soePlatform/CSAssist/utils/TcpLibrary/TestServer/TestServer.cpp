@@ -1,7 +1,7 @@
 #include "TestServer.h"
 
 
-TestServer::TestServer(unsigned short port)
+TestServer::TestServer(uint16_t port)
 : m_port(port)
 {
     TcpManager::TcpParams params;

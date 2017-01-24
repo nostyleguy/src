@@ -14,7 +14,7 @@ namespace ucs2
     class string
     {
 		public:
-			typedef unsigned short  char_type;
+			typedef uint16_t  char_type;
 			typedef unsigned        size_type;
     
         public:

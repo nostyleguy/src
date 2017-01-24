@@ -27,7 +27,7 @@
 
 //-----------------------------------------------------------------------
 
-CentralServerConnection::CentralServerConnection(const std::string & a, const unsigned short p) :
+CentralServerConnection::CentralServerConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData())
 {
 	ChatServer::fileLog(true, "CentralServerConnection", "Connection created...listening on (%s:%d)", a.c_str(), static_cast<int>(p));
@@ -78,7 +78,7 @@ void CentralServerConnection::onReceive(const Archive::ByteStream & message)
 		}
 		case constcrc("CustomerServiceServerChatServerServiceAddress") :
 		{
-			GenericValueTypeMessage<std::pair<std::string, unsigned short> > msg(ri);
+			GenericValueTypeMessage<std::pair<std::string, uint16_t> > msg(ri);
 
 			ChatServer::instance().connectToCustomerServiceServer(msg.getValue().first, msg.getValue().second);
 			break;

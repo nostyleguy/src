@@ -12,7 +12,7 @@ namespace CTService
 class CTServiceTransaction
 //--------------------------------------------------------
 {
-	inline void copy_wide_string(unsigned short * target, const unsigned short * source, int length)
+	inline void copy_wide_string(uint16_t * target, const uint16_t * source, int length)
 	{
 		if (!target)
 			return;
@@ -111,25 +111,25 @@ class CTServiceTransaction
 		void			SetTransferServerPort(const char * value)			{ if (value) strncpy(mTransferServerPort, value, NAME_BUFFER); else mTransferServerPort[0] = 0;  }
 		const char *	GetTransferServerPort()								{ return mTransferServerPort; }
 
-		// unsigned short
+		// uint16_t
 
-		void			SetSuggestedName(const unsigned short * value)		{ copy_wide_string(mSuggestedName, value, NAME_BUFFER); }
-		unsigned short	*GetSuggestedName()									{ return mSuggestedName; }
+		void			SetSuggestedName(const uint16_t * value)		{ copy_wide_string(mSuggestedName, value, NAME_BUFFER); }
+		uint16_t	*GetSuggestedName()									{ return mSuggestedName; }
 
-		void			SetSourceServer(const unsigned short * value)		{ copy_wide_string(mSourceServer, value, NAME_BUFFER); }
-		unsigned short	*GetSourceServer()									{ return mSourceServer; }
+		void			SetSourceServer(const uint16_t * value)		{ copy_wide_string(mSourceServer, value, NAME_BUFFER); }
+		uint16_t	*GetSourceServer()									{ return mSourceServer; }
 
-		void			SetDestServer(const unsigned short * value)			{ copy_wide_string(mDestServer, value, NAME_BUFFER); }
-		unsigned short	*GetDestServer()									{ return mDestServer; }
+		void			SetDestServer(const uint16_t * value)			{ copy_wide_string(mDestServer, value, NAME_BUFFER); }
+		uint16_t	*GetDestServer()									{ return mDestServer; }
 
-		void			SetSourceCharacter(const unsigned short * value)	{ copy_wide_string(mSourceCharacter, value, NAME_BUFFER); }
-		unsigned short	*GetSourceCharacter()								{ return mSourceCharacter; }
+		void			SetSourceCharacter(const uint16_t * value)	{ copy_wide_string(mSourceCharacter, value, NAME_BUFFER); }
+		uint16_t	*GetSourceCharacter()								{ return mSourceCharacter; }
 
-		void			SetDestCharacter(const unsigned short * value)		{ copy_wide_string(mDestCharacter, value, NAME_BUFFER); }
-		unsigned short	*GetDestCharacter()									{ return mDestCharacter; }
+		void			SetDestCharacter(const uint16_t * value)		{ copy_wide_string(mDestCharacter, value, NAME_BUFFER); }
+		uint16_t	*GetDestCharacter()									{ return mDestCharacter; }
 
-		void			SetDestStationName(const unsigned short * value)	{ copy_wide_string(mDestStationName, value, NAME_BUFFER); }
-		unsigned short	*GetDestStationName()								{ return mDestStationName; }
+		void			SetDestStationName(const uint16_t * value)	{ copy_wide_string(mDestStationName, value, NAME_BUFFER); }
+		uint16_t	*GetDestStationName()								{ return mDestStationName; }
 
 
 	private:
@@ -137,14 +137,14 @@ class CTServiceTransaction
 		unsigned		mOrderID;
 		char			mTransactionStatus[TRANSACTIONS_STATUS_BUFFER];
 		unsigned		mGameResultID;
-		unsigned short	mSuggestedName[NAME_BUFFER];
+		uint16_t	mSuggestedName[NAME_BUFFER];
 		char			mGameCode[GAME_CODE_BUFFER];
-		unsigned short	mSourceServer[NAME_BUFFER];
-		unsigned short	mDestServer[NAME_BUFFER];
-		unsigned short	mSourceCharacter[NAME_BUFFER];
-		unsigned short	mDestCharacter[NAME_BUFFER];
+		uint16_t	mSourceServer[NAME_BUFFER];
+		uint16_t	mDestServer[NAME_BUFFER];
+		uint16_t	mSourceCharacter[NAME_BUFFER];
+		uint16_t	mDestCharacter[NAME_BUFFER];
 		unsigned		mSourceUID;
-		unsigned short	mDestStationName[NAME_BUFFER];
+		uint16_t	mDestStationName[NAME_BUFFER];
 		unsigned		mDestUID;
 		unsigned		mWithItems;
 		unsigned		mOverride;

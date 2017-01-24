@@ -266,7 +266,7 @@ UdpLibrary Release Notes
   to terminate a connection.  However, there are situations where it may be desireable to tolerate ICMP
   errors for a few seconds as sometimes these situations resolve themselves.  In particular, the new
   port-remapping feature (see below) requires that some tolerance be set in this regard, as ICMP errors
-  will likely occur for a short period of time while remapping is occurring.  Although it changes
+  will likely occur for a int16_t period of time while remapping is occurring.  Although it changes
   previous behavior of the library, I have decided to make this new setting start out at 5000ms.  This
   means that ICMP errors for port unreachable and such will not occur for at least 5 seconds, whereas
   before they may have occurred nearly instantly.  If you want the previous behavior, setting this value
@@ -373,7 +373,7 @@ UdpLibrary Release Notes
   and we don't want to mess them up.
 
 - recently, the UdpLibrary has been seeing much heavier load as a server-to-server interprocess communications
-  protocol.  While it was designed to handle this sort of thing, it did have one short-sighted limitation; it
+  protocol.  While it was designed to handle this sort of thing, it did have one int16_t-sighted limitation; it
   was only capable of transferring 4 billion logical reliable packets per session before it would fall apart.
   Even at a very high average trasfer rate of 1000 packets per second on a single connection, it would take over
   a month to exceed this rate.  It seemed at first that this might be a reasonable limitation, until Planetside
@@ -530,7 +530,7 @@ UdpLibrary Release Notes
   process using bandwidth in the system, and you don't really care to be 'friendly' to other connections running 
   on the system.  Normally, if a modem-user is playing the game and has an TCP transfer going on in the background,
   then the TCP connection and the UdpLibrary connection will both effectively settle-in on using about half the available
-  bandwidth.  That is, the flow-control algorithms used by the UdpLibrary and TCP are such that over a fairly short period
+  bandwidth.  That is, the flow-control algorithms used by the UdpLibrary and TCP are such that over a fairly int16_t period
   of time, they will both settle in on a happy split.  However, if half-the-bandwidth was equal to a 2k window-size, and
   the UdpLibrary was configured to have a minimum window size of 3k, then the UdpLibrary would not scale down.  Because
   the TCP connection is willing to scale down further, it would, and you would effectively end up with a 3k/1k split
@@ -906,7 +906,7 @@ UdpLibrary Release Notes
   server perhaps where nobody is talking much).  For some people, it may be necessary to send data more frequently in order to 
   keep their NAT mapping fresh, or their firewall software happy.  However, we don't want to be in a situation where our server 
   is receiving a lot more data than it needs to just so these people can keep their port open.  I have seen NAT's that lose 
-  mappings in as short as 20 seconds.  What this feature does is a bit tricky.  It changes the time-to-live (TTL) for a special 
+  mappings in as int16_t as 20 seconds.  What this feature does is a bit tricky.  It changes the time-to-live (TTL) for a special 
   keep-alive packet to some small value (5) which is enough for the packet to get past local firewalls and NAT's, but not make 
   it all the way to our server.  In this manner, the port gets kept alive, but we don't waste bandwidth with these packets.
   These special packets are not counted statistically in any way and they do not reset any timers of any kind.  Their sole 

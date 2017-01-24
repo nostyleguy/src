@@ -17,7 +17,7 @@
 class CentralServerConnection : public ServerConnection
 {
 public:
-	CentralServerConnection   (const std::string & remoteAddress, const unsigned short port);
+	CentralServerConnection   (const std::string & remoteAddress, const uint16_t port);
 	~CentralServerConnection  ();
 
 	void                          onConnectionClosed      ();

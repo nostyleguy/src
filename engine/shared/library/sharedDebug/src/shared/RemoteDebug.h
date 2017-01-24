@@ -8,6 +8,8 @@
 #ifndef REMOTE_DEBUG_H
 #define REMOTE_DEBUG_H
 
+#include <stdint.h>
+
 // ======================================================================
 
 /** This class is both a platform and network-protocol independent way of 
@@ -69,9 +71,9 @@ public:
 protected:
 	//define typdefs of function types
 	typedef void (*RemoveFunction)();
-	typedef void (*OpenFunction)(const char *server, uint16 port);
+	typedef void (*OpenFunction)(const char *server, uint16_t port);
 	typedef void (*CloseFunction)();
-	typedef void (*SendFunction)(void *buffer, uint32 bufferLen);
+	typedef void (*SendFunction)(void *buffer, uint32_t bufferLen);
 	typedef void (*IsReadyFunction)();
 
 	typedef void (*UpFunction)();
@@ -92,7 +94,7 @@ public:
 	static void install(RemoveFunction, OpenFunction, CloseFunction, SendFunction, IsReadyFunction);
 
 	///open a session
-	static void open(const char *server = nullptr, uint16 port = 0);
+	static void open(const char *server = nullptr, uint16_t port = 0);
 
 	///packs the data into a packet, and sends it using the client-defined SendFunction
 	static void send(MESSAGE_TYPE type, const char* name = "");
@@ -101,7 +103,7 @@ public:
 	static void translateVarArgs(const char *format, ...);
 
 	///register a variable with the system
-	static uint32 registerVariable(const char* variableName, void *memLoc, VARIABLE_TYPES type, bool sendToClients);
+	static uint32_t registerVariable(const char* variableName, void *memLoc, VARIABLE_TYPES type, bool sendToClients);
 
 	///send the variable value to the clients
 	static void updateVariable(const char* variableName);
@@ -135,10 +137,10 @@ protected:
 	static void remove();
 
 	///store the stream in a map, use an int for network communication
-	static uint32 registerStream(const std::string& streamName);
+	static uint32_t registerStream(const std::string& streamName);
 
 	///store the static view in a map, use an int for network communication
-	static uint32 registerStaticView(const std::string& staticViewName);
+	static uint32_t registerStaticView(const std::string& staticViewName);
 
 	///find and return the stream number for a given stream name, -1 if not found
 	static int32 findStream(const std::string& name);
@@ -159,15 +161,15 @@ protected:
 	static SendFunction            ms_sendFunction;
 	static IsReadyFunction         ms_isReadyFunction;
 
-	typedef std::map<uint32, Channel *> StreamMap;
+	typedef std::map<uint32_t , Channel *> StreamMap;
 	///stream names
 	static  StreamMap                *ms_streams;
 
-	typedef std::map<uint32, Channel *> VariableMap;
+	typedef std::map<uint32_t , Channel *> VariableMap;
 	///What variables are registered
 	static  VariableMap              *ms_variables;
 
-	typedef std::map<uint32, Channel *> StaticViewMap;
+	typedef std::map<uint32_t , Channel *> StaticViewMap;
 	///StaticView names
 	static  StaticViewMap            *ms_staticViews;
 
@@ -184,24 +186,24 @@ protected:
 	static bool                      ms_opened;
 
 	///What streaming channels are squelched (i.e. don't send to client at all)
-	static std::map<uint32, bool>      *ms_squelchedStream;
+	static std::map<uint32_t , bool>      *ms_squelchedStream;
 
 	///What static channels are squelched (i.e. don't send to client at all)
-	static std::map<uint32, bool>      *ms_squelchedStatic;
+	static std::map<uint32_t , bool>      *ms_squelchedStatic;
 
 	///the next stream number
-	static uint32                    ms_nextStream;
+	static uint32_t                    ms_nextStream;
 
 	///the next variable number
-	static uint32                    ms_nextVariable;
+	static uint32_t                    ms_nextVariable;
 
 	///the next staticView number
-	static uint32                    ms_nextStaticView;
+	static uint32_t                    ms_nextStaticView;
 
-	typedef std::map<uint32, Variable *> VariableValueMap;
+	typedef std::map<uint32_t , Variable *> VariableValueMap;
 	static VariableValueMap            *ms_variableValues;
 
-	typedef std::map<uint32, UpFunction> MovementFunctionMap;
+	typedef std::map<uint32_t , UpFunction> MovementFunctionMap;
 	static MovementFunctionMap         *ms_upFunctionMap;
 	static MovementFunctionMap         *ms_downFunctionMap;
 	static MovementFunctionMap         *ms_leftFunctionMap;

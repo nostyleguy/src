@@ -12,7 +12,7 @@
 namespace ChatSystem 
 {
 
-ChatAPI::ChatAPI(const char *registrar_host, short registrar_port, const char *server_host, short server_port)
+ChatAPI::ChatAPI(const char *registrar_host, int16_t registrar_port, const char *server_host, int16_t server_port)
 : m_defaultRoomParams(nullptr), 
   m_defaultLoginPriority(0), 
   m_defaultEntryType(false)

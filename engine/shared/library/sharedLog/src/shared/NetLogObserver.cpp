@@ -36,7 +36,7 @@ LogObserver *NetLogObserver::create(std::string const &spec)
 	if (pos != std::string::npos)
 	{
 		std::string address = spec.substr(0, pos);
-		unsigned short port = static_cast<unsigned short>(atoi(spec.c_str()+pos+1));
+		uint16_t port = static_cast<uint16_t>(atoi(spec.c_str()+pos+1));
 		// create a NetLogObserver to forward to the specified address/port
 		return new NetLogObserver(address, port);
 	}
@@ -45,7 +45,7 @@ LogObserver *NetLogObserver::create(std::string const &spec)
 
 // ----------------------------------------------------------------------
 
-NetLogObserver::NetLogObserver(const std::string &remoteAddress, unsigned short remotePort) :
+NetLogObserver::NetLogObserver(const std::string &remoteAddress, uint16_t remotePort) :
 	LogObserver(),
 	m_mutex(),
 	m_remoteAddress(remoteAddress),

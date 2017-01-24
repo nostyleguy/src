@@ -4,6 +4,7 @@
 // Copyright 2004 Sony Online Entertainment, all rights reserved.
 // Author: Jeff Petersen
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include "UdpDriver.h"
@@ -32,7 +33,7 @@ class UdpMisc
                 // you a sync-stamp that you can compare with ServerSyncStampShort values generated on other 
                 // machines that are synchronized against the same server.  This ServerSyncStampShort function and
                 // this delta time function serve as the basis for calculating one-way travel times for packets.
-        static int SyncStampShortDeltaTime(udp_ushort stamp1, udp_ushort stamp2);
+        static int SyncStampShortDeltaTime(uint16_t stamp1, uint16_t stamp2);
         static int SyncStampLongDeltaTime(udp_uint stamp1, udp_uint stamp2);    // same as Short version only no limit
 
             // used to alloc/resize/free an allocation previously created with this function
@@ -56,13 +57,13 @@ class UdpMisc
         static int PutValue64(void *buffer, udp_int64 value);       // puts a 64-bit value into the buffer in big-endian format, returns number of bytes used(8)
         static int PutValue32(void *buffer, udp_uint value);        // puts a 32-bit value into the buffer in big-endian format, returns number of bytes used(4)
         static int PutValue24(void *buffer, udp_uint value);        // puts a 24-bit value into the buffer in big-endian format, returns number of bytes used(4)
-        static int PutValue16(void *buffer, udp_ushort value);      // puts a 16-bit value into the buffer in big-endian format, returns number of bytes used(2)
+        static int PutValue16(void *buffer, uint16_t value);      // puts a 16-bit value into the buffer in big-endian format, returns number of bytes used(2)
         static int PutValueLE32(void *buffer, udp_uint value);      // puts a 32-bit value in little-endian format
 
         static udp_int64 GetValue64(const void *buffer);            // gets a 64-bit value from the buffer in big-endian format
         static udp_uint GetValue32(const void *buffer);             // gets a 32-bit value from the buffer in big-endian format
         static udp_uint GetValue24(const void *buffer);             // gets a 24-bit value from the buffer in big-endian format
-        static udp_ushort GetValue16(const void *buffer);           // gets a 16-bit value from the buffer in big-endian format
+        static uint16_t GetValue16(const void *buffer);           // gets a 16-bit value from the buffer in big-endian format
 
         static LogicalPacket *CreateQuickLogicalPacket(const void *data, int dataLen, const void *data2 = nullptr, int dataLen2 = 0);
 
@@ -151,7 +152,7 @@ inline udp_uint UdpMisc::GetValue24(const void *buffer)
     return((*bufptr << 16) | (*(bufptr + 1) << 8) | *(bufptr + 2));
 }
 
-inline int UdpMisc::PutValue16(void *buffer, udp_ushort value)
+inline int UdpMisc::PutValue16(void *buffer, uint16_t value)
 {
     udp_uchar *bufptr = (udp_uchar *)buffer;
     *bufptr++ = (udp_uchar)((value >> 8) & 0xff);
@@ -159,10 +160,10 @@ inline int UdpMisc::PutValue16(void *buffer, udp_ushort value)
     return(2);
 }
 
-inline udp_ushort UdpMisc::GetValue16(const void *buffer)
+inline uint16_t UdpMisc::GetValue16(const void *buffer)
 {
     const udp_uchar *bufptr = (const udp_uchar *)buffer;
-    return((udp_ushort)((*bufptr << 8) | *(bufptr + 1)));
+    return((uint16_t)((*bufptr << 8) | *(bufptr + 1)));
 }
 
 inline char *UdpMisc::Strncpy(char *dest, const char *source, int len)

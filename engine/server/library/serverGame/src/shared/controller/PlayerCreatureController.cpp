@@ -686,7 +686,7 @@ bool PlayerCreatureController::checkValidMove(MoveSnapshot const &m, float const
 		}
 
 		// check if moving from last verified location to goal location exceeds max speed
-		// we should never be dealing with moves that are shorter than 1 ms
+		// we should never be dealing with moves that are int16_ter than 1 ms
 		if (timeDiffMs < 1)
 			timeDiffMs = 1;
 		// We enforce a maximum check distance of twice the check interval, to disallow 'saving up' movement

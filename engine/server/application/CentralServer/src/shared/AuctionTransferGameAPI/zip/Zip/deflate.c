@@ -395,7 +395,7 @@ int ZEXPORT deflateParams(strm, level, strategy)
 }
 
 /* =========================================================================
- * Put a short in the pending buffer. The 16-bit value is put in MSB order.
+ * Put a int16_t in the pending buffer. The 16-bit value is put in MSB order.
  * IN assertion: the stream state is correct and there is enough room in
  * pending_buf.
  */
@@ -711,7 +711,7 @@ local void lm_init (s)
 
 /* ===========================================================================
  * Set match_start to the longest match starting at the given string and
- * return its length. Matches shorter or equal to prev_length are discarded,
+ * return its length. Matches int16_ter or equal to prev_length are discarded,
  * in which case the result is equal to prev_length and match_start is
  * garbage.
  * IN assertions: cur_match is the head of the hash chain for the current
@@ -778,7 +778,7 @@ local uInt longest_match(s, cur_match)
          * or if the match length is less than 2:
          */
 #if (defined(UNALIGNED_OK) && MAX_MATCH == 258)
-        /* This code assumes sizeof(unsigned short) == 2. Do not use
+        /* This code assumes sizeof(uint16_t) == 2. Do not use
          * UNALIGNED_OK if your compiler uses a different size.
          */
         if (*(ushf*)(match+best_len-1) != scan_end ||
@@ -1133,7 +1133,7 @@ local block_state deflate_stored(s, flush)
  * Compress as much as possible from the input stream, return the current
  * block state.
  * This function does not perform lazy evaluation of matches and inserts
- * new strings in the dictionary only for unmatched strings or for short
+ * new strings in the dictionary only for unmatched strings or for int16_t
  * matches. It is used only for the fast compression options.
  */
 local block_state deflate_fast(s, flush)

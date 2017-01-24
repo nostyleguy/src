@@ -1389,7 +1389,7 @@ class basic_json
 
     @tparam CompatibleNumberIntegerType An integer type which is compatible to
     @ref number_integer_t. Examples include the types `int`, `int32_t`,
-    `long`, and `short`.
+    `long`, and `int16_t`.
 
     @param[in] val  an integer to create a JSON number from
 
@@ -1452,7 +1452,7 @@ class basic_json
 
     @tparam CompatibleNumberUnsignedType An integer type which is compatible
     to @ref number_unsigned_t. Examples may include the types `unsigned int`,
-    `uint32_t`, or `unsigned short`.
+    `uint32_t`, or `uint16_t`.
 
     @param[in] val  an unsigned integer to create a JSON number from
 
@@ -2868,7 +2868,7 @@ class basic_json
     @liveexample{The example below shows several conversions from JSON values
     to other types. There a few things to note: (1) Floating-point numbers can
     be converted to integers\, (2) A JSON array can be converted to a standard
-    `std::vector<short>`\, (3) A JSON object can be converted to C++
+    `std::vector<int16_t>`\, (3) A JSON object can be converted to C++
     associative containers such as `std::unordered_map<std::string\,
     json>`.,get__ValueType_const}
 
@@ -3082,7 +3082,7 @@ class basic_json
     @liveexample{The example below shows several conversions from JSON values
     to other types. There a few things to note: (1) Floating-point numbers can
     be converted to integers\, (2) A JSON array can be converted to a standard
-    `std::vector<short>`\, (3) A JSON object can be converted to C++
+    `std::vector<int16_t>`\, (3) A JSON object can be converted to C++
     associative containers such as `std::unordered_map<std::string\,
     json>`.,operator__ValueType}
 
@@ -8918,7 +8918,7 @@ class basic_json
     class json_reverse_iterator : public std::reverse_iterator<Base>
     {
       public:
-        /// shortcut to the reverse iterator adaptor
+        /// int16_tcut to the reverse iterator adaptor
         using base_iterator = std::reverse_iterator<Base>;
         /// the reference type for the pointed-to element
         using reference = typename Base::reference;

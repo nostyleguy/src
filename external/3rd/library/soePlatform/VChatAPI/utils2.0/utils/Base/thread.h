@@ -113,7 +113,7 @@ class RWLock
 	private:
 		Mutex mWriteMutex;
 		Mutex mReadMutex;
-		unsigned short mReadCount;
+		uint16_t mReadCount;
 		EventLock mReadLock;
 		Event mReadEvent;
 };

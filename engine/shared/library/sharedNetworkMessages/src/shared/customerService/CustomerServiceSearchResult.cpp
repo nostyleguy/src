@@ -11,7 +11,7 @@
 CustomerServiceSearchResult::CustomerServiceSearchResult(
 	const Unicode::String &title, 
 	const std::string &id, 
-	short matchPercent
+	int16_t matchPercent
 ) :
 m_title(title),
 m_id(id),

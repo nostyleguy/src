@@ -59,19 +59,19 @@ namespace Message
             Basic();
             
             Basic(const unsigned char * const buffer, const unsigned int bufferSize);
-            explicit Basic(const unsigned short messageId);
+            explicit Basic(const uint16_t messageId);
             explicit Basic(Base::ByteStream::ReadIterator & source);
             
             Basic(const Basic & source);
             Basic & operator=(const Basic & rhs);
 
             virtual ~Basic();
-            const unsigned short GetMessageID() const;
+            const uint16_t GetMessageID() const;
         private:
-            Base::AutoVariable<unsigned short> mMessageID;
+            Base::AutoVariable<uint16_t> mMessageID;
     };
 
-    inline const unsigned short Basic::GetMessageID() const
+    inline const uint16_t Basic::GetMessageID() const
     {
         return mMessageID.get(); //lint !e1037 choosing a const or non const conversion is NOT ambiguous
     }
@@ -93,7 +93,7 @@ namespace Message
         private:                                                                                            \
             void InitializeMembers();                                                                       \
         public:                                                                                             \
-            ClassName(const unsigned short messageId = MESSAGE_ID);                                         \
+            ClassName(const uint16_t messageId = MESSAGE_ID);                                         \
             ClassName(Base::ByteStream::ReadIterator & source);
 
 #define DefineMessageMember(MemberName,Type)                                                                \
@@ -127,7 +127,7 @@ namespace Message
     };
 
 #define BeginImplementMessage(ClassName,BaseClass)                                                          \
-    ClassName::ClassName(const unsigned short messageId) : BaseClass(messageId)                             \
+    ClassName::ClassName(const uint16_t messageId) : BaseClass(messageId)                             \
     {                                                                                                       \
         InitializeMembers();                                                                                \
     }                                                                                                       \
@@ -214,7 +214,7 @@ namespace Message
     ////////////////////////////////////////
     //  Unknown
     BeginDefineMessage(Unknown, Basic, MESSAGE_UNKNOWN)
-        DefineMessageMember(UnknownMessageID, unsigned short)
+        DefineMessageMember(UnknownMessageID, uint16_t)
     EndDefineMessage
 
 

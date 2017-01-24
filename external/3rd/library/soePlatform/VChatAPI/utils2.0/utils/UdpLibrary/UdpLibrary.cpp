@@ -481,7 +481,7 @@ void UdpManager::CreateAndBindSocket(int usePort)
 			// bind it to any address
 		struct sockaddr_in addr_loc;
 		addr_loc.sin_family = PF_INET;
-		addr_loc.sin_port = htons((ushort)usePort);
+		addr_loc.sin_port = htons((uint16_t)usePort);
 
 		addr_loc.sin_addr.s_addr = htonl(INADDR_ANY);
 		if (mParams.bindIpAddress[0] != 0)
@@ -954,7 +954,7 @@ void UdpManager::ActualSendHelper(const uchar *data, int dataLen, UdpIpAddress i
 	struct sockaddr_in addr_dest;
 	addr_dest.sin_family = PF_INET;
 	addr_dest.sin_addr.s_addr = ip.GetAddress();
-	addr_dest.sin_port = htons((ushort)port);
+	addr_dest.sin_port = htons((uint16_t)port);
 	if (SOCKET_ERROR == sendto(mUdpSocket, (const char *)data, dataLen, 0, (struct sockaddr *)&addr_dest, sizeof(addr_dest)))
 	{
 			// error writing to socket, what is the error?
@@ -1432,7 +1432,7 @@ void UdpConnection::SendTerminatePacket(int connectCode, DisconnectReason reason
 	buf[0] = 0;
 	buf[1] = cUdpPacketTerminate;
 	UdpMisc::PutValue32(buf + 2, connectCode);
-	UdpMisc::PutValue16(buf + 6, (ushort)reason);
+	UdpMisc::PutValue16(buf + 6, (uint16_t)reason);
 	PhysicalSend(buf, 8, true);
 }
 
@@ -1529,7 +1529,7 @@ bool UdpConnection::InternalSend(UdpChannel channel, const uchar *data, int data
 			uchar *bufPtr = tempBuffer;
 			bufPtr[0] = 0;
 			bufPtr[1] = cUdpPacketOrdered2;
-			UdpMisc::PutValue16(bufPtr + 2, (ushort)(++mOrderedCountOutgoing2 & 0xffff));
+			UdpMisc::PutValue16(bufPtr + 2, (uint16_t)(++mOrderedCountOutgoing2 & 0xffff));
 			memcpy(bufPtr + 4, data, dataLen);
 			if (data2 != nullptr)
 				memcpy(bufPtr + 4 + dataLen, data2, dataLen2);
@@ -1542,7 +1542,7 @@ bool UdpConnection::InternalSend(UdpChannel channel, const uchar *data, int data
 			uchar *bufPtr = tempBuffer;
 			bufPtr[0] = 0;
 			bufPtr[1] = cUdpPacketOrdered2;
-			UdpMisc::PutValue16(bufPtr + 2, (ushort)(++mOrderedCountOutgoing2 & 0xffff));
+			UdpMisc::PutValue16(bufPtr + 2, (uint16_t)(++mOrderedCountOutgoing2 & 0xffff));
 			memcpy(bufPtr + 4, data, dataLen);
 			if (data2 != nullptr)
 				memcpy(bufPtr + 4 + dataLen, data2, dataLen2);
@@ -1933,7 +1933,7 @@ void UdpConnection::ProcessCookedPacket(const uchar *data, int dataLen)
 			}
 			case cUdpPacketOrdered:
 			{
-				ushort orderedStamp = UdpMisc::GetValue16(data + 2);
+				uint16_t orderedStamp = UdpMisc::GetValue16(data + 2);
 				int diff = (int)orderedStamp - (int)mOrderedStampLast;
 				if (diff <= 0)		// equal here makes it strip dupes too
 					diff += 0x10000;
@@ -1951,7 +1951,7 @@ void UdpConnection::ProcessCookedPacket(const uchar *data, int dataLen)
 			}
 			case cUdpPacketOrdered2:
 			{
-				ushort orderedStamp = UdpMisc::GetValue16(data + 2);
+				uint16_t orderedStamp = UdpMisc::GetValue16(data + 2);
 				int diff = (int)orderedStamp - (int)mOrderedStampLast2;
 				if (diff <= 0)		// equal here makes it strip dupes too
 					diff += 0x10000;
@@ -2095,7 +2095,7 @@ void UdpConnection::ProcessCookedPacket(const uchar *data, int dataLen)
 				pp.ourSent				= UdpMisc::GetValue64(data + 24);
 				pp.ourReceived			= UdpMisc::GetValue64(data + 32);
 
-				ushort curStamp = UdpMisc::LocalSyncStampShort();
+				uint16_t curStamp = UdpMisc::LocalSyncStampShort();
 				int roundTime = UdpMisc::SyncStampShortDeltaTime(pp.timeStamp, curStamp);
 
 				mSyncStatCount++;
@@ -2555,7 +2555,7 @@ void UdpConnection::PhysicalSend(const uchar *data, int dataLen, bool appendAllo
 				*crcPtr = (uchar)(crc & 0xff);
 				break;
 			case 2:
-				UdpMisc::PutValue16(crcPtr, (ushort)(crc & 0xffff));
+				UdpMisc::PutValue16(crcPtr, (uint16_t)(crc & 0xffff));
 				break;
 			case 3:
 				UdpMisc::PutValue24(crcPtr, crc & 0xffffff);
@@ -3360,7 +3360,7 @@ int UdpReliableChannel::GiveTime()
 			bufPtr = buf;
 			*bufPtr++ = 0;
 			*bufPtr++ = (uchar)(((fragment) ? UdpConnection::cUdpPacketFragment1 : UdpConnection::cUdpPacketReliable1) + mChannelNumber);	// mark us as a fragment if we are one
-			bufPtr += UdpMisc::PutValue16(bufPtr, (ushort)(reliableId & 0xffff));
+			bufPtr += UdpMisc::PutValue16(bufPtr, (uint16_t)(reliableId & 0xffff));
 			if (fragment && entry->mDataPtr == parentBase)
 				bufPtr += UdpMisc::PutValue32(bufPtr, entry->mParent->GetDataLen());		// first fragment has a total-length byte after the reliable header
 			mUdpConnection->BufferedSend(buf, bufPtr - buf, entry->mDataPtr, entry->mDataLen, false);
@@ -3507,7 +3507,7 @@ void UdpReliableChannel::ReliablePacket(const uchar *data, int dataLen)
 	}
 
 	int packetType = data[1];
-	ushort reliableStamp = UdpMisc::GetValue16(data + 2);
+	uint16_t reliableStamp = UdpMisc::GetValue16(data + 2);
 	udp_int64 reliableId = GetReliableIncomingId(reliableStamp);
 
 	if (reliableId >= mReliableIncomingId + mConfig.maxInstandingPackets)
@@ -3577,13 +3577,13 @@ void UdpReliableChannel::ReliablePacket(const uchar *data, int dataLen)
 	{
 			// ack everything up to the current head of our chain (minus one since the stamp represents the next one we want to get)
 		*bufPtr++ = (uchar)(UdpConnection::cUdpPacketAckAll1 + mChannelNumber);
-		bufPtr += UdpMisc::PutValue16(bufPtr, (ushort)((mReliableIncomingId - 1) & 0xffff));
+		bufPtr += UdpMisc::PutValue16(bufPtr, (uint16_t)((mReliableIncomingId - 1) & 0xffff));
 	}
 	else
 	{
 			// a simple ack for us only
 		*bufPtr++ = (uchar)(UdpConnection::cUdpPacketAck1 + mChannelNumber);
-		bufPtr += UdpMisc::PutValue16(bufPtr, (ushort)(reliableId & 0xffff));
+		bufPtr += UdpMisc::PutValue16(bufPtr, (uint16_t)(reliableId & 0xffff));
 		mBufferedAckPtr = nullptr;	// not allowed to replace an old one with a selective-ack
 	}
 
@@ -3640,7 +3640,7 @@ void UdpReliableChannel::ProcessPacket(ReliablePacketMode mode, const uchar *dat
 
 void UdpReliableChannel::AckAllPacket(const uchar *data, int /*dataLen*/)
 {
-	udp_int64 reliableId = GetReliableOutgoingId((ushort)UdpMisc::GetValue16(data + 2));
+	udp_int64 reliableId = GetReliableOutgoingId((uint16_t)UdpMisc::GetValue16(data + 2));
 
     if (mReliableOutgoingPendingId > reliableId)
     {
@@ -3710,7 +3710,7 @@ void UdpReliableChannel::Ack(udp_int64 reliableId)
 				// harm done is that the we may not resend some of the earlier sent packets quite as quickly.  This will only
 				// happen in situations where a packet that was truely lost gets acked on it's second attempt...we just
 				// won't be using that ack for the purposes of accelerating other resends...since odds are a non-lost packet
-				// will accelerate those other resends shortly anyhow, there really is no loss
+				// will accelerate those other resends int16_tly anyhow, there really is no loss
                 // (note: we used to only set this value forward for packets that were never lost (one time sends); however, if this stamp
 				// ever got set way high for some reason (in theory it can't happen), then we would get into a situation where it would
 				// rapidly resend and possibly never get reset, causing infinite rapid resends, so we now set it every time to the first-stamp)
@@ -4127,9 +4127,9 @@ UdpMisc::ClockStamp UdpMisc::Clock()
 #endif	
 }
 
-int UdpMisc::SyncStampShortDeltaTime(ushort stamp1, ushort stamp2)
+int UdpMisc::SyncStampShortDeltaTime(uint16_t stamp1, uint16_t stamp2)
 {
-	ushort delta = (ushort)(stamp1 - stamp2);
+	uint16_t delta = (uint16_t)(stamp1 - stamp2);
 	if (delta > 0x7fff)
 		return((int)(0xffff - delta));
 	return((int)delta);

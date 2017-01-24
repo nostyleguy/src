@@ -507,7 +507,7 @@ void CharacterMatchManager::requestMatch(NetworkId const &networkId, MatchMaking
 
 		// for a matching character, this contains the attributes that
 		// resulted in the match; it is not necessarily *ALL* the
-		// matching attributes, because we're doing short-circuit
+		// matching attributes, because we're doing int16_t-circuit
 		// evaluation here
 		BitArray matchingAttributes;
 

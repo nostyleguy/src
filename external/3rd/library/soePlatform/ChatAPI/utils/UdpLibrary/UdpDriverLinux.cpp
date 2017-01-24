@@ -99,7 +99,7 @@ bool UdpPlatformDriver::SocketOpen(int port, int incomingBufferSize, int outgoin
             // bind it to any address
         struct sockaddr_in addr_loc;
         addr_loc.sin_family = PF_INET;
-        addr_loc.sin_port = htons((unsigned short)port);
+        addr_loc.sin_port = htons((uint16_t)port);
         addr_loc.sin_addr.s_addr = htonl(INADDR_ANY);
         if (bindIpAddress != nullptr && bindIpAddress[0] != 0)
         {
@@ -157,7 +157,7 @@ bool UdpPlatformDriver::SocketSend(const char *data, int dataLen, const UdpPlatf
     struct sockaddr_in addr_dest;
     addr_dest.sin_family = PF_INET;
     memcpy(&addr_dest.sin_addr.s_addr, ipAddress->mData, 4);
-    addr_dest.sin_port = htons((unsigned short)port);
+    addr_dest.sin_port = htons((uint16_t)port);
     if (SOCKET_ERROR == sendto(mData->socket, data, dataLen, 0, (struct sockaddr *)&addr_dest, sizeof(addr_dest)))
     {
         return(false);

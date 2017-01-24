@@ -4,6 +4,8 @@
 // Copyright 2004 Sony Online Entertainment, all rights reserved.
 // Author: Jeff Petersen
 
+#include <stdint.h>
+
 namespace UdpLibrary
 {
 
@@ -177,9 +179,9 @@ class UdpConnection : public UdpGuardedRefCount, public PriorityQueueMember, pub
             // packet travel times under 32 seconds, would should be completely safe.  You must use the
             // UdpManager::SyncStampDeltaTime function in order to calculate the elapsed time between
             // the two stamps.
-        udp_ushort ServerSyncStampShort() const;
+        uint16_t ServerSyncStampShort() const;
         udp_uint ServerSyncStampLong() const;
-        int ServerSyncStampShortElapsed(udp_ushort syncStamp) const;
+        int ServerSyncStampShortElapsed(uint16_t syncStamp) const;
         int ServerSyncStampLongElapsed(udp_uint syncStamp) const;
 
             // returns the IP address/port this connection is linked to
@@ -355,8 +357,8 @@ class UdpConnection : public UdpGuardedRefCount, public PriorityQueueMember, pub
 
         int mOrderedCountOutgoing;
         int mOrderedCountOutgoing2;
-        udp_ushort mOrderedStampLast;
-        udp_ushort mOrderedStampLast2;
+        uint16_t mOrderedStampLast;
+        uint16_t mOrderedStampLast2;
 
         udp_uchar *mEncryptXorBuffer;
         int mEncryptExpansionBytes;
@@ -443,7 +445,7 @@ class UdpConnection : public UdpGuardedRefCount, public PriorityQueueMember, pub
         {
             udp_uchar zeroByte;
             udp_uchar packetType;
-            udp_ushort timeStamp;
+            uint16_t timeStamp;
             int masterPingTime;
             int averagePingTime;
             int lowPingTime;
@@ -457,7 +459,7 @@ class UdpConnection : public UdpGuardedRefCount, public PriorityQueueMember, pub
         {
             udp_uchar zeroByte;
             udp_uchar packetType;
-            udp_ushort timeStamp;
+            uint16_t timeStamp;
             udp_uint serverSyncStampLong;
             udp_int64 yourSent;
             udp_int64 yourReceived;
@@ -469,7 +471,7 @@ class UdpConnection : public UdpGuardedRefCount, public PriorityQueueMember, pub
         {
             udp_uchar zeroByte;
             udp_uchar packetType;
-            udp_ushort reliableStamp;
+            uint16_t reliableStamp;
         };
 
         struct UdpPacketReliableFragmentStart
@@ -482,14 +484,14 @@ class UdpConnection : public UdpGuardedRefCount, public PriorityQueueMember, pub
         {
             udp_uchar zeroByte;
             udp_uchar packetType;
-            udp_ushort reliableStamp;
+            uint16_t reliableStamp;
         };
 
         struct UdpPacketOrdered
         {
             udp_uchar zeroByte;
             udp_uchar packetType;
-            udp_ushort orderStamp;
+            uint16_t orderStamp;
         };
 
 
@@ -524,7 +526,7 @@ inline void UdpConnection::ScheduleTimeNow()
 {
         // if we are current in our GiveTime function getting time, then there is no need to reprioritize to 0 when we send a raw packet, since
         // the last thing we do in out GiveTime is do a scheduling calculation based on the last time a packet was sent.  This little check
-        // prevents us from reprioritizing to 0, only to shortly thereafter be reprioritized to where we actually belong.
+        // prevents us from reprioritizing to 0, only to int16_tly thereafter be reprioritized to where we actually belong.
     if (!mGettingTime)
     {
         if (mUdpManager != nullptr)
@@ -596,12 +598,12 @@ inline int UdpConnection::LastSend() const
     return(mUdpManager->CachedClockElapsed(mLastSendTime));
 }
 
-inline udp_ushort UdpConnection::ServerSyncStampShort() const
+inline uint16_t UdpConnection::ServerSyncStampShort() const
 {
     UdpGuard guard(&mGuard);
     if (mUdpManager == nullptr)
         return(0);
-    return((udp_ushort)(mUdpManager->LocalSyncStampShort() + (mSyncTimeDelta & 0xffff)));
+    return((uint16_t)(mUdpManager->LocalSyncStampShort() + (mSyncTimeDelta & 0xffff)));
 }
 
 inline udp_uint UdpConnection::ServerSyncStampLong() const
@@ -612,7 +614,7 @@ inline udp_uint UdpConnection::ServerSyncStampLong() const
     return(mUdpManager->LocalSyncStampLong() + mSyncTimeDelta);
 }
 
-inline int UdpConnection::ServerSyncStampShortElapsed(udp_ushort syncStamp) const
+inline int UdpConnection::ServerSyncStampShortElapsed(uint16_t syncStamp) const
 {
     return(UdpMisc::SyncStampShortDeltaTime(syncStamp, ServerSyncStampShort()));
 }

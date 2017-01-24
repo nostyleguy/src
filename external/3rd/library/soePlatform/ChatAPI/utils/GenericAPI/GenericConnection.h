@@ -36,7 +36,7 @@ namespace GenericAPI
 	{
 	public:
 		GenericConnection(const char *host,
-						  short port,
+						  int16_t port,
 						  GenericAPICore *apiCore,
 						  unsigned reconnectTimeout,
 						  unsigned noDataTimeoutSecs = 5,
@@ -63,7 +63,7 @@ namespace GenericAPI
 #endif
         
 		
-		void changeHostPort(const char *host, short port);
+		void changeHostPort(const char *host, int16_t port);
 		bool isConnected() { return m_bConnected; }
 		void disconnect();
 		void process(bool giveTime = true);
@@ -81,8 +81,8 @@ namespace GenericAPI
 #endif
 		std::string m_host;
 		std::string m_nextHost;
-		short m_port;
-		short m_nextPort;
+		int16_t m_port;
+		int16_t m_nextPort;
 
 		unsigned m_lastTrack;
 		

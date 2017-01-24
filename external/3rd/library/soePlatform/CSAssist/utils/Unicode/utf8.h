@@ -13,7 +13,7 @@ namespace Plat_Unicode
 {
 
 typedef char UTF8;
-typedef unsigned short int UTF16;
+typedef uint16_t UTF16;
 
 int UTF8_charSize( char * );
 

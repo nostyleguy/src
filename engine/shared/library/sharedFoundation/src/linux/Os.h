@@ -69,7 +69,7 @@ private:
 	static bool            shouldReturnFromAbort;
 	static bool            wantPopupDebugMenu;
 	static char            programName[PROGRAM_NAME_SIZE];
-	static char           *shortProgramName;
+	static char           *int16_tProgramName;
 	static pthread_t       mainThreadId;
 	static bool            threadDied;
 	static bool            isMp;
@@ -145,17 +145,17 @@ inline const char *Os::getProgramName(void)
 
 // ----------------------------------------------------------------------
 /**
- * Return the short name of the running executable.
+ * Return the int16_t name of the running executable.
  *
  * The program name will not include the path, but will just be the file name.
  *
- * @return The short name of the running executable
+ * @return The int16_t name of the running executable
  * @see Os::getProgramName()
  */
 
 inline const char *Os::getShortProgramName(void)
 {
-	return shortProgramName;
+	return int16_tProgramName;
 }
 
 // ----------------------------------------------------------------------

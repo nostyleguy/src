@@ -247,7 +247,7 @@ void Quaternion::normalize(void)
  */
 const Quaternion Quaternion::slerp(const Quaternion & otherOriginal, float fractionOfOther) const
 {
-	// rls - check ensure interpolation using the shortest path around the "hypersphere."
+	// rls - check ensure interpolation using the int16_test path around the "hypersphere."
 	float const dotOriginal = dot(otherOriginal);
 	Quaternion const otherClosest(dotOriginal < 0.0f ? -otherOriginal : otherOriginal);
 

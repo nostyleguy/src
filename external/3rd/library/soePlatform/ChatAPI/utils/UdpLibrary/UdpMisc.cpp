@@ -14,9 +14,9 @@ namespace UdpLibrary
     // UdpMisc functions
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int UdpMisc::SyncStampShortDeltaTime(udp_ushort stamp1, udp_ushort stamp2)
+int UdpMisc::SyncStampShortDeltaTime(uint16_t stamp1, uint16_t stamp2)
 {
-    udp_ushort delta = (udp_ushort)(stamp1 - stamp2);
+    uint16_t delta = (uint16_t)(stamp1 - stamp2);
     if (delta > 0x7fff)
         return((int)(0xffff - delta));
     return((int)delta);

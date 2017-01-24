@@ -328,12 +328,12 @@ unsigned VChatInterface::internalGetChannel(const std::string &channelName,
 	info->moderators = moderators;
 
 	//This is dumb. vchat should be consistant about qualifying channel names.
-	std::string shortName, server, game;
-	VChatSystem::GetChannelComponents(channelName,shortName,server,game);
+	std::string int16_tName, server, game;
+	VChatSystem::GetChannelComponents(channelName,int16_tName,server,game);
 	DEBUG_WARNING(game != ConfigChatServer::getGameCode(),("Channel create request with mismatched game code %s (should be %s)", game.c_str(), ConfigChatServer::getGameCode()));
 	DEBUG_WARNING(server != ConfigChatServer::getClusterName(),("Channel create request with mismatched cluster name %s (should be %s)", server.c_str(), ConfigChatServer::getClusterName()));
 
-	unsigned track = VChatAPI::GetChannelV2(shortName, game, server, description, password, limit, persistent, (void*)info);
+	unsigned track = VChatAPI::GetChannelV2(int16_tName, game, server, description, password, limit, persistent, (void*)info);
 
 	ChatServer::fileLog(ms_voiceLoggingEnabled, ms_logLable, "requestGetChannel track(%d) requester(%s) name(%s) desc(%s) pass(%s) public(%s) persist(%s)",
 		track, requester.debugString().c_str(), channelName.c_str(), description.c_str(), password.c_str(), isPublic?"true":"false", persistent?"true":"false");
@@ -353,12 +353,12 @@ unsigned VChatInterface::requestDeleteChannel(std::string const &channelName, Re
 	info->channelName = channelName;
 
 	//dumb
-	std::string shortName, server, game;
-	VChatSystem::GetChannelComponents(channelName,shortName,server,game);
+	std::string int16_tName, server, game;
+	VChatSystem::GetChannelComponents(channelName,int16_tName,server,game);
 	DEBUG_WARNING(game != ConfigChatServer::getGameCode(),("Channel delete request with mismatched game code %s (should be %s)", game.c_str(), ConfigChatServer::getGameCode()));
 	DEBUG_WARNING(server != ConfigChatServer::getClusterName(),("Channel delete request with mismatched cluster name %s (should be %s)", server.c_str(), ConfigChatServer::getClusterName()));
 
-	unsigned track = VChatAPI::DeleteChannel(shortName, game, server, info);
+	unsigned track = VChatAPI::DeleteChannel(int16_tName, game, server, info);
 
 	ChatServer::fileLog(ms_voiceLoggingEnabled, ms_logLable, "requestDeleteChannel track(%d) requester(%s) name(%s)",
 		track, requester.debugString().c_str(), channelName.c_str());
@@ -417,10 +417,10 @@ unsigned VChatInterface::requestChannelInfo(std::string const & channelName, Ret
 	info->textMessage = broadcastMessage;
 
 	//split the name since we can't request any random channel...
-	std::string shortName, server, game;
-	VChatSystem::GetChannelComponents(info->channelName, shortName, server, game);
+	std::string int16_tName, server, game;
+	VChatSystem::GetChannelComponents(info->channelName, int16_tName, server, game);
 
-	uint32 track = VChatAPI::GetChannelInfo(shortName, game, server, (void*)info);
+	uint32 track = VChatAPI::GetChannelInfo(int16_tName, game, server, (void*)info);
 
 	ChatServer::fileLog(ms_voiceLoggingEnabled, ms_logLable, "requestChannelInfo: track(%d) channel(%s) requester(%s)",
 		track, info->channelName.c_str(), info->requester.debugString().c_str());

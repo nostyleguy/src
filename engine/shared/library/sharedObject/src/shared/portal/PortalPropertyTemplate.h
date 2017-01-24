@@ -258,7 +258,7 @@ private:
 
 	mutable int             m_referenceCount;
 	PersistentCrcString     m_name;
-	PersistentCrcString     m_shortName;
+	PersistentCrcString     m_int16_tName;
 	PortalGeometryList     *m_portalGeometryList;
 	PortalOwnersList       *m_portalOwnersList;
 	CellList               *m_cellList;

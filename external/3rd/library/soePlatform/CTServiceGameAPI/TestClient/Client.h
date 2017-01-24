@@ -30,8 +30,8 @@ public:
 	Client(const char *hostName, const char *game);
 	virtual ~Client();
 
-	void onConnect(const char *host, const short port, const short current, const short max);
-	void onDisconnect(const char *host, const short port, const short current, const short max);
+	void onConnect(const char *host, const int16_t port, const int16_t current, const int16_t max);
+	void onDisconnect(const char *host, const int16_t port, const int16_t current, const int16_t max);
 
     bool m_connected;
 	

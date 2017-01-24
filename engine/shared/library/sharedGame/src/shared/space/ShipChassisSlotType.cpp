@@ -19,7 +19,7 @@
 namespace ShipChassisSlotTypeNamespace
 {
 	// The following must be kept in sync:
-	// scst_short_n.stf
+	// scst_int16_t_n.stf
 	// ShipChassisSlotType::Type (ShipChassisSlotType.h)
 	// ShipChassisSlotTypeNamespace::s_slotTypeNames  (ShipChassisSlotType.cpp)
 	// ShipChassisSlotTypeNamespace::s_slotTypeComponentTypeMapping (ShipChassisSlotType.cpp)
@@ -148,7 +148,7 @@ namespace ShipChassisSlotTypeNamespace
 	Unicode::String s_slotTypeShortNames [ShipChassisSlotType::SCST_num_types];
 
 	// The following must be kept in sync:
-	// scst_short_n.stf
+	// scst_int16_t_n.stf
 	// ShipChassisSlotType::Type (ShipChassisSlotType.h)
 	// ShipChassisSlotTypeNamespace::s_slotTypeNames  (ShipChassisSlotType.cpp)
 	// ShipChassisSlotTypeNamespace::s_slotTypeComponentTypeMapping (ShipChassisSlotType.cpp)
@@ -289,7 +289,7 @@ namespace ShipChassisSlotTypeNamespace
 		{
 			IGNORE_RETURN (s_slotNameTypeMap.insert (std::make_pair (s_slotTypeNames [i], static_cast<ShipChassisSlotType::Type>(i))));
 
-			s_slotTypeShortNames [i] = StringId("space/scst_short_n", s_slotTypeNames [i]).localize();
+			s_slotTypeShortNames [i] = StringId("space/scst_int16_t_n", s_slotTypeNames [i]).localize();
 		}
 	}
 }

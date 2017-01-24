@@ -40,19 +40,19 @@ public:
 
 	PathSearchNode( PathSearch * search, PathGraph const * graph, PathNode const * node );
 
-	int getNeighborCount ( void );
+	int32_t getNeighborCount ( void );
 
 	PathNode const * getPathNode ( void ) const
 	{
 		return m_node;
 	}
 
-	int getPathNodeIndex ( void ) const
+	int32_t getPathNodeIndex ( void ) const
 	{
 		return m_node->getIndex();
 	}
 
-	PathSearchNode * getNeighbor ( int whichNeighbor );
+	PathSearchNode * getNeighbor ( int32_t  whichNeighbor );
 
 	// ----------
 
@@ -98,12 +98,12 @@ public:
 
 	// ----------
 
-	void setPathIndex ( int index )
+	void setPathIndex ( int32_t  index )
 	{
 		m_pathIndex = index;
 	}
 
-	int getPathIndex ( void ) const
+	int32_t getPathIndex ( void ) const
 	{
 		return m_pathIndex;
 	}
@@ -128,7 +128,7 @@ protected:
 	float  m_heuristic;
 	float  m_total;
 
-	int    m_pathIndex;
+	int32_t    m_pathIndex;
 };
 
 MEMORY_BLOCK_MANAGER_IMPLEMENTATION_WITH_INSTALL(PathSearchNode, true, 0, 0, 0);
@@ -151,16 +151,16 @@ PathSearchNode::PathSearchNode ( PathSearch * search, PathGraph const * graph, P
 
 // ----------------------------------------------------------------------
 
-int PathSearchNode::getNeighborCount ( void )
+int32_t PathSearchNode::getNeighborCount ( void )
 {
 	return m_graph->getEdgeCount( m_node->getIndex() );
 }
 
 // ----------
 
-PathSearchNode * PathSearchNode::getNeighbor ( int whichNeighbor )
+PathSearchNode * PathSearchNode::getNeighbor ( int32_t  whichNeighbor )
 {
-	int neighborIndex = m_graph->getEdge( m_node->getIndex(), whichNeighbor )->getIndexB();
+	int32_t neighborIndex = m_graph->getEdge( m_node->getIndex(), whichNeighbor )->getIndexB();
 
 	PathNode const * neighborNode = m_graph->getNode(neighborIndex);
 
@@ -182,18 +182,18 @@ PathSearchNode * PathSearchNode::createSearchNode( PathNode const * node )
 
 	PathSearchNode * oldNode = nullptr;
 
-	int mark = node->getMark(3);
+	int32_t mark = node->getMark(3);
 
 	if(mark != -1)
 	{
-		oldNode = (PathSearchNode*)((void*)mark);
+		oldNode = (PathSearchNode*)((void *)(uintptr_t)mark);
 	}
 
 	delete oldNode;
 
 	PathSearchNode * searchNode = new PathSearchNode(m_search,m_graph,node);
 
-	node->setMark( 3, (int)((void*)searchNode) );
+	node->setMark( 3, ((int64_t) searchNode) );
 
 	m_search->m_visitedNodes->push_back(node);
 
@@ -208,11 +208,11 @@ PathSearchNode * PathSearchNode::getSearchNode( PathNode const * node )
 
 	PathSearchNode * searchNode = nullptr;
 
-	int mark = node->getMark(3);
+	int32_t mark = node->getMark(3);
 
 	if(mark != -1)
 	{
-		searchNode = (PathSearchNode*)((void*)mark);
+		searchNode = (PathSearchNode*)((void *)(uintptr_t)mark);
 	}
 
 	if(searchNode == nullptr)
@@ -263,7 +263,7 @@ public:
 	{
 		if(node->isQueued())
 		{
-			for(uint i = 0; i < m_nodes.size(); i++)
+			for(uint32_t i = 0; i < m_nodes.size(); i++)
 			{
 				if(m_nodes[i] == node)
 				{
@@ -355,9 +355,9 @@ PathSearchNode * PathSearch::search ( void )
 
 		// ----------
 
-		int neighborCount = node->getNeighborCount();
+		int32_t neighborCount = node->getNeighborCount();
 
-		for(int i = 0; i < neighborCount; i++)
+		for(int32_t i = 0; i < neighborCount; i++)
 		{
 			PathSearchNode * neighbor = node->getNeighbor(i);
 
@@ -384,7 +384,7 @@ PathSearchNode * PathSearch::search ( void )
 
 extern float pathSearchTime;
 
-bool PathSearch::search ( PathGraph const * graph, int startIndex, int goalIndex )
+bool PathSearch::search ( PathGraph const * graph, int32_t  startIndex, int32_t  goalIndex )
 {
 	PerformanceTimer timer;
 
@@ -415,7 +415,7 @@ bool PathSearch::search ( PathGraph const * graph, int startIndex, int goalIndex
 
 // ----------------------------------------------------------------------
 
-bool PathSearch::search ( PathGraph const * graph, int startIndex, IndexList const & goalIndices )
+bool PathSearch::search ( PathGraph const * graph, int32_t  startIndex, IndexList const & goalIndices )
 {
 	PerformanceTimer timer;
 
@@ -426,14 +426,14 @@ bool PathSearch::search ( PathGraph const * graph, int startIndex, IndexList con
 	
 	m_multiGoal = true;
 
-	int goalCount = goalIndices.size();
+	int32_t goalCount = goalIndices.size();
 
 	if(goalCount == 0) return false;
 	if(m_start == nullptr)	return false;
 
 	m_goals->resize(goalCount);
 
-	for(int i = 0; i < goalCount; i++)
+	for(int32_t i = 0; i < goalCount; i++)
 	{
 		m_goals->at(i) = graph->getNode(goalIndices[i]);
 	}
@@ -463,7 +463,7 @@ bool PathSearch::buildPath ( PathSearchNode * endNode )
 
 	// ----------
 
-	int pathLength = endNode->getPathIndex() + 1;
+	int32_t pathLength = endNode->getPathIndex() + 1;
 
 	m_path->resize(pathLength);
 
@@ -471,8 +471,8 @@ bool PathSearch::buildPath ( PathSearchNode * endNode )
 
 	while(cursor)
 	{
-		int pathIndex = cursor->getPathIndex();
-		int nodeIndex = cursor->getPathNodeIndex();
+		int32_t pathIndex = cursor->getPathIndex();
+		int32_t nodeIndex = cursor->getPathNodeIndex();
 
 		m_path->at(pathIndex) = nodeIndex;
 
@@ -487,17 +487,17 @@ bool PathSearch::buildPath ( PathSearchNode * endNode )
 
 void PathSearch::cleanup ( void )
 {
-	int visitedCount = m_visitedNodes->size();
+	int32_t visitedCount = m_visitedNodes->size();
 
-	for(int i = 0; i < visitedCount; i++)
+	for(int32_t i = 0; i < visitedCount; i++)
 	{
 		PathNode const * visitedNode = m_visitedNodes->at(i);
 
-		int mark = visitedNode->getMark(3);
+		int32_t mark = visitedNode->getMark(3);
 
 		if(mark != -1)
 		{
-			PathSearchNode * searchNode = (PathSearchNode*)((void*)mark);
+			PathSearchNode * searchNode = (PathSearchNode*)((void *)(uintptr_t)mark);
 
 			delete searchNode;
 		}
@@ -552,12 +552,12 @@ float PathSearch::calcHeuristic ( PathNode const * A ) const
 
 	if(m_multiGoal)
 	{
-		int minGoal = -1;
+		int32_t minGoal = -1;
 		float minHeuristic = REAL_MAX;
 
-		int goalCount = m_goals->size();
+		int32_t goalCount = m_goals->size();
 
-		for(int i = 0; i < goalCount; i++)
+		for(int32_t i = 0; i < goalCount; i++)
 		{
 			PathNode const * goal = m_goals->at(i);
 

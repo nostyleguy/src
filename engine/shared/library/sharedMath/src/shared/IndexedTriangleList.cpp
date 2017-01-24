@@ -354,7 +354,7 @@ bool IndexedTriangleList::collide(Vector const & start, Vector const & end, std:
 {
 	bool found = false;
 
-	Vector shortenedEnd(end);
+	Vector int16_tenedEnd(end);
 	Vector const direction(end - start);
 
 	Vector normal;
@@ -381,13 +381,13 @@ bool IndexedTriangleList::collide(Vector const & start, Vector const & end, std:
 			plane.set(normal, v0);
 
 			//-- See if the end points intersect the plane the polygon lies on, lies within the polygon, and is closer to start than the previous point
-			if ((plane.findDirectedIntersection(start, shortenedEnd, intersection)) &&
-				(start.magnitudeBetweenSquared(intersection) < start.magnitudeBetweenSquared(shortenedEnd)) &&
+			if ((plane.findDirectedIntersection(start, int16_tenedEnd, intersection)) &&
+				(start.magnitudeBetweenSquared(intersection) < start.magnitudeBetweenSquared(int16_tenedEnd)) &&
 				(intersection.inPolygon(v0, v1, v2)))
 			{
 				found = true;
 				result = intersection;
-				shortenedEnd = intersection;
+				int16_tenedEnd = intersection;
 			}
 		}
 	}

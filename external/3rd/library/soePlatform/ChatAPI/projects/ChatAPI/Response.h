@@ -1172,10 +1172,10 @@ namespace ChatSystem
 		virtual void unpack(Base::ByteStream::ReadIterator &iter);
 
 		const Plat_Unicode::String &getHostname() const { return m_hostname; }
-		unsigned short getPort() const { return m_port; }
+		uint16_t getPort() const { return m_port; }
 	private:
 		Plat_Unicode::String m_hostname;
-		unsigned short m_port;
+		uint16_t m_port;
 	};
 
 	class ResSendApiVersion: public GenericAPI::GenericResponse

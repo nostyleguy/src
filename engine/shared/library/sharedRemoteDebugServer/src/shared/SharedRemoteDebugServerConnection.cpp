@@ -14,7 +14,7 @@
 
 //-----------------------------------------------------------------------
 
-SharedRemoteDebugServerConnection::SharedRemoteDebugServerConnection(const std::string & a, const unsigned short p) :
+SharedRemoteDebugServerConnection::SharedRemoteDebugServerConnection(const std::string & a, const uint16_t p) :
 Connection(a, p, NetworkSetupData()),
 m_remotedebugCommandChannel (nullptr)
 {

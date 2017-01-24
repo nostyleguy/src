@@ -9,7 +9,7 @@
 
 //-----------------------------------------------------------------------
 
-ChatServerOnline::ChatServerOnline(const std::string & a, const unsigned short p) :
+ChatServerOnline::ChatServerOnline(const std::string & a, const uint16_t p) :
 GameNetworkMessage("ChatServerOnline"),
 address(a),
 port(p)

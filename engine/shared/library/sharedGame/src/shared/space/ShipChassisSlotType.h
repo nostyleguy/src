@@ -13,7 +13,7 @@
 namespace ShipChassisSlotType
 {
 	// The following must be kept in sync:
-	// scst_short_n.stf
+	// scst_int16_t_n.stf
 	// ShipChassisSlotType::Type (ShipChassisSlotType.h)
 	// ShipChassisSlotTypeNamespace::s_slotTypeNames  (ShipChassisSlotType.cpp)
 	// ShipChassisSlotTypeNamespace::s_slotTypeComponentTypeMapping (ShipChassisSlotType.cpp)

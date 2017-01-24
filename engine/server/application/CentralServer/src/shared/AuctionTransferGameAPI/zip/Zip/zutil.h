@@ -33,7 +33,7 @@
 
 typedef unsigned char  uch;
 typedef uch FAR uchf;
-typedef unsigned short ush;
+typedef uint16_t ush;
 typedef ush FAR ushf;
 typedef unsigned long  ulg;
 

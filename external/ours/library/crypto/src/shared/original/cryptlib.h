@@ -1,4 +1,7 @@
 // cryptlib.h - written and placed in the public domain by Wei Dai
+
+#define ULONG_SIZE sizeof(uint32_t)
+
 /*! \file
  	This file contains the declarations for the abstract base
 	classes that provide a uniform interface to this library.
@@ -112,16 +115,16 @@ public:
 	virtual void ProcessBlock(const byte *inBlock, byte *outBlock) const =0;
 
 	//! block size of the cipher in bytes
-	virtual unsigned int BlockSize() const =0;
+	virtual uint32_t BlockSize() const =0;
 };
 
 //! provides an implementation of BlockSize()
-template <unsigned int N>
+template <uint32_t N>
 class FixedBlockSize : public BlockTransformation
 {
 public:
 	enum {BLOCKSIZE = N};
-	virtual unsigned int BlockSize() const {return BLOCKSIZE;}
+	virtual uint32_t BlockSize() const {return BLOCKSIZE;}
 };
 
 //! abstract base class for stream ciphers
@@ -136,9 +139,9 @@ public:
 	virtual byte ProcessByte(byte input) =0;
 
 	//! encrypt or decrypt an array of bytes of specified length in place
-	virtual void ProcessString(byte *inoutString, unsigned int length);
+	virtual void ProcessString(byte *inoutString, uint32_t length);
 	//! encrypt or decrypt an array of bytes of specified length, may assume inString != outString
-	virtual void ProcessString(byte *outString, const byte *inString, unsigned int length);
+	virtual void ProcessString(byte *outString, const byte *inString, uint32_t length);
 };
 
 //! abstract base class for random access stream ciphers
@@ -150,7 +153,7 @@ public:
 	virtual ~RandomAccessStreamCipher() {}
 	/*/ specify that the next byte to be processed is at absolute position n
 		in the plaintext/ciphertext stream */
-	virtual void Seek(unsigned long n) =0;
+	virtual void Seek(uint32_t n) =0;
 };
 
 //! abstract base class for random number generators
@@ -168,14 +171,14 @@ public:
 
 	//! generate new random bit and return it
 	/*! Default implementation is to call GenerateByte() and return its parity. */
-	virtual unsigned int GenerateBit();
+	virtual uint32_t GenerateBit();
 
 	//! generate a random 32 bit word in the range min to max, inclusive
 	virtual word32 GenerateWord32(word32 a=0, word32 b=0xffffffffL);
 
 	//! generate random array of bytes
 	//* Default implementation is to call GenerateByte() size times.
-	virtual void GenerateBlock(byte *output, unsigned int size);
+	virtual void GenerateBlock(byte *output, uint32_t size);
 
 	//! randomly shuffle the specified array, resulting permutation is uniformly distributed
 	template <class IT> void Shuffle(IT begin, IT end)
@@ -186,10 +189,10 @@ public:
 
 	// for backwards compatibility, maybe be remove later
 	byte GetByte() {return GenerateByte();}
-	unsigned int GetBit() {return GenerateBit();}
+	uint32_t GetBit() {return GenerateBit();}
 	word32 GetLong(word32 a=0, word32 b=0xffffffffL) {return GenerateWord32(a, b);}
 	word16 GetShort(word16 a=0, word16 b=0xffff) {return (word16)GenerateWord32(a, b);}
-	void GetBlock(byte *output, unsigned int size) {GenerateBlock(output, size);}
+	void GetBlock(byte *output, uint32_t size) {GenerateBlock(output, size);}
 };
 
 //! abstract base class for hash functions
@@ -207,7 +210,7 @@ public:
 	virtual ~HashModule() {}
 
 	//! process more input
-	virtual void Update(const byte *input, unsigned int length) =0;
+	virtual void Update(const byte *input, uint32_t length) =0;
 
 	/*/ calculate hash for the current message (the concatenation of all
 		inputs passed in via Update()), then reinitialize the object */
@@ -215,7 +218,7 @@ public:
 	virtual void Final(byte *digest) =0;
 
 	//! size of the hash returned by Final()
-	virtual unsigned int DigestSize() const =0;
+	virtual uint32_t DigestSize() const =0;
 
 	//! use this if your input is short and you don't want to call Update() and Final() seperately
 	virtual void CalculateDigest(byte *digest, const byte *input, int length)
@@ -272,7 +275,7 @@ public:
 		//! input a byte for processing
 		virtual void Put(byte inByte) =0;
 		//! input multiple bytes
-		virtual void Put(const byte *inString, unsigned int length) =0;
+		virtual void Put(const byte *inString, uint32_t length) =0;
 
 		//! input a 16-bit word, big-endian or little-endian depending on highFirst
 		void PutWord16(word16 value, bool highFirst=true);
@@ -293,7 +296,7 @@ public:
 			-1 means unlimited propagation. */
 		virtual void MessageEnd(int propagation=-1);
 		//! same as Put() followed by MessageEnd() but may be more efficient
-		virtual void PutMessageEnd(const byte *inString, unsigned int length, int propagation=-1);
+		virtual void PutMessageEnd(const byte *inString, uint32_t length, int propagation=-1);
 		//! mark end of a series of messages
 		/*! There should be a MessageEnd immediately before MessageSeriesEnd. */
 		virtual void MessageSeriesEnd(int propagation=-1);
@@ -345,50 +348,50 @@ public:
 		/*! All retrieval functions return the actual number of bytes
 			retrieved, which is the lesser of the request number and
 			MaxRetrievable(). */
-		virtual unsigned long MaxRetrievable() const;
+		virtual uint32_t MaxRetrievable() const;
 
 		// old mispelled name
-		unsigned long MaxRetrieveable() const {return MaxRetrievable();}
+		uint32_t MaxRetrieveable() const {return MaxRetrievable();}
 
 		//! returns whether any bytes are currently ready for retrieval
 		virtual bool AnyRetrievable() const;
 
 		//! try to retrieve a single byte
-		virtual unsigned int Get(byte &outByte);
+		virtual uint32_t Get(byte &outByte);
 		//! try to retrieve multiple bytes
-		virtual unsigned int Get(byte *outString, unsigned int getMax);
+		virtual uint32_t Get(byte *outString, uint32_t getMax);
 
 		//! peek at the next byte without removing it from the output buffer
-		virtual unsigned int Peek(byte &outByte) const;
+		virtual uint32_t Peek(byte &outByte) const;
 		//! peek at multiple bytes without removing them from the output buffer
-		virtual unsigned int Peek(byte *outString, unsigned int peekMax) const;
+		virtual uint32_t Peek(byte *outString, uint32_t peekMax) const;
 
 		//! try to retrieve a 16-bit word, big-endian or little-endian depending on highFirst
-		unsigned int GetWord16(word16 &value, bool highFirst=true);
+		uint32_t GetWord16(word16 &value, bool highFirst=true);
 		//! try to retrieve a 32-bit word
-		unsigned int GetWord32(word32 &value, bool highFirst=true);
+		uint32_t GetWord32(word32 &value, bool highFirst=true);
 
 		//! try to peek at a 16-bit word, big-endian or little-endian depending on highFirst
-		unsigned int PeekWord16(word16 &value, bool highFirst=true);
+		uint32_t PeekWord16(word16 &value, bool highFirst=true);
 		//! try to peek at a 32-bit word
-		unsigned int PeekWord32(word32 &value, bool highFirst=true);
+		uint32_t PeekWord32(word32 &value, bool highFirst=true);
 
 		//! move transferMax bytes of the buffered output to target as input
-		virtual unsigned long TransferTo(BufferedTransformation &target, unsigned long transferMax=ULONG_MAX);
+		virtual uint32_t TransferTo(BufferedTransformation &target, uint32_t transferMax=ULONG_SIZE);
 
 		//! discard skipMax bytes from the output buffer
-		virtual unsigned long Skip(unsigned long skipMax=ULONG_MAX);
+		virtual uint32_t Skip(uint32_t skipMax=ULONG_SIZE);
 
 		//! copy copyMax bytes of the buffered output to target as input
-		virtual unsigned long CopyTo(BufferedTransformation &target, unsigned long copyMax=ULONG_MAX) const;
+		virtual uint32_t CopyTo(BufferedTransformation &target, uint32_t copyMax=ULONG_SIZE) const;
 	//@}
 
 	//!	\name RETRIEVAL OF MULTIPLE MESSAGES
 	//@{
 		//!
-		virtual unsigned long TotalBytesRetrievable() const;
+		virtual uint32_t TotalBytesRetrievable() const;
 		//! number of times MessageEnd() has been received minus messages retrieved or skipped
-		virtual unsigned int NumberOfMessages() const;
+		virtual uint32_t NumberOfMessages() const;
 		//! returns true if NumberOfMessages() > 0
 		virtual bool AnyMessages() const;
 		//! start retrieving the next message
@@ -398,11 +401,11 @@ public:
 		*/
 		virtual bool GetNextMessage();
 		//! skip count number of messages
-		virtual unsigned int SkipMessages(unsigned int count=UINT_MAX);
+		virtual uint32_t SkipMessages(uint32_t count=UINT_MAX);
 		//!
-		virtual unsigned int TransferMessagesTo(BufferedTransformation &target, unsigned int count=UINT_MAX);
+		virtual uint32_t TransferMessagesTo(BufferedTransformation &target, uint32_t count=UINT_MAX);
 		//!
-		virtual unsigned int CopyMessagesTo(BufferedTransformation &target, unsigned int count=UINT_MAX) const;
+		virtual uint32_t CopyMessagesTo(BufferedTransformation &target, uint32_t count=UINT_MAX) const;
 
 		//!
 		virtual void SkipAll();
@@ -415,14 +418,14 @@ public:
 	//!	\name CHANNELS
 	//@{
 		virtual void ChannelPut(const std::string &channel, byte inByte);
-		virtual void ChannelPut(const std::string &channel, const byte *inString, unsigned int length);
+		virtual void ChannelPut(const std::string &channel, const byte *inString, uint32_t length);
 
 		void ChannelPutWord16(const std::string &channel, word16 value, bool highFirst=true);
 		void ChannelPutWord32(const std::string &channel, word32 value, bool highFirst=true);
 
 		virtual void ChannelFlush(const std::string &channel, bool completeFlush, int propagation=-1);
 		virtual void ChannelMessageEnd(const std::string &channel, int propagation=-1);
-		virtual void ChannelPutMessageEnd(const std::string &channel, const byte *inString, unsigned int length, int propagation=-1);
+		virtual void ChannelPutMessageEnd(const std::string &channel, const byte *inString, uint32_t length, int propagation=-1);
 		virtual void ChannelMessageSeriesEnd(const std::string &channel, int propagation=-1);
 
 		virtual void SetRetrievalChannel(const std::string &channel);
@@ -465,11 +468,11 @@ public:
 
 	//! maximum length of plaintext for a given ciphertext length
 	//* This function returns 0 if cipherTextLength is not valid (too long or too short).
-	virtual unsigned int MaxPlainTextLength(unsigned int cipherTextLength) const =0;
+	virtual uint32_t MaxPlainTextLength(uint32_t cipherTextLength) const =0;
 
 	//! calculate length of ciphertext given length of plaintext
 	//* This function returns 0 if plainTextLength is not valid (too long).
-	virtual unsigned int CipherTextLength(unsigned int plainTextLength) const =0;
+	virtual uint32_t CipherTextLength(uint32_t plainTextLength) const =0;
 };
 
 //! abstract base class for public-key encryptors
@@ -487,7 +490,7 @@ public:
 			\item size of cipherText == CipherTextLength(plainTextLength)
 			\end{itemize}
 	*/
-	virtual void Encrypt(RandomNumberGenerator &rng, const byte *plainText, unsigned int plainTextLength, byte *cipherText) =0;
+	virtual void Encrypt(RandomNumberGenerator &rng, const byte *plainText, uint32_t plainTextLength, byte *cipherText) =0;
 };
 
 //! abstract base class for public-key decryptors
@@ -505,7 +508,7 @@ public:
 		The function returns the actual length of the plaintext, or 0
 		if decryption fails.
 	*/
-	virtual unsigned int Decrypt(const byte *cipherText, unsigned int cipherTextLength, byte *plainText) =0;
+	virtual uint32_t Decrypt(const byte *cipherText, uint32_t cipherTextLength, byte *plainText) =0;
 };
 
 //! abstract base class for encryptors and decryptors with fixed length ciphertext
@@ -520,12 +523,12 @@ class PK_FixedLengthCryptoSystem : public virtual PK_CryptoSystem
 {
 public:
 	//!
-	virtual unsigned int MaxPlainTextLength() const =0;
+	virtual uint32_t MaxPlainTextLength() const =0;
 	//!
-	virtual unsigned int CipherTextLength() const =0;
+	virtual uint32_t CipherTextLength() const =0;
 
-	unsigned int MaxPlainTextLength(unsigned int cipherTextLength) const;
-	unsigned int CipherTextLength(unsigned int plainTextLength) const;
+	uint32_t MaxPlainTextLength(uint32_t cipherTextLength) const;
+	uint32_t CipherTextLength(uint32_t plainTextLength) const;
 };
 
 //! abstract base class for encryptors with fixed length ciphertext
@@ -549,9 +552,9 @@ public:
 		The function returns the actual length of the plaintext, or 0
 		if decryption fails.
 	*/
-	virtual unsigned int Decrypt(const byte *cipherText, byte *plainText) =0;
+	virtual uint32_t Decrypt(const byte *cipherText, byte *plainText) =0;
 
-	unsigned int Decrypt(const byte *cipherText, unsigned int cipherTextLength, byte *plainText);
+	uint32_t Decrypt(const byte *cipherText, uint32_t cipherTextLength, byte *plainText);
 };
 
 //! abstract base class for public-key signers and verifiers
@@ -567,7 +570,7 @@ public:
 	virtual ~PK_SignatureSystem() {};
 
 	//! signature length support by this object (as either input or output)
-	virtual unsigned int SignatureLength() const =0;
+	virtual uint32_t SignatureLength() const =0;
 
 	//! create a new HashModule to accumulate the message to be signed or verified
 	virtual HashModule * NewMessageAccumulator() const =0;
@@ -600,7 +603,7 @@ public:
 
 	//! sign a message
 	/*! Precondition: size of signature == SignatureLength() */
-	virtual void SignMessage(RandomNumberGenerator &rng, const byte *message, unsigned int messageLen, byte *signature) const;
+	virtual void SignMessage(RandomNumberGenerator &rng, const byte *message, uint32_t messageLen, byte *signature) const;
 };
 
 //! abstract base class for public-key verifiers
@@ -623,7 +626,7 @@ public:
 
 	//! check whether sig is a valid signature for message
 	/*! Precondition: size of signature == SignatureLength() */
-	virtual bool VerifyMessage(const byte *message, unsigned int messageLen, const byte *sig) const;
+	virtual bool VerifyMessage(const byte *message, uint32_t messageLen, const byte *sig) const;
 };
 
 //! abstract base class for public-key signers and verifiers with recovery
@@ -635,7 +638,7 @@ class PK_SignatureSystemWithRecovery : public virtual PK_SignatureSystem
 {
 public:
 	//! length of longest message that can be fully recovered
-	virtual unsigned int MaximumRecoverableLength() const =0;
+	virtual uint32_t MaximumRecoverableLength() const =0;
 
 	//! whether or not messages longer than MaximumRecoverableLength() can be signed
 	/*! If this function returns false, any message longer than
@@ -672,7 +675,7 @@ public:
 			\item size of recoveredMessage == MaximumRecoverableLength()
 			\end{itemize}
 	*/
-	virtual unsigned int PartialRecover(HashModule *leftoverMessageAccumulator, byte *recoveredMessage) const =0;
+	virtual uint32_t PartialRecover(HashModule *leftoverMessageAccumulator, byte *recoveredMessage) const =0;
 
 	//! recover a message from its signature, return length of message, or 0 if signature is invalid
 	/*! This function should be equivalent to PartialRecover(NewLeftoverMessageAccumulator(signature), recoveredMessage).
@@ -682,7 +685,7 @@ public:
 			\item size of recoveredMessage == MaximumRecoverableLength()
 			\end{itemize}
 	*/
-	virtual unsigned int Recover(const byte *signature, byte *recoveredMessage) const =0;
+	virtual uint32_t Recover(const byte *signature, byte *recoveredMessage) const =0;
 };
 
 //! abstract base class for domains of simple key agreement protocols
@@ -699,11 +702,11 @@ public:
 	//! return whether the domain parameters stored in this object are valid
 	virtual bool ValidateDomainParameters(RandomNumberGenerator &rng) const =0;
 	//! return length of agreed value produced
-	virtual unsigned int AgreedValueLength() const =0;
+	virtual uint32_t AgreedValueLength() const =0;
 	//! return length of private keys in this domain
-	virtual unsigned int PrivateKeyLength() const =0;
+	virtual uint32_t PrivateKeyLength() const =0;
 	//! return length of public keys in this domain
-	virtual unsigned int PublicKeyLength() const =0;
+	virtual uint32_t PublicKeyLength() const =0;
 	//! generate private/public key pair
 	/*! Preconditions:
 			\begin{itemize}
@@ -738,12 +741,12 @@ public:
 	//! return whether the domain parameters stored in this object are valid
 	virtual bool ValidateDomainParameters(RandomNumberGenerator &rng) const =0;
 	//! return length of agreed value produced
-	virtual unsigned int AgreedValueLength() const =0;
+	virtual uint32_t AgreedValueLength() const =0;
 
 	//! return length of static private keys in this domain
-	virtual unsigned int StaticPrivateKeyLength() const =0;
+	virtual uint32_t StaticPrivateKeyLength() const =0;
 	//! return length of static public keys in this domain
-	virtual unsigned int StaticPublicKeyLength() const =0;
+	virtual uint32_t StaticPublicKeyLength() const =0;
 	//! generate static private/public key pair
 	/*! Preconditions:
 			\begin{itemize}
@@ -754,9 +757,9 @@ public:
 	virtual void GenerateStaticKeyPair(RandomNumberGenerator &rng, byte *privateKey, byte *publicKey) const =0;
 
 	//! return length of ephemeral private keys in this domain
-	virtual unsigned int EphemeralPrivateKeyLength() const =0;
+	virtual uint32_t EphemeralPrivateKeyLength() const =0;
 	//! return length of ephemeral public keys in this domain
-	virtual unsigned int EphemeralPublicKeyLength() const =0;
+	virtual uint32_t EphemeralPublicKeyLength() const =0;
 	//! generate ephemeral private/public key pair
 	/*! Preconditions:
 			\begin{itemize}
@@ -800,7 +803,7 @@ public:
 		typically it means calculate a table of n objects
 		that can be used later to speed up computation.
 	*/
-	virtual void Precompute(unsigned int n) =0;
+	virtual void Precompute(uint32_t n) =0;
 
 	//! retrieve previously saved precomputation
 	virtual void LoadPrecomputation(BufferedTransformation &storedPrecomputation) =0;

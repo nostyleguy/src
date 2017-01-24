@@ -271,9 +271,9 @@ const Service * PlanetServer::getGameService() const
 
 //-----------------------------------------------------------------------
 
-const unsigned short PlanetServer::getGameServicePort() const
+const uint16_t PlanetServer::getGameServicePort() const
 {
-	unsigned short result = 0;
+	uint16_t result = 0;
 	if(m_gameService)
 		result = m_gameService->getBindPort();
 	return result;

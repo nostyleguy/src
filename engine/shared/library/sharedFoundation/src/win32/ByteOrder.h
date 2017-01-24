@@ -12,10 +12,10 @@
 // ======================================================================
 
 ulong  __cdecl ntohl(ulong  netLong);
-ushort __cdecl ntohs(ushort netShort);
+uint16_t __cdecl ntohs(uint16_t netShort);
 
 ulong  __cdecl htonl(ulong  hostLong);
-ushort __cdecl htons(ushort hostShort);
+uint16_t __cdecl htons(uint16_t hostShort);
 
 // ======================================================================
 

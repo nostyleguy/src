@@ -21,15 +21,15 @@ class TcpClient
 {
 public:
 	explicit TcpClient(HANDLE parentIOCP);
-	TcpClient(const std::string & address, const unsigned short port);
+	TcpClient(const std::string & address, const uint16_t port);
 	~TcpClient();
 
 	static void  install();
 	static void  remove();
 	void    send(const unsigned char * const buffer, const int length);
-	unsigned short getBindPort() const;
+	uint16_t getBindPort() const;
 	std::string const &getRemoteAddress() const;
-	unsigned short getRemotePort() const;
+	uint16_t getRemotePort() const;
 	void setPendingSendAllocatedSizeLimit(unsigned int limit);
 
 	// only used by clients
@@ -70,7 +70,7 @@ private:
 	bool         m_connected;
 	bool         m_ownHandle;
 	unsigned long m_lastSendTime;
-	unsigned short  m_bindPort;
+	uint16_t  m_bindPort;
 
 	bool		m_rawTCP;
 };

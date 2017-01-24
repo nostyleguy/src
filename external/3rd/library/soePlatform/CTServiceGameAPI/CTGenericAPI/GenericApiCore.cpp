@@ -27,7 +27,7 @@ ServerTrackObject::ServerTrackObject(unsigned mapped_track, unsigned real_track,
 
 //----------------------------------------
 GenericAPICore::GenericAPICore(const char *host, 
-									short port, 
+									int16_t port, 
 									unsigned reqTimeout, 
 									unsigned reconnectTimeout, 
 									unsigned noDataTimeoutSecs, 
@@ -52,7 +52,7 @@ GenericAPICore::GenericAPICore(const char *host,
 
 //----------------------------------------
 GenericAPICore::GenericAPICore(const char *game, const char *hosts[],
-								   const short port[],
+								   const int16_t port[],
                                    unsigned arraySize,
 								   unsigned reqTimeout,
 								   unsigned reconnectTimeout,

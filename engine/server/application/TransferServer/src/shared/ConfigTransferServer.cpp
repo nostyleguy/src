@@ -94,9 +94,9 @@ void ConfigTransferServer::remove(void)
 
 //-----------------------------------------------------------------------
 
-unsigned short ConfigTransferServer::getCentralServerServiceBindPort()
+uint16_t ConfigTransferServer::getCentralServerServiceBindPort()
 {
-	return static_cast<unsigned short>(data->centralServerServiceBindPort);
+	return static_cast<uint16_t>(data->centralServerServiceBindPort);
 }
 
 //-----------------------------------------------------------------------

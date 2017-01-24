@@ -26,7 +26,7 @@ Client::~Client()
 
 
 //-------------------------------------------
-void Client::onConnect(const char *host, short port, short current, short max)
+void Client::onConnect(const char *host, int16_t port, int16_t current, int16_t max)
 //-------------------------------------------
 {
 	printf("\nConnect to %s:%d (%d of %d)", host, port, current, max);
@@ -34,7 +34,7 @@ void Client::onConnect(const char *host, short port, short current, short max)
 }
 
 //-------------------------------------------
-void Client::onDisconnect(const char *host, short port, short current, short max)
+void Client::onDisconnect(const char *host, int16_t port, int16_t current, int16_t max)
 //-------------------------------------------
 {
 	printf("\nDisconnect from %s:%d (%d of %d)", host, port, current, max);

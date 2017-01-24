@@ -251,20 +251,20 @@ public:
 		/**
 		* The chunkspace coordinates of the node.
 		*/
-		const short   m_x;
-		const short   m_z;
+		const int16_t   m_x;
+		const int16_t   m_z;
 
 		/**
 		* The chunkspace size (width & height) of this node. Size is always a power of 2.
 		* The maximum number of chunks contained under a node is size*size.
 		*/
-		const short m_size;
+		const int16_t m_size;
 
-		unsigned short m_childIndex             : 2; // The index of this child node as a subnode of its parent.
-		unsigned short m_worldExtentInitialized : 1;
-		unsigned short hasLargerNeighborFlags   : 4;
-		unsigned short m_selectedForRender      : 1;
-		unsigned short m_outsideBuildRange      : 1;
+		uint16_t m_childIndex             : 2; // The index of this child node as a subnode of its parent.
+		uint16_t m_worldExtentInitialized : 1;
+		uint16_t hasLargerNeighborFlags   : 4;
+		uint16_t m_selectedForRender      : 1;
+		uint16_t m_outsideBuildRange      : 1;
 
 		/**
 		* This is the width of the smallest chunk on the map. REDUNDANT, store elsewhere?

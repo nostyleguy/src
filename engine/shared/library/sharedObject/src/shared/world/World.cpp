@@ -467,7 +467,7 @@ Object* World::findClosestObjectTo (const Object* object, int listIndex)
 	NOT_NULL (object);
 
 	Object* closestObject    = 0;
-	float   shortestDistance = REAL_MAX;
+	float   int16_testDistance = REAL_MAX;
 
 	int i;
 	for (i = 0; i < ms_objectList [listIndex]->getNumberOfObjects (); i++)
@@ -479,9 +479,9 @@ Object* World::findClosestObjectTo (const Object* object, int listIndex)
 			const Vector  position2 = objectToCheck->getAppearance () ? objectToCheck->getAppearanceSphereCenter_w () : objectToCheck->getPosition_w ();
 			const float   magnitudeBetweenSquared = position1.magnitudeBetweenSquared (position2);
 
-			if (magnitudeBetweenSquared < shortestDistance)
+			if (magnitudeBetweenSquared < int16_testDistance)
 			{
-				shortestDistance = magnitudeBetweenSquared;
+				int16_testDistance = magnitudeBetweenSquared;
 				closestObject    = objectToCheck;
 			}
 		}

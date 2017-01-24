@@ -60,7 +60,7 @@ public:
 
 // ======================================================================
 
-CityPathGraph::CityPathGraph ( int cityToken )
+CityPathGraph::CityPathGraph ( int32_t cityToken )
 : DynamicPathGraph(PGT_City),
   m_nodeTree( new PathNodeTree ),
   m_namedNodes( new std::map<Unicode::String, std::set<CityPathNode *> >),
@@ -83,13 +83,13 @@ CityPathGraph::~CityPathGraph()
 
 // ----------------------------------------------------------------------
 
-int CityPathGraph::addNode ( DynamicPathNode * newNode )
+int32_t CityPathGraph::addNode ( DynamicPathNode * newNode )
 {
 	CityPathNode * cityNode = dynamic_cast<CityPathNode *>(newNode);
 
 	NOT_NULL(cityNode);
 
-	int index = DynamicPathGraph::addNode(newNode);
+	int32_t index = DynamicPathGraph::addNode(newNode);
 
 	SpatialHandle * handle = m_nodeTree->addObject( cityNode );
 	if (handle != nullptr)
@@ -127,7 +127,7 @@ int CityPathGraph::addNode ( DynamicPathNode * newNode )
 
 // ----------------------------------------------------------------------
 
-void CityPathGraph::removeNode ( int nodeIndex )
+void CityPathGraph::removeNode ( int32_t nodeIndex )
 {
 	CityPathNode * cityNode = _getNode(nodeIndex);
 	NOT_NULL(cityNode);
@@ -152,11 +152,11 @@ void CityPathGraph::removeNode ( int nodeIndex )
 }
 
 // ----------------------------------------------------------------------
-// When a waypoint is permanently destroyed from a city graph, we need to 
+// When a waypoint32_t is permanently destroyed from a city graph, we need to 
 // make sure that all neighboring nodes are relinked and thatthe edge 
 // lists on the objvars are updated as well.
 
-void CityPathGraph::destroyNode ( int nodeIndex )
+void CityPathGraph::destroyNode ( int32_t nodeIndex )
 {
 	CityPathNode * cityNode = _getNode(nodeIndex);
 
@@ -167,13 +167,13 @@ void CityPathGraph::destroyNode ( int nodeIndex )
 
 	std::vector<int> neighborList;
 
-	int edgeCount = cityNode->getEdgeCount();
+	int32_t edgeCount = cityNode->getEdgeCount();
 
-	int i;
+	int32_t i;
 
 	for(i = 0; i < edgeCount; i++)
 	{
-		int neighborIndex = cityNode->getNeighbor(i);
+		int32_t neighborIndex = cityNode->getNeighbor(i);
 
 		neighborList.push_back( neighborIndex );
 	}
@@ -213,7 +213,7 @@ void CityPathGraph::destroyNode ( int nodeIndex )
 
 // ----------------------------------------------------------------------
 
-void CityPathGraph::moveNode ( int nodeIndex, Vector const & newPosition )
+void CityPathGraph::moveNode ( int32_t nodeIndex, Vector const & newPosition )
 {
 	CityPathNode * cityNode = _getNode(nodeIndex);
 
@@ -224,13 +224,13 @@ void CityPathGraph::moveNode ( int nodeIndex, Vector const & newPosition )
 
 	std::vector<int> oldNeighborList;
 
-	int oldEdgeCount = cityNode->getEdgeCount();
+	int32_t oldEdgeCount = cityNode->getEdgeCount();
 
-	int i;
+	int32_t i;
 
 	for(i = 0; i < oldEdgeCount; i++)
 	{
-		int neighborIndex = cityNode->getNeighbor(i);
+		int32_t neighborIndex = cityNode->getNeighbor(i);
 
 		oldNeighborList.push_back( neighborIndex );
 	}
@@ -268,7 +268,7 @@ void CityPathGraph::moveNode ( int nodeIndex, Vector const & newPosition )
 
 // ----------------------------------------------------------------------
 
-void CityPathGraph::relinkNode ( int nodeIndex )
+void CityPathGraph::relinkNode ( int32_t nodeIndex )
 {
 	CityPathNode * nodeA = _getNode(nodeIndex);
 
@@ -276,7 +276,7 @@ void CityPathGraph::relinkNode ( int nodeIndex )
 
 	// ----------
 
-	//int oldNeighborCode = getNeighborCode(nodeIndex);
+	//int32_t oldNeighborCode = getNeighborCode(nodeIndex);
 
 	unlinkNode(nodeIndex);
 
@@ -287,9 +287,9 @@ void CityPathGraph::relinkNode ( int nodeIndex )
 
 	if(typeA == PNT_CityBuilding)
 	{
-		int listSize = getNodeCount();
+		int32_t listSize = getNodeCount();
 
-		for(int i = 0; i < listSize; i++)
+		for(int32_t i = 0; i < listSize; i++)
 		{
 			CityPathNode * nodeB = _getNode(i);
 
@@ -324,9 +324,9 @@ void CityPathGraph::relinkNode ( int nodeIndex )
 
 	if(typeA == PNT_CityBuildingEntrance)
 	{
-		int listSize = getNodeCount();
+		int32_t listSize = getNodeCount();
 
-		for(int i = 0; i < listSize; i++)
+		for(int32_t i = 0; i < listSize; i++)
 		{
 			CityPathNode * nodeB = _getNode(i);
 
@@ -359,9 +359,9 @@ void CityPathGraph::relinkNode ( int nodeIndex )
 
 	m_nodeTree->findInRange( nodeA->getPosition_p(), g_linkDistance, results );
 
-	int resultCount = results.size();
+	int32_t resultCount = results.size();
 
-	int i;
+	int32_t i;
 
 	for(i = 0; i < resultCount; i++)
 	{
@@ -409,7 +409,7 @@ void CityPathGraph::relinkNode ( int nodeIndex )
 
 	neighborList.clear();
 
-	int edgeCount = nodeA->getEdgeCount();
+	int32_t edgeCount = nodeA->getEdgeCount();
 
 	for(i = 0; i < edgeCount; i++)
 	{
@@ -430,7 +430,7 @@ void CityPathGraph::relinkNode ( int nodeIndex )
 	// ----------
 
 	/*
-	int newNeighborCode = getNeighborCode(nodeIndex);
+	int32_t newNeighborCode = getNeighborCode(nodeIndex);
 
 	if(oldNeighborCode == newNeighborCode)
 	{
@@ -445,14 +445,14 @@ void CityPathGraph::relinkNode ( int nodeIndex )
 
 // ----------------------------------------------------------------------
 
-CityPathNode * CityPathGraph::_getNode ( int whichNode )
+CityPathNode * CityPathGraph::_getNode ( int32_t whichNode )
 {
 	return safe_cast<CityPathNode *>(getNode(whichNode));
 }
 
 // ----------
 
-CityPathNode const * CityPathGraph::_getNode ( int whichNode ) const
+CityPathNode const * CityPathGraph::_getNode ( int32_t whichNode ) const
 {
 	return safe_cast<CityPathNode const *>(getNode(whichNode));
 }
@@ -461,9 +461,9 @@ CityPathNode const * CityPathGraph::_getNode ( int whichNode ) const
 
 CityPathNode * CityPathGraph::findNodeForObject ( ServerObject const & object )
 {
-	int nodeCount = getNodeCount();
+	int32_t nodeCount = getNodeCount();
 
-	for (int i = 0; i < nodeCount; i++)
+	for (int32_t i = 0; i < nodeCount; i++)
 	{
 		CityPathNode * node = _getNode(i);
 
@@ -486,9 +486,9 @@ CityPathNode * CityPathGraph::findNodeForObject ( ServerObject const & object )
 
 CityPathNode const * CityPathGraph::findNodeForObject ( ServerObject const & object ) const
 {
-	int nodeCount = getNodeCount();
+	int32_t nodeCount = getNodeCount();
 
-	for(int i = 0; i < nodeCount; i++)
+	for(int32_t i = 0; i < nodeCount; i++)
 	{
 		CityPathNode const * node = _getNode(i);
 
@@ -571,7 +571,7 @@ CityPathNode const * CityPathGraph::findNearestNodeForName( Unicode::String cons
 
 // ----------------------------------------------------------------------
 
-int CityPathGraph::findNearestNode ( Vector const & position ) const
+int32_t CityPathGraph::findNearestNode ( Vector const & position ) const
 {
 	PathNode * temp = nullptr;
 
@@ -590,7 +590,7 @@ int CityPathGraph::findNearestNode ( Vector const & position ) const
 
 //@todo - I have no idea why, but the compiler bitches if this isn't here.
 
-int CityPathGraph::findNearestNode ( PathNodeType type, Vector const & position_p ) const
+int32_t CityPathGraph::findNearestNode ( PathNodeType type, Vector const & position_p ) const
 {
 	return PathGraph::findNearestNode(type,position_p);
 }
@@ -606,9 +606,9 @@ void CityPathGraph::findNodesInRange  ( Vector const & position_p, float range, 
 
 void CityPathGraph::saveGraph ( void )
 {
-	int nodeCount = getNodeCount();
+	int32_t nodeCount = getNodeCount();
 
-	for(int i = 0; i < nodeCount; i++)
+	for(int32_t i = 0; i < nodeCount; i++)
 	{
 		CityPathNode * node = _getNode(i);
 
@@ -622,9 +622,9 @@ bool CityPathGraph::sanityCheck ( bool doWarnings ) const
 {
 	bool sane = true;
 
-	int nodeCount = getNodeCount();
+	int32_t nodeCount = getNodeCount();
 
-	for(int i = 0; i < nodeCount; i++)
+	for(int32_t i = 0; i < nodeCount; i++)
 	{
 		CityPathNode const * node = _getNode(i);
 
@@ -641,9 +641,9 @@ bool CityPathGraph::sanityCheck ( bool doWarnings ) const
 
 void CityPathGraph::reloadPathNodes ( void )
 {
-	int nodeCount = getNodeCount();
+	int32_t nodeCount = getNodeCount();
 
-	for(int i = 0; i < nodeCount; i++)
+	for(int32_t i = 0; i < nodeCount; i++)
 	{
 		CityPathNode * node = _getNode(i);
 
@@ -677,9 +677,9 @@ void CityPathGraph::addDirtyBox ( AxialBox const & box )
 
 bool CityPathGraph::isDirty ( Vector const & point_w ) const
 {
-	int count = m_dirtyBoxes->size();
+	int32_t count = m_dirtyBoxes->size();
 
-	for(int i = 0; i < count; i++)
+	for(int32_t i = 0; i < count; i++)
 	{
 		AxialBox const & box = m_dirtyBoxes->at(i);
 
@@ -709,27 +709,27 @@ void CityPathGraph::setLinkDistance ( float dist )
 // we cast the addresses of all the neighbors to ints, multiply them
 // by a random large prime number, then xor the bits together.
 
-int CityPathGraph::getNeighborCode ( int whichNode ) const
+int32_t CityPathGraph::getNeighborCode ( int32_t whichNode ) const
 {
 	CityPathNode const * node = _getNode(whichNode);
 
 	if(node == nullptr) return 0;
 
-	int edgeCount = node->getEdgeCount();
+	int32_t edgeCount = node->getEdgeCount();
 
-	int code = 0;
+	int32_t code = 0;
 
-	for(int i = 0; i < edgeCount; i++)
+	for(int32_t i = 0; i < edgeCount; i++)
 	{
-		int neighborId = node->getNeighbor(i);
+		int32_t neighborId = node->getNeighbor(i);
 
 		CityPathNode const * neighbor = _getNode(neighborId);
 
 		if(neighbor == nullptr) continue;
 
-		int neighborInt = reinterpret_cast<int>(neighbor);
+		int32_t neighborInt = reinterpret_cast<uintptr_t>(neighbor);
 
-		int mungedInt = neighborInt * 1295183;
+		int32_t mungedInt = neighborInt * 1295183;
 
 		code ^= mungedInt;
 	}

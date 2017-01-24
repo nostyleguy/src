@@ -14,7 +14,7 @@
 class MetricsConnection : public ServerConnection
 {
 public:
-	MetricsConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	MetricsConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	MetricsConnection(UdpConnectionMT * u, TcpClient * t);
 	virtual ~MetricsConnection();
 

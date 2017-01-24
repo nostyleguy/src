@@ -7,7 +7,7 @@ while (<>)
     chop;
     @data=split("\t");
     $id=shift (@data);
-    $shortname=shift (@data);
+    $int16_tname=shift (@data);
     
     $fullname="";
     $found = 0;
@@ -68,7 +68,7 @@ while (<>)
 #### output:
 
     $classname =~ s/'/''/g;
-    print "insert into resource_import values ($id,$parent_id,'$shortname','$classname',$max_types,$min_types,$min_pools,$max_pools,'$resource_container_type','$random_name_class');\n";
+    print "insert into resource_import values ($id,$parent_id,'$int16_tname','$classname',$max_types,$min_types,$min_pools,$max_pools,'$resource_container_type','$random_name_class');\n";
     
     for ($i=0; $i!=11; ++$i)
     {

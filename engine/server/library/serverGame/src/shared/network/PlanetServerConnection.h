@@ -17,7 +17,7 @@
 class PlanetServerConnection : public ServerConnection
 {
 public:
-	PlanetServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	PlanetServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	~PlanetServerConnection();
 	void                          onConnectionClosed      ();
 	void                          onConnectionOpened      ();

@@ -28,10 +28,10 @@ enum OP_ListType
 #define OP_END_LIST_NODE()                                     { CommandLine::OST_EndListNode,     0,                 0,                0,         0        }
 #define OP_BEGIN_SWITCH_NODE(multipleIsAllowed)                { CommandLine::OST_BeginSwitchNode, multipleIsAllowed, 0,                0,         0        }
 #define OP_END_SWITCH_NODE()                                   { CommandLine::OST_EndSwitchNode,   0,                 0,                0,         0        }
-#define OP_OPTION(shortName, longName, argumentPolicy)         { CommandLine::OST_Option,          argumentPolicy,    0,                shortName, longName }
+#define OP_OPTION(int16_tName, longName, argumentPolicy)         { CommandLine::OST_Option,          argumentPolicy,    0,                int16_tName, longName }
 
-#define OP_SINGLE_LIST_NODE(shortName, longName, argMode, multipleIsAllowed, isRequiredNode) OP_BEGIN_LIST_NODE(multipleIsAllowed, isRequiredNode), OP_OPTION(shortName, longName, argMode), OP_END_LIST_NODE()
-#define OP_SINGLE_SWITCH_NODE(shortName, longName, argMode, multipleIsAllowed) OP_BEGIN_SWITCH_NODE(multipleIsAllowed), OP_OPTION(shortName, longName, argMode), OP_END_SWITCH_NODE()
+#define OP_SINGLE_LIST_NODE(int16_tName, longName, argMode, multipleIsAllowed, isRequiredNode) OP_BEGIN_LIST_NODE(multipleIsAllowed, isRequiredNode), OP_OPTION(int16_tName, longName, argMode), OP_END_LIST_NODE()
+#define OP_SINGLE_SWITCH_NODE(int16_tName, longName, argMode, multipleIsAllowed) OP_BEGIN_SWITCH_NODE(multipleIsAllowed), OP_OPTION(int16_tName, longName, argMode), OP_END_SWITCH_NODE()
 
 //lint -save -e1923 // #define could become const
 
@@ -126,7 +126,7 @@ public:
 	{
 	private:
 
-		char            shortName;
+		char            int16_tName;
 		char           *longName;
 		ArgumentPolicy  argumentPolicy;
 
@@ -336,7 +336,7 @@ private:
 
 		private:
 		
-			char            shortName;
+			char            int16_tName;
 			char           *longName;
 			int             writeCount;
 			int             matchCount;
@@ -389,9 +389,9 @@ private:
 		OptionTable(void);
 		~OptionTable(void);
 
-		Record *createOptionRecord(char shortName, const char *longName, ArgumentPolicy newArgumentPolicy);
+		Record *createOptionRecord(char int16_tName, const char *longName, ArgumentPolicy newArgumentPolicy);
 
-		Record *findOptionRecord(char shortName) const;
+		Record *findOptionRecord(char int16_tName) const;
 		Record *findOptionRecord(const char *longName) const;
 
 		bool    getAllOptionsMatched(void) const;
@@ -488,10 +488,10 @@ private:
 
 private:
 
-	static bool       findNextOccurence(char shortName, int *occurrenceIndex);
+	static bool       findNextOccurence(char int16_tName, int *occurrenceIndex);
 	static bool       findNextOccurence(const char *longName, int *occurrenceIndex);
 
-	static bool       getOptionArgExists(char shortName, int occurrenceIndex);
+	static bool       getOptionArgExists(char int16_tName, int occurrenceIndex);
 	static bool       getOptionArgExists(const char *longName, int occurrenceIndex);
 
 	static void       buildOptionTree(const OptionSpec *specList, int specCount);
@@ -509,16 +509,16 @@ public:
 
 	static MatchCode   parseOptions(const OptionSpec *optionTree, int optionSpecCount);
 
-	static bool        getOptionExists(char shortName, int occurrenceIndex = 0);
+	static bool        getOptionExists(char int16_tName, int occurrenceIndex = 0);
 	static bool        getOptionExists(const char *longName, int occurrenceIndex = 0);
 
-	static int         getOccurrenceCount(char shortName);
+	static int         getOccurrenceCount(char int16_tName);
 	static int         getOccurrenceCount(const char *longName);
 
-	static const char *getOptionString(char shortName, int occurrenceIndex = 0);
+	static const char *getOptionString(char int16_tName, int occurrenceIndex = 0);
 	static const char *getOptionString(const char *longName, int occurrenceIndex = 0);
 	
-	static int         getOptionInt(char shortName, int occurrenceIndex = 0);
+	static int         getOptionInt(char int16_tName, int occurrenceIndex = 0);
 	static int         getOptionInt(const char *longName, int occurrenceIndex = 0);
 
 	static int         getUntaggedOccurrenceCount(void);
@@ -531,7 +531,7 @@ public:
 
 inline char CommandLine::Option::getShortName(void) const
 {
-	return shortName;
+	return int16_tName;
 }
 
 // ----------------------------------------------------------------------
@@ -631,7 +631,7 @@ inline void CommandLine::Switch::Node::setNext(
 
 inline char CommandLine::OptionTable::Record::getShortName(void) const
 {
-	return shortName;
+	return int16_tName;
 }
 
 // ----------------------------------------------------------------------
@@ -714,7 +714,7 @@ inline CommandLine::Lexer::TokenType CommandLine::Lexer::Token::getTokenType(voi
 
 inline char CommandLine::Lexer::Token::getShortName(void) const
 {
-	DEBUG_FATAL(tokenType != TT_ShortOption, ("attempted to get short name for token type %d", tokenType));
+	DEBUG_FATAL(tokenType != TT_ShortOption, ("attempted to get int16_t name for token type %d", tokenType));
 	return name[0];
 }
 

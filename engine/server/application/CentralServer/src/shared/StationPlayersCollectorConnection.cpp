@@ -19,7 +19,7 @@
 
 //-----------------------------------------------------------------------
 
-StationPlayersCollectorConnection::StationPlayersCollectorConnection(const std::string & a, const unsigned short p) :
+StationPlayersCollectorConnection::StationPlayersCollectorConnection(const std::string & a, const uint16_t p) :
 ServerConnection(a, p, NetworkSetupData())
 {
 }

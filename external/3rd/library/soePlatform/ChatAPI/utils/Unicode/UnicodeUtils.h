@@ -134,7 +134,7 @@ namespace NAMESPACE
 		*  Compares str1 and str2, where str1 is a String and str2 is templated,
 		*  thus could be a std::string as well.  Unlike caseInsensitiveCompare, this
 		*  version returns an int for < or > comparisons, and comparison must start
-		*  at the front.  Note that this kind of comparison does not allow the shortcut
+		*  at the front.  Note that this kind of comparison does not allow the int16_tcut
 		*  of first comparing sizes--every character must be compared up to the last one.
 		*/
 		template <typename T> int caseInsensitiveCompareInt(const String & str1, const T & str2)

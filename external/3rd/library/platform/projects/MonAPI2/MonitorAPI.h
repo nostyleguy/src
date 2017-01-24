@@ -26,7 +26,7 @@ private:
 	UdpManager	*mManager;
 	MonitorManager		*mObjectManager;
 	char				*mAddress;
-	unsigned short		mPort;
+	uint16_t		mPort;
 	bool				mbprint;
 
 public:
@@ -49,7 +49,7 @@ public:
 	*	// GenericNotifier *notifier = (NOT USED) Leave as nullptr
 	*
 	*/
-	CMonitorAPI( const char *configFile, unsigned short port, bool debug = false , char * address = nullptr, UdpManager * mang = nullptr );
+	CMonitorAPI( const char *configFile, uint16_t port, bool debug = false , char * address = nullptr, UdpManager * mang = nullptr );
 	
 	~CMonitorAPI();
 

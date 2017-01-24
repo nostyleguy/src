@@ -6800,7 +6800,7 @@ CREATE OR REPLACE PACKAGE BODY  "ITEM_CONVERSION" as
 					else
 						AddScript('systems.combat.combat_weapon');
 					end if;
-				--pistol_blaster_short_range_combat
+				--pistol_blaster_int16_t_range_combat
 				elsif template_id = 1691705957 then
 					HandleWeaponDots;
 					ConvertMinDamage(rangeTableType(rangeType(4,124,162,310),rangeType(124,420,310,354)));

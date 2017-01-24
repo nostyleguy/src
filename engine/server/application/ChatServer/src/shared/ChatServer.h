@@ -44,15 +44,15 @@ namespace MessageDispatch {
 
 struct AvatarSequencePair
 {
-	AvatarSequencePair(unsigned s, const ChatAvatar *a) : sequence(s), avatar(a) {}
-	unsigned sequence;
+	AvatarSequencePair(uint32_t s, const ChatAvatar *a) : sequence(s), avatar(a) {}
+	uint32_t sequence;
 	const ChatAvatar *avatar;
 };
 
 struct AvatarIdSequencePair
 {
-	AvatarIdSequencePair(unsigned s, const ChatAvatarId &a) : sequence(s), avatar(a) {}
-	unsigned sequence;
+	AvatarIdSequencePair(uint32_t s, const ChatAvatarId &a) : sequence(s), avatar(a) {}
+	uint32_t sequence;
 	const ChatAvatarId avatar;
 
 private:
@@ -62,8 +62,8 @@ private:
 
 struct RoomOwnerSequencePair
 {
-	RoomOwnerSequencePair(unsigned s, const ChatServerRoomOwner * r) : sequence(s), roomOwner(r) {}
-	unsigned sequence;
+	RoomOwnerSequencePair(uint32_t s, const ChatServerRoomOwner * r) : sequence(s), roomOwner(r) {}
+	uint32_t sequence;
 	const ChatServerRoomOwner *roomOwner;
 };
 
@@ -80,10 +80,10 @@ public:
 
 	void sendResponse(ReturnAddress const & requester, const GameNetworkMessage & response);
 
-	GameServerConnection * getGameServerConnectionFromId(unsigned int connectionId);
-	unsigned registerGameServerConnection(GameServerConnection * connection);
-	void unregisterGameServerConnection(unsigned const connectionId);
-	void sendToGameServerById(unsigned const connectionId, GameNetworkMessage const & message);
+	GameServerConnection * getGameServerConnectionFromId(uint32_t connectionId);
+	uint32_t registerGameServerConnection(GameServerConnection * connection);
+	void unregisterGameServerConnection(uint32_t const connectionId);
+	void sendToGameServerById(uint32_t const connectionId, GameNetworkMessage const & message);
 	
 	static VChatInterface* getVChatInterface();
 
@@ -94,7 +94,7 @@ public:
 	static void requestAddClientToChannel(const NetworkId & id, std::string const & playerName, std::string const &roomName, bool forceShortlist);
 	static void requestRemoveClientFromChannel(const NetworkId & id, std::string const & playerName, std::string const &roomName);
 	static void requestChannelCommand(ReturnAddress const & requester, const std::string &srcUserName, const std::string &destUserName, 
-		const std::string &destChannelAddress, unsigned command, unsigned banTimeout);
+		const std::string &destChannelAddress, uint32_t command, uint32_t banTimeout);
 
 	static void requestBroadcastChannelMessage(std::string const & channelName, std::string const & textMessage, bool isRemove);
 
@@ -111,7 +111,7 @@ public:
 	//-----------------------------------------------------------------------
 
 
-	std::unordered_map<unsigned, NetworkId>                  pendingRequests;
+	std::unordered_map<uint32_t, NetworkId>                  pendingRequests;
 	static ChatServer &  instance                   ();
 
 	static bool        isValidChatAvatarName(Unicode::String const &chatName);
@@ -124,25 +124,25 @@ public:
 
 	static const ChatAvatar * getAvatarByNetworkId  (const NetworkId & id);
 	static const NetworkId &  getNetworkIdByAvatarId(const ChatAvatarId & id);
-	static NetworkId  sendResponseForTrackId    (unsigned trackId, const GameNetworkMessage & msg);
+	static NetworkId  sendResponseForTrackId    (uint32_t trackId, const GameNetworkMessage & msg);
 	static ChatInterface * getChatInterface();
 
 	static void       setOwnerSystem            (const ChatAvatar * ownerSystem);
 	static ConnectionServerConnection *  getConnectionForCharacter(const NetworkId & characterId);
 	static const ChatAvatarId &  getSystemAvatarId  ();
 	static const Service *  getGameService      ();
-	static GameServerConnection       *  getGameServerConnection(unsigned int sequence);
-	static void           addGameServerConnection(unsigned int sequence, GameServerConnection *connection);
+	static GameServerConnection       *  getGameServerConnection(uint32_t sequence);
+	static void           addGameServerConnection(uint32_t sequence, GameServerConnection *connection);
 
 	static void           clearGameServerConnection(const GameServerConnection *connection);
 	static void           clearCustomerServiceServerConnection();
 
-	static void           connectToCustomerServiceServer(const std::string &address, const unsigned short port);
+	static void           connectToCustomerServiceServer(const std::string &address, const uint16_t port);
 
 	static void       sendToClient              (const NetworkId & id, const GameNetworkMessage & msg);
 	static void       deferChatMessageFor       (const NetworkId &, const Archive::ByteStream &);
 
-	static ChatAvatarId getAvatarIdForTrackId   (unsigned trackId);
+	static ChatAvatarId getAvatarIdForTrackId   (uint32_t trackId);
 
 	static void       reconnectToCentralServer  ();
 	static void       onCentralServerConnectionClosed();
@@ -151,46 +151,46 @@ public:
 	static void       quit                      ();
 	static void       chatConnectedAvatar       (const NetworkId & id, const ChatAvatar & avatar);
 
-	static void       connectPlayer             (ConnectionServerConnection * connection, const unsigned int suid, const std::string & characterName, const NetworkId & networkId, const bool isSecure, const bool isSubscribed);
-	static void       createRoom                (const NetworkId & id, const unsigned int sequence, const std::string & name, const bool isModerated, const bool isPublic, const std::string & title);
+	static void       connectPlayer             (ConnectionServerConnection * connection, const uint32_t suid, const std::string & characterName, const NetworkId & networkId, const bool isSecure, const bool isSubscribed);
+	static void       createRoom                (const NetworkId & id, const uint32_t sequence, const std::string & name, const bool isModerated, const bool isPublic, const std::string & title);
 	static void       putSystemAvatarInRoom     (const std::string & roomName);
-	static void       enterRoom                 (const NetworkId & id, const unsigned int sequence, const std::string & roomName);
-	static void       enterRoom                 (const NetworkId & id, const unsigned int sequence, const unsigned int roomId);
+	static void       enterRoom                 (const NetworkId & id, const uint32_t sequence, const std::string & roomName);
+	static void       enterRoom                 (const NetworkId & id, const uint32_t sequence, const uint32_t roomId);
 	static void       enterRoom                 (const ChatAvatarId & id, const std::string & roomName, bool forceCreate, bool createPrivate);
-	static void       sendInstantMessage        (const NetworkId & fromId, const unsigned int sequence, const ChatAvatarId & to, const Unicode::String & message, const Unicode::String & oob);
+	static void       sendInstantMessage        (const NetworkId & fromId, const uint32_t sequence, const ChatAvatarId & to, const Unicode::String & message, const Unicode::String & oob);
 	static void       sendInstantMessage        (const ChatAvatarId & from, const ChatAvatarId & to, const Unicode::String & message, const Unicode::String & oob);
-	static void       leaveRoom                 (const NetworkId & id, const unsigned int sequence, const unsigned int roomId);
+	static void       leaveRoom                 (const NetworkId & id, const uint32_t sequence, const uint32_t roomId);
 	static void       removeAvatarFromRoom      (const NetworkId & requestor, const ChatAvatarId & avatarId, const std::string & roomName);
 	static void       removeSystemAvatarFromRoom(const ChatRoom *room);
 	static void       removeAvatarFromRoom      (const ChatAvatarId & avatarId, const std::string & roomName);
 	static void       kickAvatarFromRoom        (const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName);
-	static void       sendRoomMessage           (const NetworkId & id, const unsigned int sequence, const unsigned int roomId, const Unicode::String & message, const Unicode::String & oob);
+	static void       sendRoomMessage           (const NetworkId & id, const uint32_t sequence, const uint32_t roomId, const Unicode::String & message, const Unicode::String & oob);
 	static void       sendRoomMessage           (const ChatAvatarId & from, const std::string & roomName, const Unicode::String & message, const Unicode::String & oob);
 	static void       sendStandardRoomMessage   (const ChatAvatarId & from, const std::string & roomName, const Unicode::String & message, const Unicode::String & oob);
-	static void       destroyRoom               (const NetworkId & id, const unsigned int sequence, const unsigned int roomId);
+	static void       destroyRoom               (const NetworkId & id, const uint32_t sequence, const uint32_t roomId);
 	static void       destroyRoom               (const std::string & roomName);
-	static void       addFriend                 (const NetworkId & id, const unsigned int sequence, const ChatAvatarId & friendName);
-	static void       removeFriend              (const NetworkId & id, const unsigned int sequence, const ChatAvatarId & friendName);
+	static void       addFriend                 (const NetworkId & id, const uint32_t sequence, const ChatAvatarId & friendName);
+	static void       removeFriend              (const NetworkId & id, const uint32_t sequence, const ChatAvatarId & friendName);
 	static void       getFriendsList            (const ChatAvatarId & characterName);
-	static void       addIgnore                 (const NetworkId & id, const unsigned int sequence, const ChatAvatarId & ignoreName);
-	static void       removeIgnore              (const NetworkId & id, const unsigned int sequence, const ChatAvatarId & ignoreName);
+	static void       addIgnore                 (const NetworkId & id, const uint32_t sequence, const ChatAvatarId & ignoreName);
+	static void       removeIgnore              (const NetworkId & id, const uint32_t sequence, const ChatAvatarId & ignoreName);
 	static void       getIgnoreList             (const ChatAvatarId & characterName);
 	static void       disconnectAvatar          (const ChatAvatar &);
 	static void       disconnectPlayer          (const NetworkId &);
 	static void       invite                    (const NetworkId & id, const ChatAvatarId & avatar, const std::string & roomName);
 	static void       inviteGroupMembers        (const NetworkId & id, const ChatAvatarId & avatar, const std::string & roomName, const std::vector<NetworkId> & members);
-	static void       uninvite                  (const NetworkId & id, const unsigned int sequence, const ChatAvatarId & avatar, const std::string & roomName);
-	static void       queryRoom                 (const NetworkId & id, ConnectionServerConnection * connection, const unsigned int sequence, const std::string & roomName);
+	static void       uninvite                  (const NetworkId & id, const uint32_t sequence, const ChatAvatarId & avatar, const std::string & roomName);
+	static void       queryRoom                 (const NetworkId & id, ConnectionServerConnection * connection, const uint32_t sequence, const std::string & roomName);
 	static void       requestRoomList           (const NetworkId & id, ConnectionServerConnection * connection);
-	static void       addModeratorToRoom        (const unsigned int sequenceId, const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName);
-	static void       removeModeratorFromRoom   (const unsigned int sequenceId, const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName);
-	static void       deletePersistentMessage   (const NetworkId & ownerId, const unsigned int messageId);
+	static void       addModeratorToRoom        (const uint32_t sequenceId, const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName);
+	static void       removeModeratorFromRoom   (const uint32_t sequenceId, const NetworkId & id, const ChatAvatarId & avatarId, const std::string & roomName);
+	static void       deletePersistentMessage   (const NetworkId & ownerId, const uint32_t messageId);
 	static void       deleteAllPersistentMessages(const NetworkId &sourceNetworkId, const NetworkId &targetNetworkId);
-	static void       sendPersistentMessage     (const NetworkId & fromId, const unsigned int sequence, const ChatAvatarId & to, const Unicode::String & subject, const Unicode::String & message, const Unicode::String & oob);
+	static void       sendPersistentMessage     (const NetworkId & fromId, const uint32_t sequence, const ChatAvatarId & to, const Unicode::String & subject, const Unicode::String & message, const Unicode::String & oob);
 	static void       sendPersistentMessage     (const ChatAvatarId & from, const ChatAvatarId & to, const Unicode::String & subject, const Unicode::String & message, const Unicode::String & oob);
-	static void       requestPersistentMessage  (const NetworkId &id, const unsigned int sequence, const unsigned int messageId);
-	static void       banFromRoom               (const unsigned sequence, const NetworkId &banner, const ChatAvatarId &bannee, const std::string &roomName);
-	static void       unbanFromRoom             (const unsigned sequence, const NetworkId &banner, const ChatAvatarId &bannee, const std::string &roomName);
+	static void       requestPersistentMessage  (const NetworkId &id, const uint32_t sequence, const uint32_t messageId);
+	static void       banFromRoom               (const uint32_t sequence, const NetworkId &banner, const ChatAvatarId &bannee, const std::string &roomName);
+	static void       unbanFromRoom             (const uint32_t sequence, const NetworkId &banner, const ChatAvatarId &bannee, const std::string &roomName);
 	static void       removeConnectionServerConnection(ConnectionServerConnection * target);
 
 	static void       sendToAllConnectionServers(const GameNetworkMessage &message);
@@ -203,7 +203,7 @@ public:
 
 	static void fileLog(bool const forceLog, char const * const label, char const * const format, ...);
 	static void requestTransferAvatar(const TransferCharacterData & request);
-	static void       onCreateRoomSuccess(const std::string & lowerName, const unsigned int roomId);
+	static void       onCreateRoomSuccess(const std::string & lowerName, const uint32_t roomId);
 	static bool isGod(const NetworkId & networkId);
 
 	static void setUnsquelchTime(NetworkId const & character, time_t unsquelchTime);
@@ -244,7 +244,7 @@ private:
 	ChatInterface *                                                   chatInterface;
 	VChatInterface *                                                  voiceChatInterface;
 	std::unordered_map<NetworkId, ConnectionServerConnection *, NetworkId::Hash>  clientMap;
-	std::unordered_map<unsigned int, GameServerConnection *>                      gameServerConnectionMap;
+	std::unordered_map<uint32_t, GameServerConnection *>                      gameServerConnectionMap;
 	std::set<ConnectionServerConnection *>              connectionServerConnections;
 	
 	bool                             done;
@@ -255,7 +255,7 @@ private:
 	static ChatServer *              m_instance;
 	CustomerServiceServerConnection *customerServiceServerConnection;
 
-	typedef std::unordered_map<unsigned int, GameServerConnection *> GameServerMap;
+	typedef std::unordered_map<uint32_t, GameServerConnection *> GameServerMap;
 	GameServerMap m_gameServerConnectionRegistry;
 	VoiceChatAvatarList m_voiceChatIdMap;
 	std::map<std::string, NetworkId> m_voiceChatNameToIdMap;
@@ -284,14 +284,14 @@ private:
 	std::hash_map<NetworkId, const ChatAvatar *, NetworkId::Hash>        chatAvatars;
 	ChatInterface *                                     chatInterface;
 	std::hash_map<NetworkId, ConnectionServerConnection *, NetworkId::Hash>  clientMap;
-	std::hash_map<unsigned int, GameServerConnection *>                      gameServerConnectionMap;
+	std::hash_map<uint32_t, GameServerConnection *>                      gameServerConnectionMap;
 	std::set<ConnectionServerConnection *>              connectionServerConnections;
 	bool                                                done;
 	Service *                                           gameService;
 	Service *                                           planetService;
 	const ChatAvatar *                                  ownerSystem;
 	ChatAvatarId                                        systemAvatarId;
-	std::hash_map<unsigned, NetworkId>               pendingRequests;
+	std::hash_map<uint32_t, NetworkId>               pendingRequests;
 	static ChatServer *                                 m_instance;
 
 };*/

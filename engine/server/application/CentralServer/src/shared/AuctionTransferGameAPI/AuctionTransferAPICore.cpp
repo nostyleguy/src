@@ -7,7 +7,7 @@ namespace AuctionTransfer
 {
 
 /*/////////////////////////////////////////////////////////////////////////////////////
-AuctionTransferAPICore::AuctionTransferAPICore(const char *hostName[], const short port[], int count, AuctionTransferAPI *api, const char *identifier[], unsigned identifierCount)
+AuctionTransferAPICore::AuctionTransferAPICore(const char *hostName[], const int16_t port[], int count, AuctionTransferAPI *api, const char *identifier[], unsigned identifierCount)
 	: GenericAPICore(identifier[0], hostName, port, count, 45, 5, 0, 90, 32, 32), 
 	m_api(api), 
 	m_mappedServerTrack(1000)
@@ -18,7 +18,7 @@ AuctionTransferAPICore::AuctionTransferAPICore(const char *hostName[], const sho
 }
 */
 //////////////////////////////////////////////////////////////////////////////////////
-AuctionTransferAPICore::AuctionTransferAPICore(const char *hostName[], const short port[], int count, AuctionTransferAPI *api, const char *identifier[], unsigned identifierCount, unsigned reqTimeout, unsigned maxRecvMessageSizeInKB)
+AuctionTransferAPICore::AuctionTransferAPICore(const char *hostName[], const int16_t port[], int count, AuctionTransferAPI *api, const char *identifier[], unsigned identifierCount, unsigned reqTimeout, unsigned maxRecvMessageSizeInKB)
 	: GenericAPICore(identifier[0], hostName, port, count, reqTimeout, 5, 0, 90, 32, 32, 1, maxRecvMessageSizeInKB), 
 	m_api(api), 
 	m_mappedServerTrack(1000)
@@ -39,7 +39,7 @@ void AuctionTransferAPICore::OnConnect(GenericConnection *connection)
 //////////////////////////////////////////////////////////////////////////////////////
 {
 	countOpenConnections();
-	m_api->onConnect(connection->getHost(), connection->getPort(), (short)m_currentConnections, (short)m_maxConnections);
+	m_api->onConnect(connection->getHost(), connection->getPort(), (int16_t)m_currentConnections, (int16_t)m_maxConnections);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ void AuctionTransferAPICore::OnDisconnect(GenericConnection *connection)
 //////////////////////////////////////////////////////////////////////////////////////
 {
 	countOpenConnections();
-	m_api->onDisconnect(connection->getHost(), connection->getPort(), (short)m_currentConnections, (short)m_maxConnections);
+	m_api->onDisconnect(connection->getHost(), connection->getPort(), (int16_t)m_currentConnections, (int16_t)m_maxConnections);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ void AuctionTransferAPICore::responseCallback(GenericResponse *response)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-void AuctionTransferAPICore::responseCallback(short type, Base::ByteStream::ReadIterator &iter, GenericConnection *connection)
+void AuctionTransferAPICore::responseCallback(int16_t type, Base::ByteStream::ReadIterator &iter, GenericConnection *connection)
 //////////////////////////////////////////////////////////////////////////////////////
 // these are the callbacks that are initiated from the Auction System.  These callbacks
 // will be called to initiate a series of communication between the auction system and

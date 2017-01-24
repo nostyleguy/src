@@ -123,7 +123,7 @@ inline void UdpReliableChannel::AckPacket(const udp_uchar *data, int dataLen)
         return;
     }
 
-    Ack(GetReliableOutgoingId((udp_ushort)UdpMisc::GetValue16(data + 2)));
+    Ack(GetReliableOutgoingId((uint16_t)UdpMisc::GetValue16(data + 2)));
 }
 
 inline int UdpReliableChannel::GetAveragePing() const

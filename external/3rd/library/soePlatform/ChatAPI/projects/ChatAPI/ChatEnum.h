@@ -151,13 +151,13 @@ namespace ChatSystem
 
 		std::string m_cString;
 
-		// const unsigned short *string_data;
+		// const uint16_t *string_data;
 		// unsigned string_length;
 
 	public:
 
 		ChatUnicodeString();
-		ChatUnicodeString(const unsigned short *data, unsigned length);
+		ChatUnicodeString(const uint16_t *data, unsigned length);
 		ChatUnicodeString(const char *nData, unsigned length);
 		ChatUnicodeString(const Plat_Unicode::String& src);
 		ChatUnicodeString(const std::string& nSrc);
@@ -178,7 +178,7 @@ namespace ChatSystem
 		CHATUNICODESTRING_COMP_OPER_DECL(>=)
 		CHATUNICODESTRING_COMP_OPER_DECL(>)
 		inline unsigned length() const { return (unsigned)m_wideString.length(); }
-		inline const unsigned short * data() const { return m_wideString.data(); }
+		inline const uint16_t * data() const { return m_wideString.data(); }
 		const char    * c_str() const;
 		
 	};

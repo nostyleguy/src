@@ -51,14 +51,14 @@ public:
 
 	virtual void                onConnectionOpened  (UdpConnectionMT *) = 0;
 	const std::string &         getBindAddress      () const;
-	const unsigned short        getBindPort         () const;
+	const uint16_t        getBindPort         () const;
 	virtual void                onConnectionClosed  (Connection *) = 0;
 	void                        setBindAddress      (const std::string & address);
-	void                        setBindPort         (const unsigned short port);
+	void                        setBindPort         (const uint16_t port);
 	static bool                 removing            ();
 	LogicalPacket const *       createPacket        (unsigned char const *data, int size);
 	void                        releasePacket       (LogicalPacket const *p);
-	static bool                 isPortReserved      (unsigned short port);
+	static bool                 isPortReserved      (uint16_t port);
 	static void                 onTerminate         (Connection * c);
 
 protected:
@@ -84,7 +84,7 @@ private:
 	NetworkHandler(const NetworkHandler & source);
 
 private:
-	unsigned short       m_bindPort;
+	uint16_t       m_bindPort;
 	std::string          m_bindAddress;
 	
 protected:

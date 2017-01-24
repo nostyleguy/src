@@ -19,7 +19,7 @@ class CentralServerConnection : public ServerConnection
 {
 public:
 	CentralServerConnection(UdpConnectionMT *, TcpClient * t);
-	CentralServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	CentralServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	~CentralServerConnection();
 	virtual void         onConnectionClosed      ();
 	virtual void         onConnectionOpened      ();

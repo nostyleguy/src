@@ -14,7 +14,7 @@
 class LoginConnection : public Connection
 {
 public:
-	LoginConnection(const std::string & remoteAddress, const unsigned short port);
+	LoginConnection(const std::string & remoteAddress, const uint16_t port);
 	~LoginConnection();
 
 	virtual void   onConnectionClosed      ();

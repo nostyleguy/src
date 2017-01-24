@@ -8,6 +8,8 @@
 #include "Base/profile.h"
 #include "Base/stringutils.h"
 
+#include <stdint.h>
+
 #ifdef UDP_LIBRARY
 #include "UdpLibrary/UdpLibrary.hpp"
 #else

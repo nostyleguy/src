@@ -37,7 +37,7 @@ using namespace ManagerConnectionNamespace;
 
 //-----------------------------------------------------------------------
 
-ManagerConnection::ManagerConnection(const std::string & a, const unsigned short p) :
+ManagerConnection::ManagerConnection(const std::string & a, const uint16_t p) :
 Connection(a,p, NetworkSetupData()),
 m_nodeLabel(0),
 m_remoteUtilAvg(100000.0f)

@@ -163,7 +163,7 @@ void Client::receiveMessage(const MessageDispatch::Emitter & source, const Messa
 	
 	if(messageType == constcrc("GameConnectionClosed"))
 	{
-		// Game server has crashed.  With luck, we'll get transferred to a new server shortly
+		// Game server has crashed.  With luck, we'll get transferred to a new server int16_tly
 		// So, clear our connection and put us on a queue.  If we don't get transferred in a
 		// reasonable about of time, we'll be dropped.
 		

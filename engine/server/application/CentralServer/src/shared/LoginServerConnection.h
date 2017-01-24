@@ -16,7 +16,7 @@ class LoginServerCommandChannel;
 class LoginServerConnection : public ServerConnection
 {
 public:
-	LoginServerConnection(const std::string & remoteAddress, const unsigned short remotePort);
+	LoginServerConnection(const std::string & remoteAddress, const uint16_t remotePort);
 	LoginServerConnection(UdpConnectionMT *, TcpClient *);
 	~LoginServerConnection();
 

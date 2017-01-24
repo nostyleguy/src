@@ -1,6 +1,8 @@
 #ifndef CTSERVICECHARACTER_H
 #define CTSERVICECHARACTER_H
 
+#include <stdint.h>
+
 namespace CTService 
 {
 
@@ -8,7 +10,7 @@ namespace CTService
 class CTServiceCharacter
 //--------------------------------------------------------
 {
-	typedef unsigned short uchar_t;
+	typedef uint16_t uchar_t;
 	inline void copy_wide_string(uchar_t * target, const uchar_t * source, int length)
 	{
 		if (!target)
@@ -34,7 +36,7 @@ class CTServiceCharacter
 			  mMoveReason[0]	= 0;
 			  mTransferReason[0]= 0; }
 
-		CTServiceCharacter(const unsigned short *ch) : mCharacter(), mCanRename(true), mCanMove(true), mCanTransfer(true), mRenameReason(), mMoveReason(), mTransferReason() 
+		CTServiceCharacter(const uint16_t *ch) : mCharacter(), mCanRename(true), mCanMove(true), mCanTransfer(true), mRenameReason(), mMoveReason(), mTransferReason() 
 			{ copy_wide_string(mCharacter, ch, CHARACTER_BUFFER);
 			  mRenameReason[0]	= 0;
 			  mMoveReason[0]	= 0;
