@@ -15,73 +15,10 @@ namespace Archive {
 	
 //---------------------------------------------------------------------
 	
-
-inline void get(ReadIterator & source, double & target)
+template <typename T>
+inline void get(ReadIterator & source, T & target)
 {
-	source.get(&target, 8);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, float & target)
-{
-	source.get(&target, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, unsigned long int & target)
-{
-	source.get(&target, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, signed long int & target)
-{
-	source.get(&target, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, unsigned int & target)
-{
-	source.get(&target, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, signed int & target)
-{
-	source.get(&target, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, unsigned short int & target)
-{
-	source.get(&target, 2);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, signed short int & target)
-{
-	source.get(&target, 2);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, unsigned char & target)
-{
-	source.get(&target, 1);
-}
-
-//---------------------------------------------------------------------
-
-inline void get(ReadIterator & source, signed char & target)
-{
-	source.get(&target, 1);
+	source.get(&target, sizeof(T));
 }
 
 //---------------------------------------------------------------------
@@ -215,79 +152,10 @@ template<typename A> inline void get(ReadIterator & source, A * target, int leng
 
 //---------------------------------------------------------------------
 
-inline void put(ByteStream & target, const double & source)
+template <typename T>
+inline void put(ByteStream & target, const T & source)
 {
-	target.put(&source, 8);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const float & source)
-{
-	target.put(&source, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const unsigned long int & source)
-{
-	target.put(&source, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const signed long int & source)
-{
-	target.put(&source, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const unsigned int & source)
-{
-	target.put(&source, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const signed int & source)
-{
-	target.put(&source, 4);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const unsigned short int & source)
-{
-	target.put(&source, 2);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const signed short int & source)
-{
-	target.put(&source, 2);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const unsigned char & source)
-{
-	target.put(&source, 1);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const signed char & source)
-{
-	target.put(&source, 1);
-}
-
-//---------------------------------------------------------------------
-
-inline void put(ByteStream & target, const char & source)
-{
-	target.put(&source, 1);
+	target.put(&source, sizeof(T));
 }
 
 //---------------------------------------------------------------------
