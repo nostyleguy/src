@@ -146,7 +146,7 @@ void ShipComponentDataShield::printDebugString      (Unicode::String & result, U
 void ShipComponentDataShield::getAttributes(std::vector<std::pair<std::string, Unicode::String> > & data) const
 {
 	ServerShipComponentData::getAttributes(data);
-
+        
 	Unicode::String attrib;
 	static char buffer[128];
 	static const size_t buffer_size = sizeof (buffer);
@@ -168,6 +168,29 @@ void ShipComponentDataShield::getAttributes(std::vector<std::pair<std::string, U
 	snprintf(buffer, buffer_size, "%.2f", m_shieldRechargeRate);
 	attrib = Unicode::narrowToWide(buffer);
 	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_shield_recharge_rate, attrib));
+}
+void ShipComponentDataShield::overrideAttributesForAuction  (AttributeVector &data) const
+{  
+	Unicode::String attrib;
+	static char buffer[128];
+	static const size_t buffer_size = sizeof (buffer);
+	AttributeVector::iterator it = data.begin();
+	for( ; it != data.end(); it++)
+	{
+		std::string key = it->first;
+		Unicode::String & value = it->second;
+		if( key == (cm_shipComponentCategory + SharedObjectAttributes::ship_component_shield_hitpoints_back) )
+		{
+			snprintf(buffer, buffer_size, "%.1f", m_shieldHitpointsBackMaximum);
+			attrib = Unicode::narrowToWide(buffer);
+			it-> second  = attrib;
+		}  
+		else if( key == (cm_shipComponentCategory + SharedObjectAttributes::ship_component_shield_hitpoints_front) ) {
+			(buffer, buffer_size, "%.1f", m_shieldHitpointsFrontMaximum);
+			attrib = Unicode::narrowToWide(buffer);
+			it-> second  = attrib;
+		}
+	}              
 }
 
 //======================================================================

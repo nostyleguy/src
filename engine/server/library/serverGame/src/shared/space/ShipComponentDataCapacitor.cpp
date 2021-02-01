@@ -142,4 +142,19 @@ void ShipComponentDataCapacitor::getAttributes(std::vector<std::pair<std::string
 	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_capacitor_energy_recharge_rate, attrib));
 }
 
+void ShipComponentDataCapacitor::overrideAttributesForAuction  (AttributeVector &data) const {
+	Unicode::String attrib;
+	static char buffer[128];
+	static const size_t buffer_size = sizeof (buffer);
+	AttributeVector::iterator it = data.begin();
+	for( ; it != data.end(); it++) {
+		std::string key = it->first;
+		Unicode::String & value = it->second;
+		if( key == (cm_shipComponentCategory + SharedObjectAttributes::ship_component_capacitor_energy ) ) {
+			snprintf(buffer, buffer_size, "%.1f", m_capacitorEnergyMaximum);
+			attrib = Unicode::narrowToWide(buffer);
+			it-> second  = attrib;
+		}
+	}  
+}
 //======================================================================

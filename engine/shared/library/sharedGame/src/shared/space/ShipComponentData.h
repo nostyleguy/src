@@ -39,6 +39,8 @@ public:
 
 	virtual void getAttributes         (AttributeVector & data) const;
 
+	virtual void overrideAttributesForAuction         (AttributeVector & data) const;
+
 	ShipComponentDescriptor const &    getDescriptor () const;
 
 private:

@@ -169,7 +169,8 @@ namespace SharedObjectAttributes
 	MAKE_ATTRIB (ship_component_shield_hitpoints_back);
 	MAKE_ATTRIB (ship_component_shield_recharge_rate);
 
-	MAKE_ATTRIB (ship_component_weapon_damage);
+	MAKE_ATTRIB (ship_component_weapon_damage_minimum);
+	MAKE_ATTRIB (ship_component_weapon_damage_maximum);
 	MAKE_ATTRIB (ship_component_weapon_effectiveness_shields);
 	MAKE_ATTRIB (ship_component_weapon_effectiveness_armor);
 	MAKE_ATTRIB (ship_component_weapon_energy_per_shot);

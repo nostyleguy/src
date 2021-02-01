@@ -28,7 +28,10 @@ public:
 
 	virtual void printDebugString      (Unicode::String & result, Unicode::String const & padding) const;
 
-	virtual void getAttributes         (std::vector<std::pair<std::string, Unicode::String> > & data) const;
+	virtual void getAttributes         (AttributeVector & data ) const;
+
+	virtual void overrideAttributesForAuction (AttributeVector & data ) const;
+
 
 private:
 	ShipComponentDataCapacitor (const ShipComponentDataCapacitor & rhs);

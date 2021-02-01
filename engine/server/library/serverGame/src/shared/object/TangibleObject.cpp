@@ -4959,6 +4959,26 @@ void TangibleObject::getAttributesForAuction(AttributeVector &data) const
 	DEBUG_FATAL(getAppearanceData().length() > 1000,("Appearance data was more than 1000 characters long, too long to save."));
 	data.push_back(std::make_pair(attributeAppearanceData, Unicode::narrowToWide(getAppearanceData())));
 	ServerObject::getAttributesForAuction(data);
+
+	const int got = getGameObjectType ();
+
+	// For certain ship objects, we need to tweak some Attributes to be searchable. For example, Shield Hitpoints are stored
+	// as "<current>/<maximum>" and we really just want the maximum value. The generic float processing in Auction.cpp
+	// will use atof and only get the current value, which isn't helpful on looted shields that always start with "0.0/<maximum>"
+	// This overrideAttributesForAuction edits the already fetched Attributes from getAttributesForAuction in place. This
+	// altered representation will only appear when browsing Auction listings, and not in regular examine windows etc.
+	//
+	// The reason that ServerObject::getAttributesForAuction couldn't be overloaded to accomplish this is because
+	// ServerObject doesn't know anything about a ShipDataComponent, so we have to introduce a new method accessible from Tano,
+	// which knows how to coerce a ShipComponentData into a Tano. 
+	if(GameObjectTypes::isTypeOf(got, SharedObjectTemplate::GOT_ship_component))
+	{
+		ShipComponentData * const componentData = ShipComponentDataManager::create(*this);
+		if(componentData) {
+			componentData->overrideAttributesForAuction(data);
+			delete componentData;
+		}
+	}
 }
 
 // ----------------------------------------------------------------------

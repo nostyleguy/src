@@ -192,9 +192,14 @@ void ShipComponentDataWeapon::getAttributes(std::vector<std::pair<std::string, U
 	static char buffer[128];
 	static const size_t buffer_size = sizeof (buffer);
 
-	snprintf(buffer, buffer_size, "%.1f-%.1f", m_weaponDamageMinimum, m_weaponDamageMaximum);
+
+	snprintf(buffer, buffer_size, "%.1f", m_weaponDamageMinimum);
 	attrib = Unicode::narrowToWide(buffer);
-	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_damage, attrib));
+	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_damage_minimum, attrib));
+	
+	snprintf(buffer, buffer_size, "%.1f", m_weaponDamageMaximum);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_damage_maximum, attrib));
 
 	snprintf(buffer, buffer_size, "%.3f", m_weaponEffectivenessShields);
 	attrib = Unicode::narrowToWide(buffer);

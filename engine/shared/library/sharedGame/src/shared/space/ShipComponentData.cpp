@@ -142,4 +142,8 @@ void ShipComponentData::getAttributes(AttributeVector & data) const
 	attrib = Unicode::narrowToWide(buffer);
 	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_mass, attrib));
 }
+
+void ShipComponentData::overrideAttributesForAuction(AttributeVector & data) const
+{
+}
 //======================================================================
