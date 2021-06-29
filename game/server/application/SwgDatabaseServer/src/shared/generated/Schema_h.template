@@ -2502,6 +2502,7 @@ struct ShipObjectRow : public DB::Row
 	DB::BindableLong cargo_hold_contents_maximum;
 	DB::BindableLong cargo_hold_contents_current;
 	DB::BindableString<500> cargo_hold_contents;
+	DB::BindableString<400> weapon_projectile_index;
 
 	virtual void copy(const DB::Row &rhs)
 	{
@@ -2573,6 +2574,7 @@ struct ShipObjectBufferRow : public DB::Row
 	DB::BindableLong cargo_hold_contents_maximum;
 	DB::BindableLong cargo_hold_contents_current;
 	DB::BufferString cargo_hold_contents;
+	DB::BufferString weapon_projectile_index;
 
 	ShipObjectBufferRow() :
 		object_id(),
@@ -2626,7 +2628,8 @@ struct ShipObjectBufferRow : public DB::Row
 		cmp_creators(400),
 		cargo_hold_contents_maximum(),
 		cargo_hold_contents_current(),
-		cargo_hold_contents(500)
+		cargo_hold_contents(500),
+		weapon_projectile_index(400)
 	{
 	}
 
@@ -2682,7 +2685,8 @@ struct ShipObjectBufferRow : public DB::Row
 		cmp_creators(rhs.cmp_creators),
 		cargo_hold_contents_maximum(rhs.cargo_hold_contents_maximum),
 		cargo_hold_contents_current(rhs.cargo_hold_contents_current),
-		cargo_hold_contents(rhs.cargo_hold_contents)
+		cargo_hold_contents(rhs.cargo_hold_contents),
+		weapon_projectile_index(rhs.weapon_projectile_index)
 	{
 	}
 

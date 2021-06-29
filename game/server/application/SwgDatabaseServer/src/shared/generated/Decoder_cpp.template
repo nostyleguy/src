@@ -2423,166 +2423,173 @@ void SwgSnapshot::decodeClientShipObject(NetworkId const & objectId, uint16 inde
 		}
 		case 17:
 		{
-			float temp;
-			Archive::get(data,temp);
-			row->chassis_cmp_mass_maximum=temp;
+			std::string packedValue;
+			Archive::AutoDeltaPackedMap<int,int>::unpack(data,packedValue);
+			row->weapon_projectile_index=packedValue;
 			break;
 		}
 		case 18:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->shield_recharge_rate=temp;
+			row->chassis_cmp_mass_maximum=temp;
 			break;
 		}
 		case 19:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->capacitor_eng_maximum=temp;
+			row->shield_recharge_rate=temp;
 			break;
 		}
 		case 20:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->capacitor_eng_recharge_rate=temp;
+			row->capacitor_eng_maximum=temp;
 			break;
 		}
 		case 21:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_acc_rate=temp;
+			row->capacitor_eng_recharge_rate=temp;
 			break;
 		}
 		case 22:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_deceleration_rate=temp;
+			row->engine_acc_rate=temp;
 			break;
 		}
 		case 23:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_pitch_acc_rate=temp;
+			row->engine_deceleration_rate=temp;
 			break;
 		}
 		case 24:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_yaw_acc_rate=temp;
+			row->engine_pitch_acc_rate=temp;
 			break;
 		}
 		case 25:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_roll_acc_rate=temp;
+			row->engine_yaw_acc_rate=temp;
 			break;
 		}
 		case 26:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_pitch_rate_maximum=temp;
+			row->engine_roll_acc_rate=temp;
 			break;
 		}
 		case 27:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_yaw_rate_maximum=temp;
+			row->engine_pitch_rate_maximum=temp;
 			break;
 		}
 		case 28:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_roll_rate_maximum=temp;
+			row->engine_yaw_rate_maximum=temp;
 			break;
 		}
 		case 29:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->engine_speed_maximum=temp;
+			row->engine_roll_rate_maximum=temp;
 			break;
 		}
 		case 30:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->reactor_eng_generation_rate=temp;
+			row->engine_speed_maximum=temp;
 			break;
 		}
 		case 31:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->booster_eng_maximum=temp;
+			row->reactor_eng_generation_rate=temp;
 			break;
 		}
 		case 32:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->booster_eng_recharge_rate=temp;
+			row->booster_eng_maximum=temp;
 			break;
 		}
 		case 33:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->booster_eng_consumption_rate=temp;
+			row->booster_eng_recharge_rate=temp;
 			break;
 		}
 		case 34:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->booster_acc=temp;
+			row->booster_eng_consumption_rate=temp;
 			break;
 		}
 		case 35:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->booster_speed_maximum=temp;
+			row->booster_acc=temp;
 			break;
 		}
 		case 36:
 		{
 			float temp;
 			Archive::get(data,temp);
-			row->droid_if_cmd_speed=temp;
+			row->booster_speed_maximum=temp;
 			break;
 		}
 		case 37:
+		{
+			float temp;
+			Archive::get(data,temp);
+			row->droid_if_cmd_speed=temp;
+			break;
+		}
+		case 38:
 		{
 			NetworkId temp;
 			Archive::get(data,temp);
 			row->installed_dcd=temp;
 			break;
 		}
-		case 38:
+		case 39:
 		{
 			int temp;
 			Archive::get(data,temp);
 			row->cargo_hold_contents_maximum=temp;
 			break;
 		}
-		case 39:
+		case 40:
 		{
 			int temp;
 			Archive::get(data,temp);
 			row->cargo_hold_contents_current=temp;
 			break;
 		}
-		case 40:
+		case 41:
 		{
 			std::string packedValue;
 			Archive::AutoDeltaPackedMap<NetworkId,int>::unpack(data,packedValue);

@@ -1777,7 +1777,7 @@ bool SwgSnapshot::encodeClientShipObject(NetworkId const & objectId, Archive::By
 {
 	if (addCount)
 	{
-		uint16 temp=41;
+		uint16 temp=42;
 		Archive::put(data,temp);
 	}
 	encodeClientTangibleObject(objectId, data, false);
@@ -1863,6 +1863,11 @@ bool SwgSnapshot::encodeClientShipObject(NetworkId const & objectId, Archive::By
 		std::string packedValue;
 		row->weapon_ammo_type.getValue(packedValue);
 		Archive::AutoDeltaPackedMap<int,uint32>::pack(data, packedValue);
+	}
+	{
+		std::string packedValue;
+		row->weapon_projectile_index.getValue(packedValue);
+		Archive::AutoDeltaPackedMap<int,int>::pack(data, packedValue);
 	}
 	{
 		float temp;
