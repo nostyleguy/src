@@ -43,6 +43,8 @@ public:
 
 	ShipComponentDescriptor const &    getDescriptor () const;
 
+	void NERLog(std::string const & s) const; // NER-temporary
+
 private:
 	ShipComponentData (const ShipComponentData & rhs);
 	ShipComponentData & operator= (const ShipComponentData & rhs);

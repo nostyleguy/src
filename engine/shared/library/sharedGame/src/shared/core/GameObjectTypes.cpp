@@ -172,6 +172,7 @@ namespace
 		MAKE_NAME(tool_repair);
 		MAKE_NAME(tool_camp_kit);
 		MAKE_NAME(tool_ship_component_repair);
+		MAKE_NAME(tool_ship_component_retrofit_kit); 
 		MAKE_NAME(vehicle);
 		MAKE_NAME(vehicle_hover);
 		MAKE_NAME(vehicle_hover_ai);

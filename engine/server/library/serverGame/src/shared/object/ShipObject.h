@@ -227,6 +227,7 @@ public:
 	int getWeaponAmmoCurrent(int chassisSlot) const;
 	int getWeaponAmmoMaximum(int chassisSlot) const;
 	uint32 getWeaponAmmoType(int chassisSlot) const;
+	int getWeaponProjectileIndex(int chassisSlot) const;	
 
 	float getFastestWeaponProjectileSpeed() const;
 	float getWeaponProjectileSpeed(int weaponIndex) const;
@@ -316,6 +317,7 @@ public:
 	bool setWeaponAmmoCurrent(int chassisSlot, int weaponAmmoCurrent);
 	bool setWeaponAmmoMaximum(int chassisSlot, int weaponAmmoMaximum);
 	bool setWeaponAmmoType(int chassisSlot, uint32 weaponAmmoType);
+	bool setWeaponProjectileIndex(int chassisSlot, int weaponProjectileIndex);	
 
 	//-- shields
 
@@ -448,6 +450,7 @@ public:
 
 	void stopFiringWeapon(int weaponIndex);
 
+	void NERLog(int slot, std::string const & s) const; // NER-temporary
 protected:
 	virtual void calcPvpableState();
 	virtual void endBaselines();
@@ -557,6 +560,7 @@ private:
 	Archive::AutoDeltaPackedMap<int, int>       m_weaponAmmoCurrent;
 	Archive::AutoDeltaPackedMap<int, int>       m_weaponAmmoMaximum;
 	Archive::AutoDeltaPackedMap<int, uint32>    m_weaponAmmoType;
+	Archive::AutoDeltaPackedMap<int, int>       m_weaponProjectileIndex;
 
 	//-- shields
 	//-- The following maps have one entry per installed shield.

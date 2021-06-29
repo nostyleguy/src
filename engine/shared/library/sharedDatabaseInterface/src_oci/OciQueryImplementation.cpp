@@ -502,7 +502,8 @@ bool DB::OCIQueryImpl::bindParameter(BindableLong &buffer)
 bool DB::OCIQueryImpl::bindCol(BindableStringBase &buffer)
 {
 	BindRec *br=addBindRec(buffer);
-
+	std::string value = buffer.outputValue();
+	LOG("Space", ("__NER__ BindCol String: '%s'\n", value.c_str()));
 	m_server->checkerr(*m_session, OCIDefineByPos(m_cursorhp,
 														&(br->defnp),
 														m_session->errhp,

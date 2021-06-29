@@ -11,8 +11,11 @@
 #include "serverGame/ShipObject.h"
 #include "sharedFoundation/DynamicVariableList.h"
 #include "sharedGame/SharedObjectAttributes.h"
+#include "sharedGame/ShipComponentWeaponManager.h"
+#include "sharedGame/ShipComponentDescriptor.h"
 #include "UnicodeUtils.h"
 
+#include "sharedLog/Log.h"
 //======================================================================
 
 namespace ShipComponentDataWeaponNamespace
@@ -28,6 +31,7 @@ namespace ShipComponentDataWeaponNamespace
 		std::string const weaponAmmoCurrent          = "ship_comp.weapon.ammo_current";
 		std::string const weaponAmmoMaximum          = "ship_comp.weapon.ammo_maximum";
 		std::string const weaponAmmoType             = "ship_comp.weapon.ammo_type";
+		std::string const weaponProjectileIndex      = "ship_comp.weapon.projectile_index";	    
 	}
 }
 
@@ -46,8 +50,11 @@ m_weaponRefireRate           (0.5f),
 m_weaponEfficiencyRefireRate (1.0f),
 m_weaponAmmoCurrent          (0),
 m_weaponAmmoMaximum          (0),
-m_weaponAmmoType             (0)
+m_weaponAmmoType             (0),
+m_weaponProjectileIndex      (0)
 {
+    // Get default projectile index for this template
+    m_weaponProjectileIndex = ShipComponentWeaponManager::getProjectileIndex(m_descriptor->getCrc());
 }
 
 //----------------------------------------------------------------------
@@ -73,6 +80,7 @@ bool ShipComponentDataWeapon::readDataFromShip      (int chassisSlot, ShipObject
 	m_weaponAmmoCurrent           = ship.getWeaponAmmoCurrent          (chassisSlot);
 	m_weaponAmmoMaximum           = ship.getWeaponAmmoMaximum          (chassisSlot);
 	m_weaponAmmoType              = ship.getWeaponAmmoType             (chassisSlot);
+	m_weaponProjectileIndex       = ship.getWeaponProjectileIndex      (chassisSlot);
 	return true;
 }
 
@@ -92,6 +100,7 @@ void ShipComponentDataWeapon::writeDataToShip       (int chassisSlot, ShipObject
 	IGNORE_RETURN(ship.setWeaponAmmoCurrent          (chassisSlot, m_weaponAmmoCurrent));
 	IGNORE_RETURN(ship.setWeaponAmmoMaximum          (chassisSlot, m_weaponAmmoMaximum));
 	IGNORE_RETURN(ship.setWeaponAmmoType             (chassisSlot, m_weaponAmmoType));
+	IGNORE_RETURN(ship.setWeaponProjectileIndex      (chassisSlot, m_weaponProjectileIndex));
 }
 
 //----------------------------------------------------------------------
@@ -132,6 +141,11 @@ bool ShipComponentDataWeapon::readDataFromComponent (TangibleObject const & comp
 		DEBUG_WARNING (true, ("ShipComponentDataWeapon [%s] has no m_weaponAmmoType [%s]", component.getNetworkId ().getValueString ().c_str (), Objvars::weaponAmmoType.c_str ()));
 	else
 		m_weaponAmmoType = static_cast<uint32>(ammoType);
+
+	if (!objvars.getItem (Objvars::weaponProjectileIndex, m_weaponProjectileIndex))
+	{    
+	    LOG ("Space", ("ShipComponentDataWeapon [%s] has no m_weaponProjectileIndex [%s]", component.getNetworkId ().getValueString ().c_str (), Objvars::weaponProjectileIndex.c_str ()));   
+	}
 	
 	return true;
 }
@@ -151,6 +165,7 @@ void ShipComponentDataWeapon::writeDataToComponent  (TangibleObject & component)
 	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponAmmoCurrent,          m_weaponAmmoCurrent));
 	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponAmmoMaximum,          m_weaponAmmoMaximum));
 	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponAmmoType,             static_cast<int>(m_weaponAmmoType)));
+	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponProjectileIndex,      m_weaponProjectileIndex));;
 }
 
 
@@ -171,13 +186,15 @@ void ShipComponentDataWeapon::printDebugString      (Unicode::String & result, U
 		"%sEffectivenessArmor:    %f\n"
 		"%sEnergyPerShot:         %f\n"
 		"%sRefireRate:            %f @ %f\n"
-		"%sAmmo:                  (%lu) %d/%d\n",
+		"%sAmmo:                  (%lu) %d/%d\n"
+	        "%sPojectileIndex:        %d\n",
 		nPad.c_str (), m_weaponDamageMaximum, m_weaponDamageMinimum,
 		nPad.c_str (), m_weaponEffectivenessShields,
 		nPad.c_str (), m_weaponEffectivenessArmor,
 		nPad.c_str (), m_weaponEnergyPerShot,
-		nPad.c_str (), m_weaponRefireRate, m_weaponEfficiencyRefireRate,
-		nPad.c_str (), m_weaponAmmoType, m_weaponAmmoCurrent, m_weaponAmmoMaximum);
+                nPad.c_str (), m_weaponRefireRate, m_weaponEfficiencyRefireRate,
+	        nPad.c_str (), m_weaponAmmoType, m_weaponAmmoCurrent, m_weaponAmmoMaximum,
+	        nPad.c_str (), m_weaponProjectileIndex);
 
 	result += Unicode::narrowToWide (buf);
 }
@@ -226,6 +243,10 @@ void ShipComponentDataWeapon::getAttributes(std::vector<std::pair<std::string, U
 		attrib += Unicode::narrowToWide(buffer);
 		data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_ammo, attrib));
 	}
+
+	snprintf(buffer, buffer_size, "%d", m_weaponProjectileIndex);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_projectile_index, attrib));
 }
 
 //======================================================================

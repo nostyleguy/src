@@ -67,7 +67,7 @@
 #include "sharedUtility/DataTable.h"
 #include "sharedUtility/DataTableManager.h"
 #include <algorithm>
-
+#include <sstream>
 //lint -esym(749,ColumnData::CD_weaponCapacitorIndex)
 
 // ======================================================================
@@ -303,10 +303,11 @@ ShipObject::ShipObject(ServerShipObjectTemplate const *newTemplate) :
 	m_weaponEffectivenessArmor         (),
 	m_weaponEnergyPerShot              (),
 	m_weaponRefireRate                 (),
-	m_weaponEfficiencyRefireRate(),
+	m_weaponEfficiencyRefireRate       (),
 	m_weaponAmmoCurrent                (),
 	m_weaponAmmoMaximum                (),
 	m_weaponAmmoType                   (),
+	m_weaponProjectileIndex            (),
 	m_shieldHitpointsFrontCurrent      (0.0f),
 	m_shieldHitpointsFrontMaximum      (0.0f),
 	m_shieldHitpointsBackCurrent       (0.0f),
@@ -1221,7 +1222,6 @@ void ShipObject::internalHandleFireShot(Client const *gunnerClient, int const we
 		int const projectileIndex = getProjectileIndexForWeapon(weaponIndex);
 		float const projectileTimeToLive = computeWeaponProjectileTimeToLive(weaponIndex);
 		float const projectileSpeed = getWeaponProjectileSpeed(weaponIndex);
-
 		float const timeToLive = projectileTimeToLive - deltaTime;
 		if (timeToLive > 0.0f)
 			ProjectileManager::create(gunnerClient, *this, weaponIndex, projectileIndex, targetedComponent, deltaTime, serverTransform_p, 10.f, projectileSpeed, timeToLive, fromAutoTurret);
@@ -2259,6 +2259,7 @@ void ShipObjectNamespace::loadShipTypeDataTable(DataTable const &dataTable)
 					weapon->m_weaponAmmoCurrent = dataTable.getIntValue(colname_weaponAmmoCurrent, row);
 					weapon->m_weaponAmmoMaximum = weapon->m_weaponAmmoCurrent;
 					weapon->m_weaponAmmoType = static_cast<uint32>(dataTable.getIntValue(colname_weaponAmmoType, row));
+					weapon->m_weaponProjectileIndex = weapon->m_weaponProjectileIndex;
 				}
 				break;
 			case ShipComponentType::SCT_capacitor:
@@ -2615,3 +2616,16 @@ void ShipObject::stopFiringWeapon(int weaponIndex)
 
 // ======================================================================
 
+void ShipObject::NERLog(int chassisSlot, std::string const & format) const // NER-temporary
+{
+    Unicode::String name = getComponentName(chassisSlot);
+    std::string argument = Unicode::wideToNarrow(name);
+    std::string prefix = "NER";
+    if((argument.substr(0, prefix.size()) == prefix))
+    {
+	std::ostringstream oss;
+	oss << "Ship: " << (int)m_shipId.get() << ": " << format;
+	LogManager::setArgs("Space");
+	LogManager::log( oss.str().c_str() );
+    }
+}

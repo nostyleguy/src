@@ -427,6 +427,7 @@ ShipObject                  m_weaponRefireRate                        authClient
 ShipObject                  m_weaponAmmoCurrent                       authClientServer    packed_map<int,int>
 ShipObject                  m_weaponAmmoMaximum                       authClientServer    packed_map<int,int>
 ShipObject                  m_weaponAmmoType                          authClientServer    packed_map<int,uint32>
+ShipObject                  m_weaponProjectileIndex		      authClientServer	  packed_map<int,int>
 
 ShipObject                  m_chassisComponentMassMaximum             authClientServer       float
 ShipObject                  m_chassisComponentMassCurrent             authClientServer_np    float

@@ -180,6 +180,7 @@ public:
 		GOT_tool_repair,
 		GOT_tool_camp_kit,
 		GOT_tool_ship_component_repair,
+		GOT_tool_ship_component_retrofit_kit,
 		GOT_vehicle = 0x00010000,
 		GOT_vehicle_hover,
 		GOT_vehicle_hover_ai,

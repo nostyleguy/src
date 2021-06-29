@@ -381,6 +381,18 @@ uint32 ShipObject::getWeaponAmmoType(int chassisSlot) const
 
 //----------------------------------------------------------------------
 
+int ShipObject::getWeaponProjectileIndex(int chassisSlot) const
+{
+	Archive::AutoDeltaMap<int, int>::const_iterator const it = m_weaponProjectileIndex.find (chassisSlot);
+	if (it != m_weaponProjectileIndex.end ())
+	{
+	    return (*it).second;
+	}
+	return -1;
+}
+
+//----------------------------------------------------------------------
+
 float ShipObject::getShieldHitpointsFrontCurrent () const
 {
 	if (isSlotInstalled (ShipChassisSlotType::SCST_shield_0))
@@ -1178,6 +1190,21 @@ bool ShipObject::setWeaponAmmoType(int chassisSlot, uint32 weaponAmmoType)
 	}
 
 	m_weaponAmmoType.set (chassisSlot, weaponAmmoType);
+	return true;
+}
+
+//----------------------------------------------------------------------
+
+bool ShipObject::setWeaponProjectileIndex(int chassisSlot, int weaponProjectileIndex)
+{
+	FATAL (isInitialized () && !isAuthoritative (), ("ShipObject::setWeaponProjectileIndex() called on non-auth object."));
+	if (!isSlotInstalled (chassisSlot))
+	{
+		WARNING (true, ("ShipObject::setWeaponProjectileIndex () called on slot [%d] with nothing installed.", chassisSlot));
+		return false;
+	}
+
+	m_weaponProjectileIndex.set (chassisSlot, weaponProjectileIndex);
 	return true;
 }
 
@@ -2721,16 +2748,21 @@ void ShipObject::handlePowerPulse (float timeElapsedSecs)
 
 int ShipObject::getProjectileIndexForWeapon(int const weaponIndex) const
 {
+
 	if (weaponIndex < 0 || weaponIndex >= ShipChassisSlotType::cms_numWeaponIndices)
-		return -1;
-
-	ShipChassisSlotType::Type const weaponChassisSlotType = static_cast<ShipChassisSlotType::Type>(weaponIndex + static_cast<int>(ShipChassisSlotType::SCST_weapon_0));
-
+	{
+	    return -1;
+	}
+	int chassisSlot = weaponIndex + static_cast<int>(ShipChassisSlotType::SCST_weapon_0);
+	
+	ShipChassisSlotType::Type const weaponChassisSlotType = static_cast<ShipChassisSlotType::Type>(chassisSlot);
 	uint32 const componentCrc = getComponentCrc(weaponChassisSlotType);
 	if (componentCrc == 0)
-		return -1;
-
-	return ShipComponentWeaponManager::getProjectileIndex(componentCrc);
+	{
+	    return -1;
+	}
+	
+	return getWeaponProjectileIndex(weaponChassisSlotType);
 }
 
 //----------------------------------------------------------------------

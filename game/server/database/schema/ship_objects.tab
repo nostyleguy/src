@@ -52,6 +52,7 @@ create table ship_objects
 	cargo_hold_contents_maximum number,
 	cargo_hold_contents_current number,
 	cargo_hold_contents varchar2(500),
+	weapon_projectile_index varchar2(400),
 	constraint pk_ship_objects primary key (object_id)
 );
 

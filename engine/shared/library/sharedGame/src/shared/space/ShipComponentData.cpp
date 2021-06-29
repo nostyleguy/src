@@ -14,6 +14,7 @@
 #include "sharedGame/ShipComponentDescriptor.h"
 #include "sharedGame/ShipComponentFlags.h"
 #include "sharedObject/ObjectTemplate.h"
+#include "sharedLog/LogManager.h"
 
 //======================================================================
 
@@ -147,3 +148,14 @@ void ShipComponentData::overrideAttributesForAuction(AttributeVector & data) con
 {
 }
 //======================================================================
+
+void ShipComponentData::NERLog(std::string const & format) const
+{
+    std::string argument = Unicode::wideToNarrow(m_name);
+    std::string prefix = "NER";
+    if((argument.substr(0, prefix.size()) == prefix))
+    {
+	LogManager::setArgs("Space");
+	LogManager::log( format.c_str() );
+    }
+}
