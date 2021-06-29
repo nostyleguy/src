@@ -4295,6 +4295,7 @@ bool ShipObjectQuery::setupData(DB::Session *session)
 			if (!m_weapon_ammo_currents.create(session, "VAOFSTRING", DatabaseProcess::getInstance().getSchema(), 1000)) return false;
 			if (!m_weapon_ammo_maximums.create(session, "VAOFSTRING", DatabaseProcess::getInstance().getSchema(), 1000)) return false;
 			if (!m_weapon_ammo_types.create(session, "VAOFSTRING", DatabaseProcess::getInstance().getSchema(), 1000)) return false;
+			if (!m_weapon_projectile_indexs.create(session, "VAOFSTRING", DatabaseProcess::getInstance().getSchema(), 1000)) return false;
 			if (!m_shield_hp_front_maximums.create(session, "VAOFNUMBER", DatabaseProcess::getInstance().getSchema())) return false;
 			if (!m_shield_hp_back_maximums.create(session, "VAOFNUMBER", DatabaseProcess::getInstance().getSchema())) return false;
 			if (!m_shield_recharge_rates.create(session, "VAOFNUMBER", DatabaseProcess::getInstance().getSchema())) return false;
@@ -4369,6 +4370,7 @@ bool ShipObjectQuery::addData(const DB::Row *_data)
 			if (!m_weapon_ammo_currents.push_back(myData->weapon_ammo_current.getValueASCII())) return false;
 			if (!m_weapon_ammo_maximums.push_back(myData->weapon_ammo_maximum.getValueASCII())) return false;
 			if (!m_weapon_ammo_types.push_back(myData->weapon_ammo_type.getValueASCII())) return false;
+			if (!m_weapon_projectile_indexs.push_back(myData->weapon_projectile_index.getValueASCII())) return false;
 			if (!m_shield_hp_front_maximums.push_back(myData->shield_hp_front_maximum.isNull(), myData->shield_hp_front_maximum.getValue())) return false;
 			if (!m_shield_hp_back_maximums.push_back(myData->shield_hp_back_maximum.isNull(), myData->shield_hp_back_maximum.getValue())) return false;
 			if (!m_shield_recharge_rates.push_back(myData->shield_recharge_rate.isNull(), myData->shield_recharge_rate.getValue())) return false;
@@ -4449,6 +4451,7 @@ void ShipObjectQuery::clearData()
 			m_weapon_ammo_currents.clear();
 			m_weapon_ammo_maximums.clear();
 			m_weapon_ammo_types.clear();
+			m_weapon_projectile_indexs.clear();
 			m_shield_hp_front_maximums.clear();
 			m_shield_hp_back_maximums.clear();
 			m_shield_recharge_rates.clear();
@@ -4523,6 +4526,7 @@ void ShipObjectQuery::freeData()
 			m_weapon_ammo_currents.free();
 			m_weapon_ammo_maximums.free();
 			m_weapon_ammo_types.free();
+			m_weapon_projectile_indexs.free();
 			m_shield_hp_front_maximums.free();
 			m_shield_hp_back_maximums.free();
 			m_shield_recharge_rates.free();
@@ -4596,6 +4600,7 @@ bool ShipObjectQuery::bindParameters()
 			if (!bindParameter(m_weapon_ammo_currents)) return false;
 			if (!bindParameter(m_weapon_ammo_maximums)) return false;
 			if (!bindParameter(m_weapon_ammo_types)) return false;
+			if (!bindParameter(m_weapon_projectile_indexs)) return false;
 			if (!bindParameter(m_shield_hp_front_maximums)) return false;
 			if (!bindParameter(m_shield_hp_back_maximums)) return false;
 			if (!bindParameter(m_shield_recharge_rates)) return false;
@@ -4651,11 +4656,11 @@ void ShipObjectQuery::getSQL(std::string &sql)
 	switch(mode)
 	{
 		case mode_UPDATE:
-			sql=std::string("begin ")+DatabaseProcess::getInstance().getSchemaQualifier()+"persister.save_ship_obj (:object_id, :slide_dampener, :current_chassis_hit_points, :maximum_chassis_hit_points, :chassis_type, :cmp_armor_hp_maximum, :cmp_armor_hp_current, :cmp_efficiency_general, :cmp_efficiency_eng, :cmp_eng_maintenance, :cmp_mass, :cmp_crc, :cmp_hp_current, :cmp_hp_maximum, :cmp_flags, :cmp_names, :weapon_damage_maximum, :weapon_damage_minimum, :weapon_effectiveness_shields, :weapon_effectiveness_armor, :weapon_eng_per_shot, :weapon_refire_rate, :weapon_ammo_current, :weapon_ammo_maximum, :weapon_ammo_type, :shield_hp_front_maximum, :shield_hp_back_maximum, :shield_recharge_rate, :capacitor_eng_maximum, :capacitor_eng_recharge_rate, :engine_acc_rate, :engine_deceleration_rate, :engine_pitch_acc_rate, :engine_yaw_acc_rate, :engine_roll_acc_rate, :engine_pitch_rate_maximum, :engine_yaw_rate_maximum, :engine_roll_rate_maximum, :engine_speed_maximum, :reactor_eng_generation_rate, :booster_eng_maximum, :booster_eng_recharge_rate, :booster_eng_consumption_rate, :booster_acc, :booster_speed_maximum, :droid_if_cmd_speed, :installed_dcd, :chassis_cmp_mass_maximum, :cmp_creators, :cargo_hold_contents_maximum, :cargo_hold_contents_current, :cargo_hold_contents, :chunk_size); end;";
+			sql=std::string("begin ")+DatabaseProcess::getInstance().getSchemaQualifier()+"persister.save_ship_obj (:object_id, :slide_dampener, :current_chassis_hit_points, :maximum_chassis_hit_points, :chassis_type, :cmp_armor_hp_maximum, :cmp_armor_hp_current, :cmp_efficiency_general, :cmp_efficiency_eng, :cmp_eng_maintenance, :cmp_mass, :cmp_crc, :cmp_hp_current, :cmp_hp_maximum, :cmp_flags, :cmp_names, :weapon_damage_maximum, :weapon_damage_minimum, :weapon_effectiveness_shields, :weapon_effectiveness_armor, :weapon_eng_per_shot, :weapon_refire_rate, :weapon_ammo_current, :weapon_ammo_maximum, :weapon_ammo_type, :weapon_projectile_index, :shield_hp_front_maximum, :shield_hp_back_maximum, :shield_recharge_rate, :capacitor_eng_maximum, :capacitor_eng_recharge_rate, :engine_acc_rate, :engine_deceleration_rate, :engine_pitch_acc_rate, :engine_yaw_acc_rate, :engine_roll_acc_rate, :engine_pitch_rate_maximum, :engine_yaw_rate_maximum, :engine_roll_rate_maximum, :engine_speed_maximum, :reactor_eng_generation_rate, :booster_eng_maximum, :booster_eng_recharge_rate, :booster_eng_consumption_rate, :booster_acc, :booster_speed_maximum, :droid_if_cmd_speed, :installed_dcd, :chassis_cmp_mass_maximum, :cmp_creators, :cargo_hold_contents_maximum, :cargo_hold_contents_current, :cargo_hold_contents, :chunk_size); end;";
 			break;
 
 		case mode_INSERT:
-			sql=std::string("begin ")+DatabaseProcess::getInstance().getSchemaQualifier()+"persister.add_ship_obj (:object_id, :slide_dampener, :current_chassis_hit_points, :maximum_chassis_hit_points, :chassis_type, :cmp_armor_hp_maximum, :cmp_armor_hp_current, :cmp_efficiency_general, :cmp_efficiency_eng, :cmp_eng_maintenance, :cmp_mass, :cmp_crc, :cmp_hp_current, :cmp_hp_maximum, :cmp_flags, :cmp_names, :weapon_damage_maximum, :weapon_damage_minimum, :weapon_effectiveness_shields, :weapon_effectiveness_armor, :weapon_eng_per_shot, :weapon_refire_rate, :weapon_ammo_current, :weapon_ammo_maximum, :weapon_ammo_type, :shield_hp_front_maximum, :shield_hp_back_maximum, :shield_recharge_rate, :capacitor_eng_maximum, :capacitor_eng_recharge_rate, :engine_acc_rate, :engine_deceleration_rate, :engine_pitch_acc_rate, :engine_yaw_acc_rate, :engine_roll_acc_rate, :engine_pitch_rate_maximum, :engine_yaw_rate_maximum, :engine_roll_rate_maximum, :engine_speed_maximum, :reactor_eng_generation_rate, :booster_eng_maximum, :booster_eng_recharge_rate, :booster_eng_consumption_rate, :booster_acc, :booster_speed_maximum, :droid_if_cmd_speed, :installed_dcd, :chassis_cmp_mass_maximum, :cmp_creators, :cargo_hold_contents_maximum, :cargo_hold_contents_current, :cargo_hold_contents, :chunk_size); end;";
+			sql=std::string("begin ")+DatabaseProcess::getInstance().getSchemaQualifier()+"persister.add_ship_obj (:object_id, :slide_dampener, :current_chassis_hit_points, :maximum_chassis_hit_points, :chassis_type, :cmp_armor_hp_maximum, :cmp_armor_hp_current, :cmp_efficiency_general, :cmp_efficiency_eng, :cmp_eng_maintenance, :cmp_mass, :cmp_crc, :cmp_hp_current, :cmp_hp_maximum, :cmp_flags, :cmp_names, :weapon_damage_maximum, :weapon_damage_minimum, :weapon_effectiveness_shields, :weapon_effectiveness_armor, :weapon_eng_per_shot, :weapon_refire_rate, :weapon_ammo_current, :weapon_ammo_maximum, :weapon_ammo_type, :weapon_projectile_index, :shield_hp_front_maximum, :shield_hp_back_maximum, :shield_recharge_rate, :capacitor_eng_maximum, :capacitor_eng_recharge_rate, :engine_acc_rate, :engine_deceleration_rate, :engine_pitch_acc_rate, :engine_yaw_acc_rate, :engine_roll_acc_rate, :engine_pitch_rate_maximum, :engine_yaw_rate_maximum, :engine_roll_rate_maximum, :engine_speed_maximum, :reactor_eng_generation_rate, :booster_eng_maximum, :booster_eng_recharge_rate, :booster_eng_consumption_rate, :booster_acc, :booster_speed_maximum, :droid_if_cmd_speed, :installed_dcd, :chassis_cmp_mass_maximum, :cmp_creators, :cargo_hold_contents_maximum, :cargo_hold_contents_current, :cargo_hold_contents, :chunk_size); end;";
 			break;
 
 		case mode_SELECT:
@@ -4712,6 +4717,7 @@ bool ShipObjectQuerySelect::bindColumns()
 	if (!bindCol(m_data[0].weapon_ammo_current)) return false;
 	if (!bindCol(m_data[0].weapon_ammo_maximum)) return false;
 	if (!bindCol(m_data[0].weapon_ammo_type)) return false;
+	if (!bindCol(m_data[0].weapon_projectile_index)) return false;
 	if (!bindCol(m_data[0].shield_hp_front_maximum)) return false;
 	if (!bindCol(m_data[0].shield_hp_back_maximum)) return false;
 	if (!bindCol(m_data[0].shield_recharge_rate)) return false;

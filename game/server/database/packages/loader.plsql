@@ -1091,7 +1091,8 @@ procedure verify_character (p_station_id in number, p_character_id in number, p_
 				t.cmp_creators,
 				t.cargo_hold_contents_maximum,
 				t.cargo_hold_contents_current,
-				t.cargo_hold_contents
+				t.cargo_hold_contents,
+				t.weapon_projectile_index
 			from
 				object_list l,
 				ship_objects t

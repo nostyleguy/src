@@ -1007,6 +1007,7 @@ private:
 	DB::BindableVarrayString	 m_weapon_ammo_currents;
 	DB::BindableVarrayString	 m_weapon_ammo_maximums;
 	DB::BindableVarrayString	 m_weapon_ammo_types;
+	DB::BindableVarrayString	 m_weapon_projectile_indexs;
 	DB::BindableVarrayNumber	 m_shield_hp_front_maximums;
 	DB::BindableVarrayNumber	 m_shield_hp_back_maximums;
 	DB::BindableVarrayNumber	 m_shield_recharge_rates;
