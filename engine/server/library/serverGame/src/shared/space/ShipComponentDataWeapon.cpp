@@ -12,10 +12,12 @@
 #include "sharedFoundation/DynamicVariableList.h"
 #include "sharedGame/SharedObjectAttributes.h"
 #include "sharedGame/ShipComponentWeaponManager.h"
+#include "sharedGame/ShipComponentStyleManager.h"
 #include "sharedGame/ShipComponentDescriptor.h"
 #include "UnicodeUtils.h"
 
 #include "sharedLog/Log.h"
+
 //======================================================================
 
 namespace ShipComponentDataWeaponNamespace
@@ -31,7 +33,8 @@ namespace ShipComponentDataWeaponNamespace
 		std::string const weaponAmmoCurrent          = "ship_comp.weapon.ammo_current";
 		std::string const weaponAmmoMaximum          = "ship_comp.weapon.ammo_maximum";
 		std::string const weaponAmmoType             = "ship_comp.weapon.ammo_type";
-		std::string const weaponProjectileIndex      = "ship_comp.weapon.projectile_index";	    
+		std::string const weaponProjectileIndex      = "ship_comp.weapon.projectile_index";
+		std::string const componentStyle             = "ship_comp.component_style";
 	}
 }
 
@@ -51,10 +54,13 @@ m_weaponEfficiencyRefireRate (1.0f),
 m_weaponAmmoCurrent          (0),
 m_weaponAmmoMaximum          (0),
 m_weaponAmmoType             (0),
-m_weaponProjectileIndex      (0)
+m_weaponProjectileIndex      (0),
+m_style                      (1)
 {
-    // Get default projectile index for this template
-    m_weaponProjectileIndex = ShipComponentWeaponManager::getProjectileIndex(m_descriptor->getCrc());
+	// Get default projectile index for this template
+	m_weaponProjectileIndex = ShipComponentWeaponManager::getDefaultProjectileIndex(m_descriptor->getCrc());
+	// Get default style from template
+	m_style = ShipComponentStyleManager::getDefaultStyleForComponent(m_descriptor->getCrc());
 }
 
 //----------------------------------------------------------------------
@@ -81,6 +87,8 @@ bool ShipComponentDataWeapon::readDataFromShip      (int chassisSlot, ShipObject
 	m_weaponAmmoMaximum           = ship.getWeaponAmmoMaximum          (chassisSlot);
 	m_weaponAmmoType              = ship.getWeaponAmmoType             (chassisSlot);
 	m_weaponProjectileIndex       = ship.getWeaponProjectileIndex      (chassisSlot);
+	m_style                       = ship.getComponentStyle             (chassisSlot);
+
 	return true;
 }
 
@@ -101,6 +109,7 @@ void ShipComponentDataWeapon::writeDataToShip       (int chassisSlot, ShipObject
 	IGNORE_RETURN(ship.setWeaponAmmoMaximum          (chassisSlot, m_weaponAmmoMaximum));
 	IGNORE_RETURN(ship.setWeaponAmmoType             (chassisSlot, m_weaponAmmoType));
 	IGNORE_RETURN(ship.setWeaponProjectileIndex      (chassisSlot, m_weaponProjectileIndex));
+	IGNORE_RETURN(ship.setComponentStyle             (chassisSlot, m_style));
 }
 
 //----------------------------------------------------------------------
@@ -142,9 +151,13 @@ bool ShipComponentDataWeapon::readDataFromComponent (TangibleObject const & comp
 	else
 		m_weaponAmmoType = static_cast<uint32>(ammoType);
 
-	if (!objvars.getItem (Objvars::weaponProjectileIndex, m_weaponProjectileIndex))
-	{    
-	    LOG ("Space", ("ShipComponentDataWeapon [%s] has no m_weaponProjectileIndex [%s]", component.getNetworkId ().getValueString ().c_str (), Objvars::weaponProjectileIndex.c_str ()));   
+	if (!objvars.getItem(Objvars::weaponProjectileIndex, m_weaponProjectileIndex))
+	{
+		DEBUG_WARNING(true, ("ShipComponentDataWeapon [%s] has no m_weaponProjectileIndex [%s]", component.getNetworkId().getValueString().c_str(), Objvars::weaponProjectileIndex.c_str()));
+	}
+	if (!objvars.getItem(Objvars::componentStyle, m_style))
+	{
+		DEBUG_WARNING(true, ("ShipComponentDataWeapon Name: [%s], ID [%s] has no componentStyle [%s]", Unicode::wideToNarrow(component.getObjectName()).c_str(), component.getNetworkId().getValueString().c_str(), Objvars::componentStyle.c_str()));
 	}
 	
 	return true;
@@ -165,7 +178,8 @@ void ShipComponentDataWeapon::writeDataToComponent  (TangibleObject & component)
 	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponAmmoCurrent,          m_weaponAmmoCurrent));
 	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponAmmoMaximum,          m_weaponAmmoMaximum));
 	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponAmmoType,             static_cast<int>(m_weaponAmmoType)));
-	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponProjectileIndex,      m_weaponProjectileIndex));;
+	IGNORE_RETURN (component.setObjVarItem (Objvars::weaponProjectileIndex,      m_weaponProjectileIndex));
+	IGNORE_RETURN (component.setObjVarItem (Objvars::componentStyle,             m_style));
 }
 
 
@@ -187,14 +201,17 @@ void ShipComponentDataWeapon::printDebugString      (Unicode::String & result, U
 		"%sEnergyPerShot:         %f\n"
 		"%sRefireRate:            %f @ %f\n"
 		"%sAmmo:                  (%lu) %d/%d\n"
-	        "%sPojectileIndex:        %d\n",
+		"%sPojectileIndex:        %d\n"
+		"%sStyle:        %d\n",
 		nPad.c_str (), m_weaponDamageMaximum, m_weaponDamageMinimum,
 		nPad.c_str (), m_weaponEffectivenessShields,
 		nPad.c_str (), m_weaponEffectivenessArmor,
 		nPad.c_str (), m_weaponEnergyPerShot,
-                nPad.c_str (), m_weaponRefireRate, m_weaponEfficiencyRefireRate,
-	        nPad.c_str (), m_weaponAmmoType, m_weaponAmmoCurrent, m_weaponAmmoMaximum,
-	        nPad.c_str (), m_weaponProjectileIndex);
+		nPad.c_str (), m_weaponRefireRate, m_weaponEfficiencyRefireRate,
+		nPad.c_str (), m_weaponAmmoType, m_weaponAmmoCurrent, m_weaponAmmoMaximum,
+		nPad.c_str (), m_weaponProjectileIndex,
+		nPad.c_str (), m_style
+	 );
 
 	result += Unicode::narrowToWide (buf);
 }
@@ -246,7 +263,11 @@ void ShipComponentDataWeapon::getAttributes(std::vector<std::pair<std::string, U
 
 	snprintf(buffer, buffer_size, "%d", m_weaponProjectileIndex);
 	attrib = Unicode::narrowToWide(buffer);
-	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_projectile_index, attrib));
+	data.push_back(std::make_pair(cm_shipComponentVisualsCategory + SharedObjectAttributes::ship_component_weapon_projectile_index, attrib));
+
+	snprintf(buffer, buffer_size, "%d", m_style);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentVisualsCategory + SharedObjectAttributes::ship_component_style, attrib));
 }
 
 //======================================================================

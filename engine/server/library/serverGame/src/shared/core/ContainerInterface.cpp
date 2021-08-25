@@ -156,10 +156,6 @@ namespace ContainerInterfaceNamespace
 		NetworkId const &sourceId = source ? source->getNetworkId() : NetworkId::cms_invalid;
 		NetworkId const &destId = destination ? destination->getNetworkId() : NetworkId::cms_invalid;
 
-		if(item.getGameObjectType() == SharedObjectTemplate::GOT_data_droid_control_device) {
-		   LOG("Space", ("NER__4: Item: %s, Transferer: %s, Dest: %s", ServerObject::getLogDescription(&item).c_str(), ServerObject::getLogDescription(transferer).c_str(), ServerObject::getLogDescription(destination).c_str()));
-		}
-		
 		if (source)
 		{
 			if (source->getScriptObject())
@@ -176,7 +172,6 @@ namespace ContainerInterfaceNamespace
 					{
 						error = Container::CEC_BlockedByScript;
 						LOG("ScriptInvestigation", ("Source tried to prevent container transfer"));
-						LOG("Space", ("NER__1"));
 						return false;
 					}
 				}
@@ -186,7 +181,6 @@ namespace ContainerInterfaceNamespace
 			{
 				//-- Source container prevented the container from losing the item.
 				error = Container::CEC_BlockedByScript;
-				LOG("Space", ("NER__2"));
 				return false;
 			}
 			else
@@ -299,7 +293,6 @@ namespace ContainerInterfaceNamespace
 					{
 						LOG("ScriptInvestigation", ("Destination tried to prevent container transfer"));
 						error = Container::CEC_BlockedByScript;
-						LOG("Space", ("NER__3"));
 						return false;
 					}
 				}
@@ -319,14 +312,10 @@ namespace ContainerInterfaceNamespace
 			params.addParam(destId);
 			params.addParam(transfererId);
 
-			if(item.getGameObjectType() == SharedObjectTemplate::GOT_data_droid_control_device) {
-			   LOG("Space", ("NER__4: About to do Xferred: Item: %s, Transferer: %s, Dest: %s", ServerObject::getLogDescription(&item).c_str(), ServerObject::getLogDescription(transferer).c_str(), ServerObject::getLogDescription(destination).c_str()));
-			}
 			if (item.getScriptObject()->trigAllScripts(Scripting::TRIG_ABOUT_TO_BE_XFERRED, params) == SCRIPT_OVERRIDE)
 			{
 				LOG("ScriptInvestigation", ("Item tried to prevent container transfer"));
 				error = Container::CEC_BlockedByScript;
-				LOG("Space", ("NER__4 failed"));
 				return false;
 			}
 		}
@@ -499,9 +488,6 @@ using namespace ContainerInterfaceNamespace;
 
 bool ContainerInterface::canTransferTo(ServerObject *destination, ServerObject &item, ServerObject *transferer, Container::ContainerErrorCode &error)
 {
-   if(item.getGameObjectType() == SharedObjectTemplate::GOT_data_droid_control_device) {
-      LOG("Space", ("NER__4: canTransferTo Item: %s, Transferer: %s, Dest: %s", ServerObject::getLogDescription(&item).c_str(), ServerObject::getLogDescription(transferer).c_str(), ServerObject::getLogDescription(destination).c_str()));
-   }
 	PROFILER_AUTO_BLOCK_DEFINE("canTransferTo");
 
 	error = Container::CEC_Success;
@@ -645,9 +631,6 @@ bool ContainerInterface::canTransferTo(ServerObject *destination, ServerObject &
 
 bool ContainerInterface::canTransferToSlot(ServerObject &destination, ServerObject &item, SlotId const &slotId, ServerObject *transferer, Container::ContainerErrorCode &error)
 {
-   if(item.getGameObjectType() == SharedObjectTemplate::GOT_data_droid_control_device) {
-      LOG("Space", ("NER__4: canTransferToSlot Item: %s, Transferer: %s, Dest: %s", ServerObject::getLogDescription(&item).c_str(), ServerObject::getLogDescription(transferer).c_str(), ServerObject::getLogDescription(&destination).c_str()));
-   }
 	error = Container::CEC_Success;
 
 	SlottedContainer const * const container = destination.getSlottedContainerProperty();
@@ -766,9 +749,6 @@ bool ContainerInterface::transferItemToSlottedContainer(ServerObject &destinatio
 		return false;
 	}
 
-	if(item.getGameObjectType() == SharedObjectTemplate::GOT_data_droid_control_device) {
-	   LOG("Space", ("NER__4: transferitemtoslottedcontanier Item: %s, Transferer: %s, Dest: %s", ServerObject::getLogDescription(&item).c_str(), ServerObject::getLogDescription(transferer).c_str(), ServerObject::getLogDescription(&destination).c_str()));
-	}
 	if (!canTransferTo(&destination, item, transferer, error))
 		return false;
 
@@ -871,9 +851,6 @@ bool ContainerInterface::transferItemToVolumeContainer(ServerObject &destination
 		return false;
 	}
 
-	if(item.getGameObjectType() == SharedObjectTemplate::GOT_data_droid_control_device) {
-	   LOG("Space", ("NER__4: transferItemToVolumeContainer Item: %s, Transferer: %s, Dest: %s", ServerObject::getLogDescription(&item).c_str(), ServerObject::getLogDescription(transferer).c_str(), ServerObject::getLogDescription(&destination).c_str()));
-	}	
 	if (!canTransferTo(&destination, item, transferer, error))
 	{
 		// If container message is anthing but full false
@@ -1339,8 +1316,6 @@ void ContainerInterface::sendContainerMessageToClient(ServerObject const &player
 	//-- Check if error code is one that we skip sending messages to client for.
 	//   In these cases the scripter should have already generated a message.
 	bool const sendMessage = (errorCode != Container::CEC_BlockedByScript && errorCode != Container::CEC_SilentError);
-
-	LOG("Space", ("NER__ Error was: %d", static_cast<int>(errorCode)));
 
 	if (sendMessage || (player.getClient() && player.getClient()->isGod()))
 	{

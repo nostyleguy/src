@@ -4417,7 +4417,7 @@ as
 			object_id=p_object_id(i);
 	end;
 
-	procedure save_ship_obj(p_object_id VAOFSTRING, p_slide_dampener VAOFNUMBER, p_current_chassis_hit_points VAOFNUMBER, p_maximum_chassis_hit_points VAOFNUMBER, p_chassis_type VAOFNUMBER, p_cmp_armor_hp_maximum VAOFSTRING, p_cmp_armor_hp_current VAOFSTRING, p_cmp_efficiency_general VAOFSTRING, p_cmp_efficiency_eng VAOFSTRING, p_cmp_eng_maintenance VAOFSTRING, p_cmp_mass VAOFSTRING, p_cmp_crc VAOFSTRING, p_cmp_hp_current VAOFSTRING, p_cmp_hp_maximum VAOFSTRING, p_cmp_flags VAOFSTRING, p_cmp_names VAOFLONGSTRING, p_weapon_damage_maximum VAOFSTRING, p_weapon_damage_minimum VAOFSTRING, p_weapon_effectiveness_shields VAOFSTRING, p_weapon_effectiveness_armor VAOFSTRING, p_weapon_eng_per_shot VAOFSTRING, p_weapon_refire_rate VAOFSTRING, p_weapon_ammo_current VAOFSTRING, p_weapon_ammo_maximum VAOFSTRING, p_weapon_ammo_type VAOFSTRING, p_shield_hp_front_maximum VAOFNUMBER, p_shield_hp_back_maximum VAOFNUMBER, p_shield_recharge_rate VAOFNUMBER, p_capacitor_eng_maximum VAOFNUMBER, p_capacitor_eng_recharge_rate VAOFNUMBER, p_engine_acc_rate VAOFNUMBER, p_engine_deceleration_rate VAOFNUMBER, p_engine_pitch_acc_rate VAOFNUMBER, p_engine_yaw_acc_rate VAOFNUMBER, p_engine_roll_acc_rate VAOFNUMBER, p_engine_pitch_rate_maximum VAOFNUMBER, p_engine_yaw_rate_maximum VAOFNUMBER, p_engine_roll_rate_maximum VAOFNUMBER, p_engine_speed_maximum VAOFNUMBER, p_reactor_eng_generation_rate VAOFNUMBER, p_booster_eng_maximum VAOFNUMBER, p_booster_eng_recharge_rate VAOFNUMBER, p_booster_eng_consumption_rate VAOFNUMBER, p_booster_acc VAOFNUMBER, p_booster_speed_maximum VAOFNUMBER, p_droid_if_cmd_speed VAOFNUMBER, p_installed_dcd VAOFSTRING, p_chassis_cmp_mass_maximum VAOFNUMBER, p_cmp_creators VAOFSTRING, p_cargo_hold_contents_maximum VAOFNUMBER, p_cargo_hold_contents_current VAOFNUMBER, p_cargo_hold_contents VAOFSTRING, p_weapon_projectile_index VAOFSTRING, p_chunk_size number)
+	procedure save_ship_obj(p_object_id VAOFSTRING, p_slide_dampener VAOFNUMBER, p_current_chassis_hit_points VAOFNUMBER, p_maximum_chassis_hit_points VAOFNUMBER, p_chassis_type VAOFNUMBER, p_cmp_armor_hp_maximum VAOFSTRING, p_cmp_armor_hp_current VAOFSTRING, p_cmp_efficiency_general VAOFSTRING, p_cmp_efficiency_eng VAOFSTRING, p_cmp_eng_maintenance VAOFSTRING, p_cmp_mass VAOFSTRING, p_cmp_crc VAOFSTRING, p_cmp_hp_current VAOFSTRING, p_cmp_hp_maximum VAOFSTRING, p_cmp_flags VAOFSTRING, p_cmp_names VAOFLONGSTRING, p_weapon_damage_maximum VAOFSTRING, p_weapon_damage_minimum VAOFSTRING, p_weapon_effectiveness_shields VAOFSTRING, p_weapon_effectiveness_armor VAOFSTRING, p_weapon_eng_per_shot VAOFSTRING, p_weapon_refire_rate VAOFSTRING, p_weapon_ammo_current VAOFSTRING, p_weapon_ammo_maximum VAOFSTRING, p_weapon_ammo_type VAOFSTRING, p_shield_hp_front_maximum VAOFNUMBER, p_shield_hp_back_maximum VAOFNUMBER, p_shield_recharge_rate VAOFNUMBER, p_capacitor_eng_maximum VAOFNUMBER, p_capacitor_eng_recharge_rate VAOFNUMBER, p_engine_acc_rate VAOFNUMBER, p_engine_deceleration_rate VAOFNUMBER, p_engine_pitch_acc_rate VAOFNUMBER, p_engine_yaw_acc_rate VAOFNUMBER, p_engine_roll_acc_rate VAOFNUMBER, p_engine_pitch_rate_maximum VAOFNUMBER, p_engine_yaw_rate_maximum VAOFNUMBER, p_engine_roll_rate_maximum VAOFNUMBER, p_engine_speed_maximum VAOFNUMBER, p_reactor_eng_generation_rate VAOFNUMBER, p_booster_eng_maximum VAOFNUMBER, p_booster_eng_recharge_rate VAOFNUMBER, p_booster_eng_consumption_rate VAOFNUMBER, p_booster_acc VAOFNUMBER, p_booster_speed_maximum VAOFNUMBER, p_droid_if_cmd_speed VAOFNUMBER, p_installed_dcd VAOFSTRING, p_chassis_cmp_mass_maximum VAOFNUMBER, p_cmp_creators VAOFSTRING, p_cargo_hold_contents_maximum VAOFNUMBER, p_cargo_hold_contents_current VAOFNUMBER, p_cargo_hold_contents VAOFSTRING, p_weapon_projectile_index VAOFSTRING, p_cmp_styles VAOFLONGSTRING, p_chunk_size number)
 	as
 
 	m_enable_db_logging INTEGER := 0;
@@ -4476,7 +4476,8 @@ as
 			ship_objects.cargo_hold_contents_maximum = nvl(p_cargo_hold_contents_maximum(i),ship_objects.cargo_hold_contents_maximum),
 			ship_objects.cargo_hold_contents_current = nvl(p_cargo_hold_contents_current(i),ship_objects.cargo_hold_contents_current),
 			ship_objects.cargo_hold_contents = nvl(p_cargo_hold_contents(i),ship_objects.cargo_hold_contents),
-			ship_objects.weapon_projectile_index = nvl(p_weapon_projectile_index(i),ship_objects.weapon_projectile_index)
+			ship_objects.weapon_projectile_index = nvl(p_weapon_projectile_index(i),ship_objects.weapon_projectile_index),
+			ship_objects.cmp_styles = nvl(p_cmp_styles(i),ship_objects.cmp_styles)
 		where
 			ship_objects.object_id=p_object_id(i);
 	exception
@@ -4536,7 +4537,8 @@ as
 					ship_objects.cargo_hold_contents_maximum = nvl(p_cargo_hold_contents_maximum(i),ship_objects.cargo_hold_contents_maximum),
 					ship_objects.cargo_hold_contents_current = nvl(p_cargo_hold_contents_current(i),ship_objects.cargo_hold_contents_current),
 					ship_objects.cargo_hold_contents = nvl(p_cargo_hold_contents(i),ship_objects.cargo_hold_contents),
-					ship_objects.weapon_projectile_index = nvl(p_weapon_projectile_index(i),ship_objects.weapon_projectile_index)					
+					ship_objects.weapon_projectile_index = nvl(p_weapon_projectile_index(i),ship_objects.weapon_projectile_index),
+					ship_objects.cmp_styles = nvl(p_cmp_styles(i),ship_objects.cmp_styles)
 					where
 					ship_objects.object_id=p_object_id(i);
 				end LOOP;
@@ -4563,6 +4565,7 @@ as
 								db_error_logger.dblogerror_values('persister.save_ship_obj','cmp_hp_maximum','varchar2',p_cmp_hp_maximum(m_error_index));
 								db_error_logger.dblogerror_values('persister.save_ship_obj','cmp_flags','varchar2',p_cmp_flags(m_error_index));
 								db_error_logger.dblogerror_values('persister.save_ship_obj','cmp_names','varchar2',p_cmp_names(m_error_index));
+								db_error_logger.dblogerror_values('persister.save_ship_obj','cmp_styles','varchar2',p_cmp_styles(m_error_index));
 								db_error_logger.dblogerror_values('persister.save_ship_obj','weapon_damage_maximum','varchar2',p_weapon_damage_maximum(m_error_index));
 								db_error_logger.dblogerror_values('persister.save_ship_obj','weapon_damage_minimum','varchar2',p_weapon_damage_minimum(m_error_index));
 								db_error_logger.dblogerror_values('persister.save_ship_obj','weapon_effectiveness_shields','varchar2',p_weapon_effectiveness_shields(m_error_index));
@@ -4609,7 +4612,7 @@ as
 			end;
 	end;
 
-	procedure add_ship_obj(p_object_id VAOFSTRING, p_slide_dampener VAOFNUMBER, p_current_chassis_hit_points VAOFNUMBER, p_maximum_chassis_hit_points VAOFNUMBER, p_chassis_type VAOFNUMBER, p_cmp_armor_hp_maximum VAOFSTRING, p_cmp_armor_hp_current VAOFSTRING, p_cmp_efficiency_general VAOFSTRING, p_cmp_efficiency_eng VAOFSTRING, p_cmp_eng_maintenance VAOFSTRING, p_cmp_mass VAOFSTRING, p_cmp_crc VAOFSTRING, p_cmp_hp_current VAOFSTRING, p_cmp_hp_maximum VAOFSTRING, p_cmp_flags VAOFSTRING, p_cmp_names VAOFLONGSTRING, p_weapon_damage_maximum VAOFSTRING, p_weapon_damage_minimum VAOFSTRING, p_weapon_effectiveness_shields VAOFSTRING, p_weapon_effectiveness_armor VAOFSTRING, p_weapon_eng_per_shot VAOFSTRING, p_weapon_refire_rate VAOFSTRING, p_weapon_ammo_current VAOFSTRING, p_weapon_ammo_maximum VAOFSTRING, p_weapon_ammo_type VAOFSTRING, p_shield_hp_front_maximum VAOFNUMBER, p_shield_hp_back_maximum VAOFNUMBER, p_shield_recharge_rate VAOFNUMBER, p_capacitor_eng_maximum VAOFNUMBER, p_capacitor_eng_recharge_rate VAOFNUMBER, p_engine_acc_rate VAOFNUMBER, p_engine_deceleration_rate VAOFNUMBER, p_engine_pitch_acc_rate VAOFNUMBER, p_engine_yaw_acc_rate VAOFNUMBER, p_engine_roll_acc_rate VAOFNUMBER, p_engine_pitch_rate_maximum VAOFNUMBER, p_engine_yaw_rate_maximum VAOFNUMBER, p_engine_roll_rate_maximum VAOFNUMBER, p_engine_speed_maximum VAOFNUMBER, p_reactor_eng_generation_rate VAOFNUMBER, p_booster_eng_maximum VAOFNUMBER, p_booster_eng_recharge_rate VAOFNUMBER, p_booster_eng_consumption_rate VAOFNUMBER, p_booster_acc VAOFNUMBER, p_booster_speed_maximum VAOFNUMBER, p_droid_if_cmd_speed VAOFNUMBER, p_installed_dcd VAOFSTRING, p_chassis_cmp_mass_maximum VAOFNUMBER, p_cmp_creators VAOFSTRING, p_cargo_hold_contents_maximum VAOFNUMBER, p_cargo_hold_contents_current VAOFNUMBER, p_cargo_hold_contents VAOFSTRING, p_weapon_projectile_index VAOFSTRING, p_chunk_size number)
+	procedure add_ship_obj(p_object_id VAOFSTRING, p_slide_dampener VAOFNUMBER, p_current_chassis_hit_points VAOFNUMBER, p_maximum_chassis_hit_points VAOFNUMBER, p_chassis_type VAOFNUMBER, p_cmp_armor_hp_maximum VAOFSTRING, p_cmp_armor_hp_current VAOFSTRING, p_cmp_efficiency_general VAOFSTRING, p_cmp_efficiency_eng VAOFSTRING, p_cmp_eng_maintenance VAOFSTRING, p_cmp_mass VAOFSTRING, p_cmp_crc VAOFSTRING, p_cmp_hp_current VAOFSTRING, p_cmp_hp_maximum VAOFSTRING, p_cmp_flags VAOFSTRING, p_cmp_names VAOFLONGSTRING, p_weapon_damage_maximum VAOFSTRING, p_weapon_damage_minimum VAOFSTRING, p_weapon_effectiveness_shields VAOFSTRING, p_weapon_effectiveness_armor VAOFSTRING, p_weapon_eng_per_shot VAOFSTRING, p_weapon_refire_rate VAOFSTRING, p_weapon_ammo_current VAOFSTRING, p_weapon_ammo_maximum VAOFSTRING, p_weapon_ammo_type VAOFSTRING, p_shield_hp_front_maximum VAOFNUMBER, p_shield_hp_back_maximum VAOFNUMBER, p_shield_recharge_rate VAOFNUMBER, p_capacitor_eng_maximum VAOFNUMBER, p_capacitor_eng_recharge_rate VAOFNUMBER, p_engine_acc_rate VAOFNUMBER, p_engine_deceleration_rate VAOFNUMBER, p_engine_pitch_acc_rate VAOFNUMBER, p_engine_yaw_acc_rate VAOFNUMBER, p_engine_roll_acc_rate VAOFNUMBER, p_engine_pitch_rate_maximum VAOFNUMBER, p_engine_yaw_rate_maximum VAOFNUMBER, p_engine_roll_rate_maximum VAOFNUMBER, p_engine_speed_maximum VAOFNUMBER, p_reactor_eng_generation_rate VAOFNUMBER, p_booster_eng_maximum VAOFNUMBER, p_booster_eng_recharge_rate VAOFNUMBER, p_booster_eng_consumption_rate VAOFNUMBER, p_booster_acc VAOFNUMBER, p_booster_speed_maximum VAOFNUMBER, p_droid_if_cmd_speed VAOFNUMBER, p_installed_dcd VAOFSTRING, p_chassis_cmp_mass_maximum VAOFNUMBER, p_cmp_creators VAOFSTRING, p_cargo_hold_contents_maximum VAOFNUMBER, p_cargo_hold_contents_current VAOFNUMBER, p_cargo_hold_contents VAOFSTRING, p_weapon_projectile_index VAOFSTRING, p_cmp_styles VAOFLONGSTRING, p_chunk_size number)
 	as
 	m_enable_db_logging INTEGER := 0;
 	m_error_index INTEGER :=1;
@@ -4668,7 +4671,8 @@ as
 			ship_objects.cargo_hold_contents_maximum,
 			ship_objects.cargo_hold_contents_current,
 			ship_objects.cargo_hold_contents,
-			ship_objects.weapon_projectile_index,			
+			ship_objects.weapon_projectile_index,
+			ship_objects.cmp_styles,
 			ship_objects.object_id
 		)
 		VALUES
@@ -4724,7 +4728,8 @@ as
 			p_cargo_hold_contents_maximum(i),
 			p_cargo_hold_contents_current(i),
 			p_cargo_hold_contents(i),
-			p_weapon_projectile_index(i),			
+			p_weapon_projectile_index(i),
+			p_cmp_styles(i),			
 			p_object_id(i)
 		);
 
@@ -4789,7 +4794,8 @@ as
 					ship_objects.cargo_hold_contents_maximum = nvl(p_cargo_hold_contents_maximum(i),ship_objects.cargo_hold_contents_maximum),
 					ship_objects.cargo_hold_contents_current = nvl(p_cargo_hold_contents_current(i),ship_objects.cargo_hold_contents_current),
 					ship_objects.cargo_hold_contents = nvl(p_cargo_hold_contents(i),ship_objects.cargo_hold_contents),
-					ship_objects.weapon_projectile_index = nvl(p_weapon_projectile_index(i),ship_objects.weapon_projectile_index)					
+					ship_objects.weapon_projectile_index = nvl(p_weapon_projectile_index(i),ship_objects.weapon_projectile_index),
+					ship_objects.cmp_styles = nvl(p_cmp_styles(i),ship_objects.cmp_styles)
 				where
 					ship_objects.object_id=p_object_id(i);
 
@@ -4847,7 +4853,8 @@ as
 					ship_objects.cargo_hold_contents_maximum,
 					ship_objects.cargo_hold_contents_current,
 					ship_objects.cargo_hold_contents,
-					ship_objects.weapon_projectile_index,					
+					ship_objects.weapon_projectile_index,
+					ship_objects.cmp_styles,					
 					ship_objects.object_id
 					)
 					VALUES
@@ -4903,7 +4910,8 @@ as
 					p_cargo_hold_contents_maximum(i),
 					p_cargo_hold_contents_current(i),
 					p_cargo_hold_contents(i),
-					p_weapon_projectile_index(i),					
+					p_weapon_projectile_index(i),
+					p_cmp_styles(i),					
 					p_object_id(i)
 					);
 				end if;
@@ -4966,7 +4974,8 @@ as
 				ship_objects.cargo_hold_contents_maximum,
 				ship_objects.cargo_hold_contents_current,
 				ship_objects.cargo_hold_contents,
-				ship_objects.weapon_projectile_index,				
+				ship_objects.weapon_projectile_index,
+				ship_objects.cmp_styles,
 				ship_objects.object_id
 			)
 			VALUES
@@ -5022,7 +5031,8 @@ as
 				p_cargo_hold_contents_maximum(i),
 				p_cargo_hold_contents_current(i),
 				p_cargo_hold_contents(i),
-				p_weapon_projectile_index(i),				
+				p_weapon_projectile_index(i),
+				p_cmp_styles(i),				
 				p_object_id(i)
 			);
 
@@ -5050,6 +5060,7 @@ as
 						db_error_logger.dblogerror_values('persister.add_ship_obj','cmp_hp_maximum','varchar2',p_cmp_hp_maximum(m_error_index));
 						db_error_logger.dblogerror_values('persister.add_ship_obj','cmp_flags','varchar2',p_cmp_flags(m_error_index));
 						db_error_logger.dblogerror_values('persister.add_ship_obj','cmp_names','varchar2',p_cmp_names(m_error_index));
+						db_error_logger.dblogerror_values('persister.add_ship_obj','cmp_styles','varchar2',p_cmp_styles(m_error_index));			
 						db_error_logger.dblogerror_values('persister.add_ship_obj','weapon_damage_maximum','varchar2',p_weapon_damage_maximum(m_error_index));
 						db_error_logger.dblogerror_values('persister.add_ship_obj','weapon_damage_minimum','varchar2',p_weapon_damage_minimum(m_error_index));
 						db_error_logger.dblogerror_values('persister.add_ship_obj','weapon_effectiveness_shields','varchar2',p_weapon_effectiveness_shields(m_error_index));

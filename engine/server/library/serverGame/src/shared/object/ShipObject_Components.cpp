@@ -36,6 +36,7 @@
 #include "sharedGame/ShipComponentDescriptor.h"
 #include "sharedGame/ShipComponentFlags.h"
 #include "sharedGame/ShipComponentWeaponManager.h"
+#include "sharedGame/ShipComponentStyleManager.h"
 #include "sharedGame/ShipTurretManager.h"
 #include "sharedLog/Log.h"
 #include "sharedObject/Appearance.h"
@@ -248,7 +249,17 @@ Unicode::String const &ShipObject::getComponentName(int chassisSlot) const
 
 	return Unicode::emptyString;
 }
+//----------------------------------------------------------------------
 
+int ShipObject::getComponentStyle(int chassisSlot) const
+{
+	Archive::AutoDeltaMap<int, int>::const_iterator const it = m_componentStyles.find(chassisSlot);
+	if (it != m_componentStyles.end())
+	{
+		return (*it).second;
+	}
+	return ShipComponentStyleManager::getDefaultStyleForComponent(getComponentCrc(chassisSlot));
+}
 //----------------------------------------------------------------------
 
 NetworkId const &ShipObject::getComponentCreator(int chassisSlot) const
@@ -388,7 +399,7 @@ int ShipObject::getWeaponProjectileIndex(int chassisSlot) const
 	{
 	    return (*it).second;
 	}
-	return -1;
+	return ShipComponentWeaponManager::getDefaultProjectileIndex(getComponentCrc(chassisSlot));
 }
 
 //----------------------------------------------------------------------
@@ -1205,6 +1216,20 @@ bool ShipObject::setWeaponProjectileIndex(int chassisSlot, int weaponProjectileI
 	}
 
 	m_weaponProjectileIndex.set (chassisSlot, weaponProjectileIndex);
+	return true;
+}
+//----------------------------------------------------------------------
+
+bool ShipObject::setComponentStyle(int chassisSlot, int style)
+{
+	FATAL(isInitialized() && !isAuthoritative(), ("ShipObject::setComponentStyle() called on non-auth object."));
+	if (!isSlotInstalled(chassisSlot))
+	{
+		WARNING(true, ("ShipObject::setComponentStyle () called on slot [%d] with nothing installed.", chassisSlot));
+		return false;
+	}
+
+	m_componentStyles.set(chassisSlot, style);
 	return true;
 }
 

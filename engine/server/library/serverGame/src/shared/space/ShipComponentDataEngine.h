@@ -52,6 +52,7 @@ public:
 	float m_engineSpeedRotationFactorMaximum;
 	float m_engineSpeedRotationFactorMinimum;
 	float m_engineSpeedRotationFactorOptimal;
+	int   m_style;
 };
 
 //======================================================================

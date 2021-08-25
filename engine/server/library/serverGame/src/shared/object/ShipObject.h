@@ -210,6 +210,7 @@ public:
 	int       getComponentFlags                        (int chassisSlot) const;
 	Unicode::String const &getComponentName(int chassisSlot) const;
 	NetworkId const & getComponentCreator(int chassisSlot) const;
+	int       getComponentStyle(int chassisSlot) const;
 
 	//-- weapons
 	//-- The following methods are per weapon
@@ -296,6 +297,7 @@ public:
 	bool       setComponentHitpointsMaximum             (int chassisSlot, float componentHitpointsMaximum);
 	bool       setComponentFlags                        (int chassisSlot, int componentFlags);
 	bool       setComponentName(int chassisSlot, Unicode::String const & name);
+	bool       setComponentStyle(int chassisSlot, int style);
 	bool       setComponentCreator(int chassisSlot, NetworkId const & creator);
 	bool       setComponentDisabled                     (int chassisSlot, bool componentDisabled);
 	bool setComponentDisabledNeedsPower(int chassisSlot, bool componentDisabledNeedsPower);
@@ -450,7 +452,6 @@ public:
 
 	void stopFiringWeapon(int weaponIndex);
 
-	void NERLog(int slot, std::string const & s) const; // NER-temporary
 protected:
 	virtual void calcPvpableState();
 	virtual void endBaselines();
@@ -544,8 +545,9 @@ private:
 	Archive::AutoDeltaPackedMap<int, float>     m_componentHitpointsCurrent;
 	Archive::AutoDeltaPackedMap<int, float>     m_componentHitpointsMaximum;
 	Archive::AutoDeltaPackedMap<int, int>       m_componentFlags;
-	Archive::AutoDeltaPackedMap<int, Unicode::String> m_componentNames;
+	Archive::AutoDeltaPackedMap<int, Unicode::String> m_componentNames;	
 	Archive::AutoDeltaPackedMap<int, NetworkId> m_componentCreators;
+	Archive::AutoDeltaPackedMap<int, int> m_componentStyles;	
 
 	//-- weapons
 	//-- The following maps have one entry per installed weapon .

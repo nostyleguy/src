@@ -27,7 +27,7 @@ public:
 	static void install();
 	static void remove();
 
-	static int getProjectileIndex(uint32 componentCrc);
+	static int getDefaultProjectileIndex(uint32 componentCrc);
 	static bool isAmmoConsuming(uint32 componentCrc);
 	static bool isMissile(uint32 componentCrc);
 	static bool isCountermeasure(uint32 componentCrc);

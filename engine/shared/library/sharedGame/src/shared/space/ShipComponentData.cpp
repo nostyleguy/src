@@ -30,6 +30,7 @@ ShipComponentData::ShipComponentData (ShipComponentDescriptor const & shipCompon
 m_descriptor                   (&shipComponentDescriptor),
 cm_slash                       (Unicode::narrowToWide("/")),
 cm_shipComponentCategory       ("ship_component."),
+cm_shipComponentVisualsCategory("ship_component_visuals."),
 m_armorHitpointsCurrent        (50.0f),
 m_armorHitpointsMaximum        (50.0f),
 m_efficiencyGeneral            (1.0f),

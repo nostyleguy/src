@@ -297,6 +297,8 @@ ShipObject::ShipObject(ServerShipObjectTemplate const *newTemplate) :
 	m_componentHitpointsMaximum        (),
 	m_componentFlags                   (),
 	m_componentNames(),
+	m_componentCreators(),
+	m_componentStyles(),
 	m_weaponDamageMaximum              (),
 	m_weaponDamageMinimum              (),
 	m_weaponEffectivenessShields       (),
@@ -2259,7 +2261,6 @@ void ShipObjectNamespace::loadShipTypeDataTable(DataTable const &dataTable)
 					weapon->m_weaponAmmoCurrent = dataTable.getIntValue(colname_weaponAmmoCurrent, row);
 					weapon->m_weaponAmmoMaximum = weapon->m_weaponAmmoCurrent;
 					weapon->m_weaponAmmoType = static_cast<uint32>(dataTable.getIntValue(colname_weaponAmmoType, row));
-					weapon->m_weaponProjectileIndex = weapon->m_weaponProjectileIndex;
 				}
 				break;
 			case ShipComponentType::SCT_capacitor:
@@ -2616,16 +2617,4 @@ void ShipObject::stopFiringWeapon(int weaponIndex)
 
 // ======================================================================
 
-void ShipObject::NERLog(int chassisSlot, std::string const & format) const // NER-temporary
-{
-    Unicode::String name = getComponentName(chassisSlot);
-    std::string argument = Unicode::wideToNarrow(name);
-    std::string prefix = "NER";
-    if((argument.substr(0, prefix.size()) == prefix))
-    {
-	std::ostringstream oss;
-	oss << "Ship: " << (int)m_shipId.get() << ": " << format;
-	LogManager::setArgs("Space");
-	LogManager::log( oss.str().c_str() );
-    }
-}
+

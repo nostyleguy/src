@@ -335,8 +335,6 @@ const static std::string OBJVAR_SKILLMOD_BONUS =                      "skillmod.
 const static std::string OBJVAR_CATEGORIZED_SKILLMOD_BONUS =          "categorizedSkillmod.bonus";
 const static std::string OBJVAR_SKILLMOD_SOCKETS =                    "skillmod.sockets";
 const static std::string OBJVAR_ATTRIBUTE_BONUS =                     "attribute.bonus";
-const static std::string OBJVAR_SHIP_COMPONENT_RETROFIT_TYPE =        "reverse_engineering.retrofit_type";
-
 const std::string OBJVAR_COMPONENT_DATA("crafting_components");
 
 // battlefield objvars
@@ -4791,12 +4789,6 @@ void TangibleObject::getAttributes(AttributeVector & data) const
 			}
 		}
 		break;
-	case SharedObjectTemplate::GOT_tool_ship_component_retrofit_kit:
-	{
-	    std::string retrofit_type = "weapon_projectile";
-	    getObjVars ().getItem(OBJVAR_SHIP_COMPONENT_RETROFIT_TYPE, retrofit_type);
-	    data.push_back (std::make_pair(SharedObjectAttributes::tool_ship_component_retrofit_type, Unicode::narrowToWide(retrofit_type)));
-	}
 	default:
 		break;
 	}
@@ -4862,6 +4854,7 @@ void TangibleObject::getAttributes(AttributeVector & data) const
 
 	if (isCrafted())
 		data.push_back(std::make_pair(SharedObjectAttributes::serial_number, Unicode::narrowToWide(generateSerialNumber(getCraftedId()))));
+
 
 	if(GameObjectTypes::isTypeOf(got, SharedObjectTemplate::GOT_ship_component))
 	{

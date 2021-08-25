@@ -7,11 +7,14 @@
 
 #include "serverGame/FirstServerGame.h"
 #include "serverGame/ShipComponentDataEngine.h"
-
+#include "sharedGame/ShipComponentStyleManager.h"
 #include "serverGame/ShipObject.h"
 #include "sharedFoundation/DynamicVariableList.h"
 #include "sharedGame/SharedObjectAttributes.h"
+#include "sharedGame/ShipComponentDescriptor.h"
 #include "UnicodeUtils.h"
+
+#include "sharedLog/Log.h"
 
 //======================================================================
 
@@ -32,6 +35,7 @@ namespace ShipComponentDataEngineNamespace
 		std::string const engineSpeedRotationFactorMaximum_old = "ship_comp.engine.speed_rotation_factor";
 		std::string const engineSpeedRotationFactorMinimum = "ship_comp.engine.speed_rotation_factor_min";
 		std::string const engineSpeedRotationFactorOptimal = "ship_comp.engine.speed_rotation_factor_optimal";
+		std::string const componentStyle = "ship_comp.component_style";
 	}
 }
 
@@ -52,8 +56,10 @@ m_engineRollRateMaximum         (PI),
 m_engineSpeedMaximum            (50.0f),
 m_engineSpeedRotationFactorMaximum(1.0f),
 m_engineSpeedRotationFactorMinimum(1.0f),
-m_engineSpeedRotationFactorOptimal(0.5f)
+m_engineSpeedRotationFactorOptimal(0.5f),
+m_style(1)
 {
+    m_style = ShipComponentStyleManager::getDefaultStyleForComponent(m_descriptor->getCrc());
 }
 
 //----------------------------------------------------------------------
@@ -81,6 +87,7 @@ bool ShipComponentDataEngine::readDataFromShip      (int chassisSlot, ShipObject
 	m_engineSpeedRotationFactorMaximum = ship.getEngineSpeedRotationFactorMaximum();
 	m_engineSpeedRotationFactorMinimum = ship.getEngineSpeedRotationFactorMinimum();
 	m_engineSpeedRotationFactorOptimal = ship.getEngineSpeedRotationFactorOptimal();
+	m_style                            = ship.getComponentStyle(chassisSlot);
 
 
 	return true;
@@ -104,6 +111,7 @@ void ShipComponentDataEngine::writeDataToShip       (int chassisSlot, ShipObject
 	ship.setEngineSpeedRotationFactorMaximum(m_engineSpeedRotationFactorMaximum);
 	ship.setEngineSpeedRotationFactorMinimum(m_engineSpeedRotationFactorMinimum);
 	ship.setEngineSpeedRotationFactorOptimal(m_engineSpeedRotationFactorOptimal);
+	ship.setComponentStyle(chassisSlot, m_style);
 }
 
 //----------------------------------------------------------------------
@@ -161,6 +169,12 @@ bool ShipComponentDataEngine::readDataFromComponent (TangibleObject const & comp
 
 	IGNORE_RETURN(objvars.getItem(Objvars::engineSpeedRotationFactorMinimum, m_engineSpeedRotationFactorMinimum));
 	IGNORE_RETURN(objvars.getItem(Objvars::engineSpeedRotationFactorOptimal, m_engineSpeedRotationFactorOptimal));
+
+
+	if (!objvars.getItem(Objvars::componentStyle, m_style))
+	{
+		DEBUG_WARNING (true, ("ShipComponentDataEngine Name: [%s], ID [%s] has no componentStyle [%s]", Unicode::wideToNarrow(component.getObjectName()).c_str(), component.getNetworkId().getValueString().c_str(), Objvars::componentStyle.c_str()));
+	}
 		
 	return true;
 }
@@ -183,6 +197,7 @@ void ShipComponentDataEngine::writeDataToComponent  (TangibleObject & component)
 	component.setObjVarItem (Objvars::engineSpeedRotationFactorMaximum,   m_engineSpeedRotationFactorMaximum);
 	component.setObjVarItem (Objvars::engineSpeedRotationFactorMinimum, m_engineSpeedRotationFactorMinimum);
 	component.setObjVarItem (Objvars::engineSpeedRotationFactorOptimal, m_engineSpeedRotationFactorOptimal);
+	component.setObjVarItem (Objvars::componentStyle,                   m_style);
 }
 
 
@@ -207,7 +222,8 @@ void ShipComponentDataEngine::printDebugString      (Unicode::String & result, U
 		"%sEngineYawRateMaximum:  %f\n"
 		"%sEngineRollRateMaximum:  %f\n"
 		"%sEngineSpeedMaximum:  %f\n"
-		"%sengineSpeedRotationFactor:  %f-%f, Optimal=%f\n",
+		"%seEngineSpeedRotationFactor:  %f-%f, Optimal=%f\n"
+		"%sStyle:        %d\n",
 		nPad.c_str (), m_engineAccelerationRate,
 		nPad.c_str (), m_engineDecelerationRate,
 		nPad.c_str (), convertRadiansToDegrees(m_enginePitchAccelerationRate),
@@ -217,7 +233,8 @@ void ShipComponentDataEngine::printDebugString      (Unicode::String & result, U
 		nPad.c_str (), convertRadiansToDegrees(m_engineYawRateMaximum),
 		nPad.c_str (), convertRadiansToDegrees(m_engineRollRateMaximum),
 		nPad.c_str (), m_engineSpeedMaximum,
-		nPad.c_str(), m_engineSpeedRotationFactorMinimum, m_engineSpeedRotationFactorMaximum, m_engineSpeedRotationFactorOptimal);
+		nPad.c_str (), m_engineSpeedRotationFactorMinimum, m_engineSpeedRotationFactorMaximum, m_engineSpeedRotationFactorOptimal,
+		nPad.c_str (), m_style);
 	
 	result += Unicode::narrowToWide (buf);
 	
@@ -248,6 +265,10 @@ void ShipComponentDataEngine::getAttributes(std::vector<std::pair<std::string, U
 	snprintf(buffer, buffer_size, "%.1f", m_engineSpeedMaximum);
 	attrib = Unicode::narrowToWide(buffer);
 	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_engine_speed_maximum, attrib));
+
+	snprintf(buffer, buffer_size, "%d", m_style);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentVisualsCategory + SharedObjectAttributes::ship_component_style, attrib));
 }
 
 //======================================================================

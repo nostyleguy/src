@@ -134,13 +134,15 @@ void ShipComponentWeaponManager::remove()
 
 //----------------------------------------------------------------------
 
-int ShipComponentWeaponManager::getProjectileIndex(uint32 componentCrc)
+int ShipComponentWeaponManager::getDefaultProjectileIndex(uint32 componentCrc)
 {
 	CrcIntMap::const_iterator const it = s_dataMap.find(componentCrc);
 	if (it != s_dataMap.end())
 		return (*it).second.projectileIndex;
 
-	return -1;
+	// No datatable entry for this weapon template means we have no idea
+	// what the projectile index should be. Hopefully -1 raises some eyebrows. 
+	return -1; 
 }
 
 //----------------------------------------------------------------------

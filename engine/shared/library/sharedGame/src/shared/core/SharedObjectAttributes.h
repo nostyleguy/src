@@ -141,6 +141,7 @@ namespace SharedObjectAttributes
 	MAKE_ATTRIB (ship_component_energy_required);
 	MAKE_ATTRIB (ship_component_mass);
 	MAKE_ATTRIB (ship_component_flags);
+	MAKE_ATTRIB (ship_component_style);
 
 	MAKE_ATTRIB (ship_component_booster_energy);
 	MAKE_ATTRIB (ship_component_booster_energy_recharge_rate);

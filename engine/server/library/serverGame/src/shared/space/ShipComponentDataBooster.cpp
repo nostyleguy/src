@@ -7,11 +7,14 @@
 
 #include "serverGame/FirstServerGame.h"
 #include "serverGame/ShipComponentDataBooster.h"
-
+#include "sharedGame/ShipComponentStyleManager.h"
 #include "serverGame/ShipObject.h"
 #include "sharedFoundation/DynamicVariableList.h"
 #include "sharedGame/SharedObjectAttributes.h"
+#include "sharedGame/ShipComponentDescriptor.h"
 #include "UnicodeUtils.h"
+
+#include "sharedLog/Log.h"
 
 //======================================================================
 
@@ -25,6 +28,7 @@ namespace ShipComponentDataBoosterNamespace
 		std::string const boosterEnergyConsumptionRate  = "ship_comp.booster.energy_consumption_rate";
 		std::string const boosterAcceleration           = "ship_comp.booster.acceleration";
 		std::string const boosterSpeedMaximum           = "ship_comp.booster.speed_maximum";
+		std::string const componentStyle                = "ship_comp.component_style";
 	}
 }
 
@@ -39,8 +43,10 @@ m_boosterEnergyMaximum          (100.0f),
 m_boosterEnergyRechargeRate     (20.0f),
 m_boosterEnergyConsumptionRate  (20.0f),
 m_boosterAcceleration           (5.0f),
-m_boosterSpeedMaximum           (10.0f)
+m_boosterSpeedMaximum           (10.0f),
+m_style(1)
 {
+    m_style = ShipComponentStyleManager::getDefaultStyleForComponent(m_descriptor->getCrc());
 }
 
 //----------------------------------------------------------------------
@@ -62,6 +68,7 @@ bool ShipComponentDataBooster::readDataFromShip      (int chassisSlot, ShipObjec
 	m_boosterEnergyConsumptionRate  = ship.getBoosterEnergyConsumptionRate ();
 	m_boosterAcceleration           = ship.getBoosterAcceleration ();
 	m_boosterSpeedMaximum           = ship.getBoosterSpeedMaximum ();
+	m_style                         = ship.getComponentStyle(chassisSlot);
 
 	return true;
 }
@@ -78,6 +85,7 @@ void ShipComponentDataBooster::writeDataToShip       (int chassisSlot, ShipObjec
 	IGNORE_RETURN(ship.setBoosterEnergyConsumptionRate (m_boosterEnergyConsumptionRate));
 	IGNORE_RETURN(ship.setBoosterAcceleration          (m_boosterAcceleration));
 	IGNORE_RETURN(ship.setBoosterSpeedMaximum          (m_boosterSpeedMaximum));
+	IGNORE_RETURN(ship.setComponentStyle               (chassisSlot, m_style));
 }
 
 //----------------------------------------------------------------------
@@ -107,6 +115,11 @@ bool ShipComponentDataBooster::readDataFromComponent (TangibleObject const & com
 	if (!objvars.getItem (Objvars::boosterSpeedMaximum, m_boosterSpeedMaximum))
 		WARNING (true, ("ShipComponentDataBooster [%s] has no boosterSpeedMaximum [%s]", component.getNetworkId ().getValueString ().c_str (), Objvars::boosterSpeedMaximum.c_str ()));
 
+	if (!objvars.getItem(Objvars::componentStyle, m_style))
+	{
+		WARNING (true, ("ShipComponentDataBooster Name: [%s], ID [%s] has no componentStyle [%s]", Unicode::wideToNarrow(component.getObjectName()).c_str(), component.getNetworkId().getValueString().c_str(), Objvars::componentStyle.c_str()));
+	}
+
 	return true;
 }
 
@@ -122,6 +135,7 @@ void ShipComponentDataBooster::writeDataToComponent  (TangibleObject & component
 	IGNORE_RETURN(component.setObjVarItem (Objvars::boosterEnergyConsumptionRate, m_boosterEnergyConsumptionRate));
 	IGNORE_RETURN(component.setObjVarItem (Objvars::boosterAcceleration,          m_boosterAcceleration));
 	IGNORE_RETURN(component.setObjVarItem (Objvars::boosterSpeedMaximum,          m_boosterSpeedMaximum));
+	IGNORE_RETURN(component.setObjVarItem (Objvars::componentStyle,               m_style));
 }
 
 
@@ -142,13 +156,15 @@ void ShipComponentDataBooster::printDebugString      (Unicode::String & result, 
 		"%sboosterEnergyRechargeRate: %f\n"
 		"%sboosterEnergyConsumptionRate: %f\n"
 		"%sboosterAcceleration: %f\n"
-		"%sboosterSpeedMaximum: %f\n",
+		"%sboosterSpeedMaximum: %f\n"
+		"%sStyle:        %d\n",
 		nPad.c_str (), m_boosterEnergyCurrent,
 		nPad.c_str (), m_boosterEnergyMaximum,
 		nPad.c_str (), m_boosterEnergyRechargeRate,
 		nPad.c_str (), m_boosterEnergyConsumptionRate,
 		nPad.c_str (), m_boosterAcceleration,
-		nPad.c_str (), m_boosterSpeedMaximum);
+		nPad.c_str (), m_boosterSpeedMaximum,
+		nPad.c_str(), m_style);
 	
 	result += Unicode::narrowToWide (buf);
 }
@@ -185,6 +201,10 @@ void ShipComponentDataBooster::getAttributes(std::vector<std::pair<std::string, 
 	snprintf(buffer, buffer_size, "%.1f", m_boosterSpeedMaximum);
 	attrib = Unicode::narrowToWide(buffer);
 	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_booster_speed_maximum, attrib));
+
+	snprintf(buffer, buffer_size, "%d", m_style);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentVisualsCategory + SharedObjectAttributes::ship_component_style, attrib));
 }
 
 //======================================================================

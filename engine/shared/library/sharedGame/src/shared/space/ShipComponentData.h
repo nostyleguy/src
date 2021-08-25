@@ -53,6 +53,7 @@ protected:
 	ShipComponentDescriptor const * m_descriptor;
 	Unicode::String const           cm_slash;
 	std::string const               cm_shipComponentCategory;
+	std::string const               cm_shipComponentVisualsCategory;
 
 public:
 	float                           m_armorHitpointsCurrent;

@@ -269,6 +269,8 @@ set(SHARED_SOURCES
 	shared/space/ShipComponentType.h
 	shared/space/ShipComponentWeaponManager.cpp
 	shared/space/ShipComponentWeaponManager.h
+	shared/space/ShipComponentStyleManager.cpp
+	shared/space/ShipComponentStyleManager.h	
 	shared/space/ShipSlotIdManager.cpp
 	shared/space/ShipSlotIdManager.h
 	shared/space/ShipTargeting.cpp

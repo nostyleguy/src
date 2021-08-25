@@ -46,6 +46,7 @@ public:
 	float m_boosterEnergyConsumptionRate;
 	float m_boosterAcceleration;
 	float m_boosterSpeedMaximum;
+	int   m_style;
 };
 
 //======================================================================
