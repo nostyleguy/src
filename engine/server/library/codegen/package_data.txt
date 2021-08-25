@@ -418,7 +418,7 @@ ShipObject                  m_componentEnergyMaintenanceRequirement   authClient
 ShipObject                  m_componentMass                           authClientServer    packed_map<int,float>
 ShipObject                  m_componentNames                          authClientServer    packed_map<int,Unicode::String>
 ShipObject                  m_componentCreators                       authClientServer    packed_map<int,NetworkId>
-ShipObject                  m_componentStyles                         authClientServer    packed_map<int,int>
+ShipObject                  m_componentStyles                         shared		  packed_map<int,int>
 
 ShipObject                  m_weaponDamageMaximum                     authClientServer    packed_map<int,float>
 ShipObject                  m_weaponDamageMinimum                     authClientServer    packed_map<int,float>
